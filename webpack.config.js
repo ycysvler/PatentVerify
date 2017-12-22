@@ -25,7 +25,7 @@ module.exports = {
     plugins: function () {
         var options = [
             new HtmlWebpackPlugin({
-                title: '云图 - 控制台',
+                title: '专利图形搜索系统',
                 hash: true,
                 inject: false,
                 filename: 'index.html',
