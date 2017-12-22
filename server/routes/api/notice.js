@@ -7,7 +7,6 @@ let fs = require('fs');
 let rediscfg = require('../../config/redis');
 
 module.exports = function (router) {
-
     // PaaS -> 图片上传
     router.post('/notice', (req, res, next) => {
         console.log(req.body);

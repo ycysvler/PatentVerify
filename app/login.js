@@ -1,6 +1,8 @@
 import React from 'react';
-import {Input, Row, Col,  Button} from 'antd';
+import {Input, Row, Col, Button} from 'antd';
 import {IndexActions, IndexStore} from './api.js';
+
+import {HashRouter as Router, withRouter} from 'react-router-dom';
 
 import './styles/login.less';
 
@@ -8,45 +10,45 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
         this.unsubscribe = IndexStore.listen(this.onStatusChange.bind(this));
-        this.state ={"logined": false};
+        this.state = {"logined": false};
 
     }
+
     componentWillUnmount() {
         this.unsubscribe();
     }
 
-    onStatusChange=(data)=> {
-        window.document.cookie = "token="+data.token+";path=/";
-        window.document.cookie = "user_id="+data.userid+";path=/";
-        window.document.cookie = "user_name="+data.username+";path=/";
-        //this.context.router.push("/attached/fast/list");
-        this.props.router.push( '/locarno/fast/list');
+
+    onStatusChange = (action, data) => {
+        if(action === 'signin'){
+            this.props.history.push("/main/locarno/fast/list");
+        }
     }
 
-    login=()=> {
+    login = () => {
         let account = this.state.account;
         let password = this.state.password;
 
-        if(account && account === "") {
+        if (account && account === "") {
             alert("账号不能为空");
             return;
         }
-        if(password && password === "") {
+        if (password && password === "") {
             alert("密码不能为空");
             return;
         }
-       IndexActions.login(account,password);
+        IndexActions.login(account, password);
     }
 
-    accountChange=(e)=>{
+    accountChange = (e) => {
         this.state.account = e.target.value;
     }
 
-    passwordChange=(e)=>{
+    passwordChange = (e) => {
         this.state.password = e.target.value;
     }
 
-    render=()=> {
+    render = () => {
         let selectshowstyle = this.state.logined ? {display: 'block'} : {display: 'none'};
         let loginput = !this.state.logined ? {display: 'block'} : {display: 'none'};
 
@@ -76,8 +78,10 @@ class Login extends React.Component {
                                         </div>
                                         <div className="form-item">
                                             <div style={loginput}>
-                                                <Input size="large" onChange={this.accountChange}  name="account" placeholder="账户（邮箱或手机号）"/>
-                                                <Input size="large" onChange={this.passwordChange}  type="password" name="account" placeholder="密码"/>
+                                                <Input size="large" onChange={this.accountChange} name="account"
+                                                       placeholder="账户（邮箱或手机号）"/>
+                                                <Input size="large" onChange={this.passwordChange} type="password"
+                                                       name="account" placeholder="密码"/>
                                                 <Button type="primary" className="login-button" onClick={this.login}>登
                                                     录</Button>
                                             </div>

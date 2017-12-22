@@ -2,18 +2,12 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import {HashRouter as Router,Redirect, Switch, Route} from 'react-router-dom';
 import 'antd/dist/antd.less';
-import {Button} from 'antd';
-
+import {IndexStore} from './api.js';
 import NotFound from './notfound';
 
 import Login from './login.js';
+import App from './App.js';
 
-const requireAuth = (nextState, replace) => {
-    // 未登录，重新登录
-    if (IndexStore.cuttentUser === null) {
-        replace({ pathname: '/' })
-    }
-}
 
 
 ReactDOM.render((
@@ -21,7 +15,7 @@ ReactDOM.render((
         <Switch>
             <Redirect exact from='/' to='/signin'/>
             <Route path="/signin" component={Login}/>
-            <Route path="/main" component={NotFound}/>
+            <Route path="/main" component={App}/>
             <Route component={NotFound}/>
         </Switch>
     </Router>

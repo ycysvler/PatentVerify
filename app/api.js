@@ -3,6 +3,7 @@
  */
 import Reflux from 'reflux';
 import $ from 'jquery'
+import Config from 'config';
 
 const IndexActions = Reflux.createActions([
     "getIndexes",
@@ -11,12 +12,10 @@ const IndexActions = Reflux.createActions([
 
 const IndexStore = Reflux.createStore({
     listenables:[IndexActions],
-
-    cuttentUser:null,
-    //cuttentUser:{userid: "4dd3562851d641b09f78e074d672a221", username: "admin",  cname: "管理员", icon: "/upload/admin/4dd3562851d641b09f78e074d672a221.png"},
+    currentUser:null,
 
     onGetIndexes: function(userid,token) {
-        let url = window.server_address + "/systems/menus.ashx?";
+        let url = Config.url + "/systems/menus.ashx?";
         let param = {};
         let self = this;
         param.userid = userid;
@@ -40,7 +39,7 @@ const IndexStore = Reflux.createStore({
 
     onLogin: function(username,password) {
         let self = this;
-        let url = window.server_address  + "/systems/login.ashx";
+        let url = Config.url  + "/systems/login.ashx";
         let param = {
             username: username,
             password: password
@@ -51,8 +50,9 @@ const IndexStore = Reflux.createStore({
             data: param,
             success: function (data, status) {
                 if(JSON.parse(data).code === 200) {
-                    self.cuttentUser = JSON.parse(data).data;
-                    self.trigger(JSON.parse(data).data);
+                    self.currentUser = JSON.parse(data).data;
+                    console.log(data);
+                    self.trigger('signin',JSON.parse(data).data);
                 }
             },
             error: function (reson) {

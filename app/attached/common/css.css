@@ -1,0 +1,49 @@
+.fast-delete-btn {
+    background: #ff3300 !important;
+    color: #ffffff !important;
+}
+.fast-delete-btn span {
+    background: #ff3300 !important;
+    color: #ffffff !important;
+}
+.fast-delete-btn:hover {
+    background: #ff3300 !important;
+    color: #ffffff !important;
+    border-color: #ff3300 !important;
+}
+.fast-new-search-btn {
+    margin-left: 5px;
+    background: #f3f3f3 !important;
+    color: #666666 !important;
+}
+.fast-new-search-btn span {
+    background: #f3f3f3 !important;
+    color: #666666 !important;
+}
+.fast-new-search-btn:hover {
+    background: #f3f3f3 !important;
+    color: #666666 !important;
+    border-color: #f3f3f3 !important;
+}
+.fast-check-num {
+    padding: 8px 65px 8px 8px;
+    background: #e6f3fc;
+    margin-left: 10px;
+    border-radius: 2px;
+}
+.fast-search-btn {
+    position: relative;
+    float: right;
+    margin-left: 5px;
+    background: #f3f3f3 !important;
+    color: #666666 !important;
+}
+.fast-search-btn span {
+    background: #f3f3f3 !important;
+    color: #666666 !important;
+}
+.fast-search-btn:hover {
+    background: #f3f3f3 !important;
+    color: #666666 !important;
+    border-color: #f3f3f3 !important;
+}
