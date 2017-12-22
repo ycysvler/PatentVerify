@@ -88,7 +88,8 @@ const LocarnoStore = Reflux.createStore({
         });
     },
 
-    onGetJobs: function(user_id,jobtype,keyword,token) {
+    onGetJobs: function(jobtype,keyword) {
+        let user_id = IndexStore.currentUser.userid;
         let url = Config.url + "/locarno/jobs.ashx?";
         let param = {'userid':user_id,'jobtype':jobtype,'keyword':keyword};
         let self = this;

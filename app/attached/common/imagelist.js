@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {Popover} from 'antd';
-
+import Config from 'config';
 class ImageList extends React.Component {
     constructor(props) {
         super(props)

@@ -15,14 +15,13 @@ class LocarnoJobList extends React.Component {
         super(props);
         this.unsubscribe = LocarnoStore.listen(this.onStatusChange.bind(this));
         this.state = {
-            user:IndexStore.currentUser,
             selectNum: 0,
             jobsData: [],
             keyword:'',
             jobType:this.props.jobType,
             jobTypeText:this.props.jobTypeText
         }
-        LocarnoActions.getJobs(this.state.user.userid,this.state.jobType, this.state.keyword, this.getCookie("token"));
+        LocarnoActions.getJobs(this.state.jobType, this.state.keyword);
     }
 
     componentWillUnmount() {
@@ -38,7 +37,7 @@ class LocarnoJobList extends React.Component {
             this.refush(data);
         }
         if (action === "remove") {
-            LocarnoActions.getJobs(this.state.user.userid, this.state.jobType, this.state.keyword,this.getCookie("token"));
+            LocarnoActions.getJobs(this.state.jobType, this.state.keyword);
             this.setState({selectNum: 0});
         }
     }
@@ -49,7 +48,7 @@ class LocarnoJobList extends React.Component {
             var item  = data[i];
             if(item.progress < 100){
                 setTimeout(function () {
-                    LocarnoActions.getJobs(this.state.user.userid,self.state.jobType, self.state.keyword, self.getCookie("token"));
+                    LocarnoActions.getJobs(self.state.jobType, self.state.keyword);
                 },3000);
                 return;
             }
@@ -73,41 +72,8 @@ class LocarnoJobList extends React.Component {
         }
     }
 
-    getCookie(name) {
-        if (window.document.cookie === "") {
-            this.context.router.push("/");
-            return;
-        }
-        let cookies = window.document.cookie.split(";");
-        if (name === "token") {
-            let token = cookies[0].substring(6);
-            if (!token || token === "") {
-                this.context.router.push("/");
-                return;
-            } else {
-                return token;
-            }
-        } else if (name === "user_id") {
-            let user_id = cookies[1].substring(9);
-            if (!user_id || user_id === "") {
-                this.context.router.push("/");
-                return;
-            } else {
-                return user_id;
-            }
-        } else {
-            let user_name = cookies[2].substring(11);
-            if (!user_name || user_name === "") {
-                this.context.router.push("/");
-                return;
-            } else {
-                return user_name;
-            }
-        }
-    }
-
-    goToCreateNewSearch() {
-        this.context.router.push("/locarno/"+this.state.jobTypeText+"/create");
+    goToCreateNewSearch=()=> {
+        this.props.history.push("/locarno/"+this.state.jobTypeText+"/create");
     }
 
     columns = [
@@ -197,7 +163,7 @@ class LocarnoJobList extends React.Component {
                                                                    type="info-circle"/>已选择{this.state.selectNum}项数据</span>
 
                             <Button className="fast-search-btn"
-                            onClick={()=>{LocarnoActions.getJobs(this.getCookie("user_id"),this.state.jobType, this.state.keyword,this.getCookie("token"))}}
+                            onClick={()=>{LocarnoActions.getJobs(this.state.jobType, this.state.keyword)}}
                             >搜索</Button>
                             <Input
                                 onChange={this.keywordChange.bind(this)}

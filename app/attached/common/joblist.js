@@ -5,7 +5,7 @@ import React from 'react';
 import {Layout, Icon, Button, Input, Table} from 'antd';
 import {AttachedActions, AttachedStore} from '../attachedapi.js';
 import ImageList from './imagelist.js';
-
+import Config from 'config';
 const {Content} = Layout;
 
 class JobList extends React.Component {
