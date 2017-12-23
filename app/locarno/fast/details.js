@@ -10,7 +10,7 @@ import DetailModal from '../../attached/fast/detailModal.js';
 import JobBar from '../common/jobbar';
 
 import '../../attached/common/css.css';
-import '../common/css.css';
+import '../common/css.less';
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;

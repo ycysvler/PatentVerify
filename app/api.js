@@ -12,7 +12,7 @@ const IndexActions = Reflux.createActions([
 
 const IndexStore = Reflux.createStore({
     listenables:[IndexActions],
-    currentUser:null,
+    currentUser:{"userid":"4dd3562851d641b09f78e074d672a221","username":"admin","password":"","cname":"管理员","icon":"/upload/admin/4dd3562851d641b09f78e074d672a221.png","token":"6414fcda6e9f40479fc1b16c2c45ddac"},
 
     onGetIndexes: function(userid,token) {
         let url = Config.url + "/systems/menus.ashx?";

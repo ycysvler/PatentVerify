@@ -4,7 +4,7 @@
 
 import React from 'react';
 import {Card,Popover} from 'antd';
-import './css.css';
+import './css.less';
 
 class GroupCards extends React.Component {
 

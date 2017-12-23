@@ -37,6 +37,7 @@ app.use(cors(corsOptionsDelegate));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
+app.use('/api', loader(path.join(__dirname, './server/routes/api'), true));
 
 app.use(express.static(path.join(__dirname, 'public')));
 

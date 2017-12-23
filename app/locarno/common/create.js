@@ -5,6 +5,7 @@ import React from 'react';
 import {Layout, Popover, Button, Row, Col, Input, TreeSelect,Icon} from 'antd';
 import $ from 'jquery';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi';
+import Config from 'config';
 
 const {Content} = Layout;
 

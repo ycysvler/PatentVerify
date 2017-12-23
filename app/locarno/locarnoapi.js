@@ -22,7 +22,10 @@ const LocarnoStore = Reflux.createStore({
 
     onUploadImage:function(data) {
         let self = this;
-        let url = Config.url + "/uploadimages.ashx?username=" + IndexStore.currentUser.username;
+        //let url = Config.url + "/uploadimages.ashx?username=" + IndexStore.currentUser.username;
+        let url = Config.base + "/api/search/images";
+
+        console.log(url);
 
         $.ajax({
             url: url,

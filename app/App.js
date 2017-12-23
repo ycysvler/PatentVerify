@@ -2,10 +2,15 @@ import React from 'react';
 import {Layout, Menu, Button} from 'antd';
 import {IndexActions, IndexStore} from './api.js';
 import {HashRouter as Router,Redirect,Link, Switch, Route} from 'react-router-dom';
-import LocarnoFastList from './locarno/fast/list.js';
+
+
 import NotFound from './notfound';
 const {SubMenu} = Menu;
 const {Header, Content, Sider} = Layout;
+
+import LocarnoFastList from './locarno/fast/list.js';
+import LocarnoFastCreate from './locarno/fast/create.js';
+import LocarnoFastDetails from './locarno/fast/details.js';
 
 import './styles/app.less';
 class App extends React.Component {
@@ -152,7 +157,12 @@ class App extends React.Component {
                     <Layout>
                         <Router>
                             <Switch>
-                                <Route strict path="/main/locarno/fast/list" component={LocarnoFastList}/>
+                                {/*外观.快速检索.历史查询*/}
+                                <Route path="/main/locarno/fast/list" component={LocarnoFastList}/>
+                                {/*新建快速查询*/}
+                                <Route path="/main/locarno/fast/create" component={LocarnoFastCreate}/>
+                                {/*快速检索结果*/}
+                                <Route path="/main/locarno/fast/details" component={LocarnoFastDetails}/>
                                 <Route component={NotFound}/>
                             </Switch>
                         </Router>

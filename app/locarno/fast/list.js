@@ -7,11 +7,6 @@ import LocarnoJobList from '../common/joblist';
 import '../common/css.less';
 
 class LocarnoFastList extends React.Component {
-
-    goToCreateNewSearch() {
-        this.context.router.push("/locarno/fast/create");
-    }
-
     render() {
         return (
             <Layout >
@@ -21,7 +16,7 @@ class LocarnoFastList extends React.Component {
                         <Breadcrumb.Item>历史查询</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <LocarnoJobList jobType="0" jobTypeText="fast" />
+                <LocarnoJobList history={this.props.history} jobType="0" jobTypeText="fast" />
             </Layout>
         );
     }

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {Popover,Progress} from 'antd';
-import './css.css';
+import './css.less';
 
 class JobBar extends React.Component {
 
