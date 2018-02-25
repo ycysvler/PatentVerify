@@ -4,13 +4,12 @@
 var path = require('path');
 var express = require('express');
 var session = require('express-session');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var cors = require('cors');
 var loader = require('./server/loader');
 
 var app = express();
-console.log(__dirname);
 app.set('view engine', 'ejs');
 app.use(favicon(__dirname + '/public/favicon.ico'));
 

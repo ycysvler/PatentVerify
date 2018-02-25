@@ -22,8 +22,8 @@ const LocarnoStore = Reflux.createStore({
 
     onUploadImage:function(data) {
         let self = this;
-        //let url = Config.url + "/uploadimages.ashx?username=" + IndexStore.currentUser.username;
-        let url = Config.base + "/api/search/images";
+        let url = Config.url + "/uploadimages.ashx?username=" + IndexStore.currentUser.username;
+        //let url = Config.base + "/api/search/images";
 
         console.log(url);
 
@@ -114,7 +114,7 @@ const LocarnoStore = Reflux.createStore({
             }
         });
     },
-    onGetAllType: function(token) {
+    onGetAllType: function() {
         let url = Config.url + "/locarno/type/nodes.ashx?parentid=0";
         let self = this;
         $.ajax({

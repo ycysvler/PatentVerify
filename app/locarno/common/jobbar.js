@@ -4,6 +4,7 @@
 import React from 'react';
 import {Popover,Progress} from 'antd';
 import './css.less';
+import Config from 'config';
 
 class JobBar extends React.Component {
 
@@ -14,7 +15,7 @@ class JobBar extends React.Component {
 
     renderOneImage(url) {
         return <div>
-            <img alt="" style={{maxWidth:400, maxHeight:400}} src={Config.url + "/image.ashx?name=" + url}/>
+            <img alt="" style={{maxWidth:400, maxHeight:400}} src={ Config.api + '/api/images/data/' + Config.appid + "/"+url}/>
         </div>
     }
     render() {
@@ -40,7 +41,7 @@ class JobBar extends React.Component {
                         return <Popover key={url} content={self.renderOneImage(url)}>
                                 <img alt=""
                                      style={{width:'40%',margin:'5%',maxHeight:'200px'}}
-                                     src={Config.url + "/image.ashx?name=" + url}/>
+                                     src={ Config.api + '/api/images/data/' + Config.appid + "/"+url}/>
 
                         </Popover>
                     })

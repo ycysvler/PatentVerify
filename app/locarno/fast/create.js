@@ -9,7 +9,6 @@ import Create from '../common/create';
 class LocarnoFastCreate extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             uploadImageList: [],
             description: "",
@@ -23,40 +22,7 @@ class LocarnoFastCreate extends React.Component {
     }
 
     goToHistorySearch() {
-        this.context.router.push("/locarno/fast/list");
-    }
-
-    getCookie(name) {
-        if (window.document.cookie === "") {
-            this.context.router.push("/");
-            return;
-        }
-        let cookies = window.document.cookie.split(";");
-        if (name === "token") {
-            let token = cookies[0].substring(6);
-            if (!token || token === "") {
-                this.context.router.push("/");
-                return;
-            } else {
-                return token;
-            }
-        } else if (name === "user_id") {
-            let user_id = cookies[1].substring(9);
-            if (!user_id || user_id === "") {
-                this.context.router.push("/");
-                return;
-            } else {
-                return user_id;
-            }
-        } else {
-            let user_name = cookies[2].substring(11);
-            if (!user_name || user_name === "") {
-                this.context.router.push("/");
-                return;
-            } else {
-                return user_name;
-            }
-        }
+        this.props.history.push("/main/locarno/fast/list");
     }
 
     show_parent = TreeSelect.SHOW_PARENT;
@@ -72,7 +38,7 @@ class LocarnoFastCreate extends React.Component {
                         <Breadcrumb.Item>新建查询</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <Create jobType="0" jobTypeText="fast" back={this.goToHistorySearch.bind(this)} />
+                <Create jobType="0" history={this.props.history} jobTypeText="fast" back={this.goToHistorySearch.bind(this)} />
             </Layout>
         );
     }

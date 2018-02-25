@@ -5,6 +5,7 @@
 import React from 'react';
 import {Card,Popover} from 'antd';
 import './css.less';
+import Config from 'config';
 
 class GroupCards extends React.Component {
 
@@ -15,7 +16,7 @@ class GroupCards extends React.Component {
     }
 
     renderOneImage(url) {
-        url = Config.url + '/image.ashx?name=' + url;
+        url = Config.api + '/images/data/' + Config.appid + "/"+image.name; // Config.url + '/image.ashx?name=' + url;
         return <div>
             <img alt="" style={{maxWidth: 300, maxHeight: 300}} src={url}/>
         </div>
@@ -106,7 +107,7 @@ class GroupCards extends React.Component {
                                         <div className="image_border">
                                         <img alt=""
                                              style={{height: '50px', maxWidth: '50px'}}
-                                             src={ Config.url + '/image.ashx?name=' + image.name}/></div>
+                                             src={ Config.api + '/images/data/' + Config.appid + "/"+image.name}/></div>
                                     </Popover> : null)
                             }) :
                             null

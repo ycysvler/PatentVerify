@@ -120,10 +120,14 @@ class LocarnoJobList extends React.Component {
     * 行点击，跳转查询结果
     * */
     rowClick(record, index) {
+        console.log('click', index);
         record.key = record.jobid;
-        var _pathname =  '/locarno/'+this.state.jobTypeText+'/details';
+        var _pathname =  '/main/locarno/'+this.state.jobTypeText+'/details';
 
-        this.context.router.push({pathname:_pathname, state: {searchData: record}});
+
+        //this.context.router.push({pathname:_pathname, state: {searchData: record}});
+
+        this.props.history.push({pathname:_pathname, state: {searchData: record}});
     }
 
     keywordChange(event) {
@@ -140,6 +144,7 @@ class LocarnoJobList extends React.Component {
     }
 
     render() {
+        var self = this;
         var state = {
             rowKey: "jobid",
             bordered: true,
@@ -171,7 +176,7 @@ class LocarnoJobList extends React.Component {
                                 style={{"width": "20%", "position": "relative", "float": "right", "marginRight": "5px"}}
                                 placeholder="请输入描述关键词"/>
                         </div>
-                        <Table  {...state} style={{marginTop: "20px"}}/>
+                        <Table onRow={(record)=>{return {onClick:()=>{console.log('??', record); self.rowClick(record)}}}} {...state} style={{marginTop: "20px"}}/>
 
                     </Content>
                 </Layout>
