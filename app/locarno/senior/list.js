@@ -7,11 +7,6 @@ import LocarnoJobList from '../common/joblist';
 import '../../attached/common/css.css';
 
 class LocarnoSeniorList extends React.Component {
-
-    goToCreateNewSearch() {
-        this.context.router.push("/locarno/senior/create");
-    }
-
     render() {
         return (
             <Layout >

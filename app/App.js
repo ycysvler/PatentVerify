@@ -140,7 +140,8 @@ class App extends React.Component {
                                 <Route path="/main/locarno/senior/list" component={LocarnoSeniorList}/>
                                 {/*新建快速查询*/}
                                 <Route path="/main/locarno/senior/create" component={LocarnoSeniorCreate}/>
-
+                                {/*快速检索结果*/}
+                                <Route path="/main/locarno/senior/details" component={LocarnoSeniorDetails}/>
 
                                 <Route component={NotFound}/>
                             </Switch>

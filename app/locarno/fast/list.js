@@ -22,5 +22,4 @@ class LocarnoFastList extends React.Component {
     }
 }
 
-
 export default LocarnoFastList;
