@@ -21,7 +21,7 @@ class LocarnoSeniorList extends React.Component {
                         <Breadcrumb.Item>历史查询</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <LocarnoJobList jobType="1" jobTypeText="senior" />
+                <LocarnoJobList history={this.props.history}  jobType="1" jobTypeText="senior" />
             </Layout>
         );
     }

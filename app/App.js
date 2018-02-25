@@ -12,6 +12,10 @@ import LocarnoFastList from './locarno/fast/list.js';
 import LocarnoFastCreate from './locarno/fast/create.js';
 import LocarnoFastDetails from './locarno/fast/details.js';
 
+import LocarnoSeniorList from './locarno/senior/list.js';
+import LocarnoSeniorCreate from './locarno/senior/create.js';
+import LocarnoSeniorDetails from './locarno/senior/details.js';
+
 import './styles/app.less';
 class App extends React.Component {
     constructor(props) {
@@ -131,6 +135,13 @@ class App extends React.Component {
                                 <Route path="/main/locarno/fast/create" component={LocarnoFastCreate}/>
                                 {/*快速检索结果*/}
                                 <Route path="/main/locarno/fast/details" component={LocarnoFastDetails}/>
+
+                                {/*外观.快速检索.历史查询*/}
+                                <Route path="/main/locarno/senior/list" component={LocarnoSeniorList}/>
+                                {/*新建快速查询*/}
+                                <Route path="/main/locarno/senior/create" component={LocarnoSeniorCreate}/>
+
+
                                 <Route component={NotFound}/>
                             </Switch>
                         </Router>

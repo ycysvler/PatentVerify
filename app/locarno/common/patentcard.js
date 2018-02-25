@@ -4,6 +4,7 @@
 
 import React from 'react';
 import {Card, Row, Col, Popover } from 'antd';
+import Config from 'config';
 
 class PatentCards extends React.Component {
 
@@ -13,7 +14,7 @@ class PatentCards extends React.Component {
         this.state = { }
     }
     renderOneImage(url) {
-        url = Config.url + '/image.ashx?name=' + url;
+        url = Config.api + '/api/images/data/' + Config.appid + "/"+url;//Config.url + '/image.ashx?name=' + url;
         return <div>
             <img alt="" style={{maxWidth: 300, maxHeight: 300}} src={url}/>
         </div>
@@ -37,15 +38,12 @@ class PatentCards extends React.Component {
 
     render() {
         var self = this;
-
         var item = this.props.item;
         var index = this.props.index;
 
         return (<Card key={item.image}
                       title={self.getTitle(item.patent.ap_name, index)}
-                      extra={
-
-                          <span>{((1 - item.score) * 100).toFixed(2)  + '%'}</span>}
+                      extra={<span>{((1 - item.score) * 100).toFixed(2)  + '%'}</span>}
                       style={{
                           width: 390,
                           marginBottom: 20,
@@ -65,7 +63,7 @@ class PatentCards extends React.Component {
                             content={self.renderOneImage(item.image)}>
                             <img alt=""
                                  style={{maxWidth: "100%", maxHeight: 90}}
-                                 src={ Config.url + '/image.ashx?name=' + item.image}/>
+                                 src={ Config.api + '/api/images/data/' + Config.appid + "/" + item.image}/>
                         </Popover>
                     </Col>
                     <Col span="5" style={{textAlign: "right"}}>
