@@ -146,6 +146,9 @@ const LocarnoStore = Reflux.createStore({
             images:images
         };
 
+        console.log('url > ', url);
+        console.log('param > ', JSON.stringify(param));
+
         $.ajax({
             url: url,
             type: 'POST',

@@ -6,12 +6,7 @@ import {Layout, Breadcrumb} from 'antd';
 import LocarnoJobList from '../common/joblist';
 import '../../attached/common/css.css';
 
-
 class LocarnoSeniorList extends React.Component {
-
-    goToCreateNewSearch() {
-        this.context.router.push("/locarno/zone/create");
-    }
 
     render() {
         return (
@@ -22,7 +17,7 @@ class LocarnoSeniorList extends React.Component {
                         <Breadcrumb.Item>历史查询</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <LocarnoJobList jobType="2" jobTypeText="zone" />
+                <LocarnoJobList history={this.props.history} jobType="2" jobTypeText="zone" />
             </Layout>
         );
     }

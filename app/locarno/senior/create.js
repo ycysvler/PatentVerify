@@ -39,7 +39,7 @@ class LocarnoSeniorCreate extends React.Component {
                         <Breadcrumb.Item>新建查询</Breadcrumb.Item>
                     </Breadcrumb>
                 </div>
-                <LocarnoCreate jobType="1" jobTypeText="senior" back={this.goToHistorySearch.bind(this)} />
+                <LocarnoCreate jobType="1" history={this.props.history} jobTypeText="senior" back={this.goToHistorySearch.bind(this)} />
             </Layout>
         );
     }

@@ -4,7 +4,7 @@ import {IndexStore} from '../../api';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi';
 import '../../attached/common/css.css';
 import './zone.css'
-
+import Config from 'config';
 
 export default class CutImage extends React.Component {
     constructor(props) {

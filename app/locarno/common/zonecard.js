@@ -4,8 +4,8 @@
 
 import React from 'react';
 import {Card, Popover} from 'antd';
-import './css.css';
-
+import './css.less';
+import Config from 'config';
 export default class ZoneCards extends React.Component {
 
     constructor(props) {
@@ -14,7 +14,7 @@ export default class ZoneCards extends React.Component {
     }
 
     renderOneImage(url) {
-        url = Config.url + '/image.ashx?name=' + url;
+        url = Config.api + '/api/images/data/' + Config.appid + "/"+url;
         return <div>
             <img alt="" style={{maxWidth: 300, maxHeight: 300}} src={url}/>
         </div>
@@ -110,7 +110,7 @@ export default class ZoneCards extends React.Component {
                             <div className="image_border">
                                 <img alt=""
                                      style={{height: '150px', maxWidth: '150px'}}
-                                     src={ Config.url + '/image.ashx?name=' + item.result.image}/>
+                                     src={Config.api + '/api/images/data/' + Config.appid + '/' + item.result.image}/>
                             </div>
                         </Popover>
                         <Popover

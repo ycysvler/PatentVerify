@@ -16,6 +16,12 @@ import LocarnoSeniorList from './locarno/senior/list.js';
 import LocarnoSeniorCreate from './locarno/senior/create.js';
 import LocarnoSeniorDetails from './locarno/senior/details.js';
 
+import LocarnoZoneList from './locarno/zone/list.js';
+import LocarnoZoneCreate from './locarno/zone/create.js';
+import LocarnoZoneDetails from './locarno/zone/details.js';
+
+import ImageInfo from './tools/imageinfo/index.js';
+
 import './styles/app.less';
 class App extends React.Component {
     constructor(props) {
@@ -143,11 +149,19 @@ class App extends React.Component {
                                 {/*快速检索结果*/}
                                 <Route path="/main/locarno/senior/details" component={LocarnoSeniorDetails}/>
 
+                                {/*外观.快速检索.历史查询*/}
+                                <Route path="/main/locarno/zone/list" component={LocarnoZoneList}/>
+                                {/*新建快速查询*/}
+                                <Route path="/main/locarno/zone/create" component={LocarnoZoneCreate}/>
+                                {/*快速检索结果*/}
+                                <Route path="/main/locarno/zone/details" component={LocarnoZoneDetails}/>
+
+                                {/*快速局部结果*/}
+                                <Route path="/main/tools/imageinfo" component={ImageInfo}/>
+
                                 <Route component={NotFound}/>
                             </Switch>
                         </Router>
-
-
                     </Layout>
                 </Layout>
             </Layout>
