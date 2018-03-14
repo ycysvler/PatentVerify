@@ -155,8 +155,8 @@ class LocarnoJobList extends React.Component {
             dataSource: this.state.jobsData,
             onRowinstead: this.rowClick.bind(this)
         };
-        if(this.state.jobsData.length > 0){ state.loading=false;}
-
+        //if(this.state.jobsData.length > 0){ state.loading=false;}
+        state.loading=false;
         return (
             <Layout>
                 <Layout >
