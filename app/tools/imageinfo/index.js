@@ -37,6 +37,7 @@ class ImageInfo extends React.Component {
 
     }
 
+
     render() {
         return (
             <Layout >
