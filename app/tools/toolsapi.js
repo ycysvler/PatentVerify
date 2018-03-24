@@ -2,7 +2,8 @@
  * Created by VLER on 2017/6/21.
  */
 import Reflux from 'reflux';
-import $ from 'jquery'
+import $ from 'jquery';
+import Config from 'config';
 
 
 const ToolsActions = Reflux.createActions([
@@ -14,7 +15,7 @@ const ToolsStore = Reflux.createStore({
     listenables:[ToolsActions],
 
     onGetFeature:function(name) {
-        let url = window.server_address + "/feature.ashx?name=" + name;
+        let url = Config.api + "/api/images/feature/" + name;
 
         let self = this;
         $.ajax({
@@ -25,7 +26,7 @@ const ToolsStore = Reflux.createStore({
             contentType: false,        //不可缺参数
             processData: false,        //不可缺参数
             beforeSend: function (xhr) {
-                //xhr.setRequestHeader("Authorization",token);
+                xhr.setRequestHeader("appid",Config.appid);
             },
             success: function (result) {
                 self.trigger("getFeature", result.data ,name);

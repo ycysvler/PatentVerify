@@ -2,23 +2,26 @@
  * Created by xiao on 2017/4/5.
  */
 import React from 'react';
-import {Modal,Popover} from 'antd';
+import {Modal, Popover} from 'antd';
+import Config from 'config';
 import './fast.css';
 
 class DetailModal extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible:this.props.visible,
-            detailData:this.props.detailData
+            visible: this.props.visible,
+            detailData: this.props.detailData
         }
     }
+
     renderOneImage(url) {
 
         return <div>
-            <img alt="" style={{maxWidth:500, maxHeight:500}} src={url}/>
+            <img alt="" style={{maxWidth: 500, maxHeight: 500}} src={url}/>
         </div>
     }
+
     hideSelf() {
         this.props.hide();
     }
@@ -33,40 +36,103 @@ class DetailModal extends React.Component {
                    onCancel={this.hideSelf.bind(this)}
                    footer={null}
             >
-                <table className="detailTable" >
+                <table className="detailTable">
                     <tbody>
-                    <tr><th><div>申请号：</div></th><td><div>{data["基本信息"]["申请号"]}</div></td><th><div>优先权：</div></th><td><div>{data["基本信息"]["优先权"]}</div></td></tr>
-                    <tr><th><div>申请日：</div></th><td><div>{data["基本信息"]["申请日"]}</div></td><th><div>公开/公告号：</div></th><td> <div>{data["基本信息"]["公告号"]}</div></td></tr>
-                    <tr><th><div>公开/公告日：</div></th><td><div>{data["基本信息"]["公告日"]}</div></td><th><div>申请/专利权人：</div></th><td><div>{data["基本信息"]["专利权人"]}</div></td></tr>
-                    <tr><th><div>发明/设计人：</div></th><td><div>{data["基本信息"]["设计人"]}</div></td><th><div>主分类号：</div></th><td><div>{data["基本信息"]["主分类号"]}</div></td></tr>
-                    <tr><th><div>分类号：</div></th><td><div>{data["基本信息"]["分类号"]}</div></td><th><div>分案申请：</div></th><td><div>{data["基本信息"]["分案申请"]}</div></td></tr>
-                    <tr><th><div>地址：</div></th><td><div>{data["基本信息"]["地址"]}</div></td><th> <div>国省代码：</div></th><td><div>{data["基本信息"]["国省代码"]}</div></td></tr>
-                    <tr><th><div>颁证日：</div></th><td><div>{data["基本信息"]["颁证日"]}</div></td><th><div>范畴分类：</div></th><div>{data["基本信息"]["范畴分类"]}</div><td></td></tr>
-                    <tr><th><div>专利代理机构：</div></th><td><div>{data["基本信息"]["专利代理机构"]}</div></td><th><div>代理人：</div></th><td><div>{data["基本信息"]["代理人"]}</div></td></tr>
-                    <tr><th><div>国际申请：</div></th><td><div>{data["基本信息"]["国际申请"]}</div></td><th> <div>国际公布：</div></th><td><div>{data["基本信息"]["国际公布"]}</div></td></tr>
-                    <tr><th><div>进入国家日期：</div></th><td><div>{data["基本信息"]["进入国家日期"]}</div></td><th></th><td></td></tr>
-                    <tr><td colSpan="4"> <div style={{margin:'10px 0',height:"1px",background:"#cccccc"}}></div></td></tr>
+                    <tr>
+                        <th>申请号：</th>
+                        <td>{data["基本信息"]["申请号"]}</td>
+                        <th>优先权：</th>
+                        <td>{data["基本信息"]["优先权"]}</td>
+                    </tr>
+                    <tr>
+                        <th>申请日：</th>
+                        <td>{data["基本信息"]["申请日"]}</td>
+                        <th>公开/公告号：</th>
+                        <td> {data["基本信息"]["公告号"]}</td>
+                    </tr>
+                    <tr>
+                        <th>公开/公告日：</th>
+                        <td>{data["基本信息"]["公告日"]}</td>
+                        <th>申请/专利权人：</th>
+                        <td>{data["基本信息"]["专利权人"]}</td>
+                    </tr>
+                    <tr>
+                        <th>发明/设计人：</th>
+                        <td>{data["基本信息"]["设计人"]}</td>
+                        <th>主分类号：</th>
+                        <td>{data["基本信息"]["主分类号"]}</td>
+                    </tr>
+                    <tr>
+                        <th>分类号：</th>
+                        <td>{data["基本信息"]["分类号"]}</td>
+                        <th>分案申请：</th>
+                        <td>{data["基本信息"]["分案申请"]}</td>
+                    </tr>
+                    <tr>
+                        <th>地址：</th>
+                        <td>{data["基本信息"]["地址"]}</td>
+                        <th> 国省代码：</th>
+                        <td>{data["基本信息"]["国省代码"]}</td>
+                    </tr>
+                    <tr>
+                        <th>颁证日：</th>
+                        <td>{data["基本信息"]["颁证日"]}</td>
+                        <th>范畴分类：</th>
+                        <td>{data["基本信息"]["范畴分类"]}</td>
+                    </tr>
+                    <tr>
+                        <th>专利代理机构：</th>
+                        <td>{data["基本信息"]["专利代理机构"]}</td>
+                        <th>代理人：</th>
+                        <td>{data["基本信息"]["代理人"]}</td>
+                    </tr>
+                    <tr>
+                        <th>国际申请：</th>
+                        <td>{data["基本信息"]["国际申请"]}</td>
+                        <th> 国际公布：</th>
+                        <td>{data["基本信息"]["国际公布"]}</td>
+                    </tr>
+                    <tr>
+                        <th>进入国家日期：</th>
+                        <td>{data["基本信息"]["进入国家日期"]}</td>
+                        <th></th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colSpan="4"></td>
+                    </tr>
 
-                    <tr><th>附图:</th><td colSpan="3">
-                        <div>
+                    <tr>
+                        <th>附图:</th>
+                        <td colSpan="3">
                             {
-                                data["附图"].map(function(item){
-                                    return  <Popover  key={item}
-                                                      content={self.renderOneImage(Config.url+'/image.ashx?name='+item)}>
-                                            <img alt="" style={{marginRight:30, marginBottom:10, maxHeight: 90}}
-                                                 src={ Config.url+'/image.ashx?name='+item}/>
-                                        </Popover>
+                                data["附图"].map(function (item) {
+                                    return <Popover key={item}
+                                                    content={self.renderOneImage(Config.url + '/image.ashx?name=' + item)}>
+                                        <img alt="" style={{marginRight: 30, marginBottom: 10, maxHeight: 90}}
+                                             src={ Config.url + '/image.ashx?name=' + item}/>
+                                    </Popover>
                                 })
                             }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan="4" style={{margin: '10px 0', height: "1px", background: "#cccccc"}}></td>
+                    </tr>
+                    <tr>
+                        <th>摘要:</th>
+                        <td colSpan="3" style={{minHeight: 60, display: 'block'}}
+                            dangerouslySetInnerHTML={{__html: data["摘要"].replace(/\r\n/g, '<br/>')}}></td>
+                    </tr>
 
-                        </div>
-                    </td></tr>
-                    <tr><td colSpan="4"> <div style={{margin:'10px 0',height:"1px",background:"#cccccc"}}></div></td></tr>
-                    <tr><th>摘要:</th><td colSpan="3"><div style={{minHeight:60}}>{data["摘要"]}</div></td></tr>
+                    <tr>
+                        <td colSpan="4" style={{margin: '10px 0', height: "1px", background: "#cccccc"}}></td>
+                    </tr>
 
-                    <tr><td colSpan="4"> <div style={{margin:'10px 0',height:"1px",background:"#cccccc"}}></div></td></tr>
-
-                    <tr><th>主权项:</th><td colSpan="3"><div style={{minHeight:60}}>{data["主权项"]}</div></td></tr>
+                    <tr>
+                        <th>主权项:</th>
+                        <td colSpan="3" style={{minHeight: 60, display: 'block'}}>{data["主权项"]}</td>
+                    </tr>
                     </tbody>
                 </table>
             </Modal>

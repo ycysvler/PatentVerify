@@ -5,6 +5,7 @@ import React from 'react';
 import {Layout,  Breadcrumb} from 'antd';
 import { Form, Icon, Input, Button ,Tabs} from 'antd';
 import {ToolsActions,ToolsStore} from '../toolsapi.js';
+import Config from 'config';
 
 
 const FormItem = Form.Item;
@@ -27,13 +28,13 @@ class ImageInfo extends React.Component {
 
     onStatusChange(type, data, name) {
         if (type === "getFeature") {
-            this.setState({feature: data, 'name':name});
+            this.setState({feature: data});
         }
     }
     onSearch=()=>{
-        var name = this.refs.image.refs.input.value;
-        console.log(name);
-        ToolsActions.getFeature(name);
+        var name = this.refs.image.input.value;
+        this.setState({name:name});
+
     }
 
     render() {
@@ -62,40 +63,20 @@ class ImageInfo extends React.Component {
                             <FormItem>
                                 <h3>原图</h3>
                                 <img alt="" style={{maxWidth:"100%", maxHeight: 180}}
-                                     src={ window.server_address + '/image.ashx?name=' + this.state.name}/>
+                                     src={ Config.api + '/api/images/data/' + Config.appid + '/' + this.state.name}/>
                             </FormItem>
                             <FormItem>
                                 <h3>彩色归一图</h3>
                                 <img alt="" style={{maxWidth:"100%", maxHeight: 180}}
-                                     src={ window.server_address + '/image.ashx?type=color&name=' + this.state.name}/>
+                                     src={ Config.api + '/api/images/data/' + Config.appid + '/' + this.state.name + '?type=color'}/>
                             </FormItem>
                             <FormItem>
                                 <h3>黑白归一图</h3>
                                 <img alt="" style={{maxWidth:"100%", maxHeight: 180}}
-                                     src={ window.server_address + '/image.ashx?type=shape&name=' + this.state.name}/>
+                                     src={ Config.api + '/api/images/data/' + Config.appid + '/' + this.state.name + '?type=shape'}/>
                             </FormItem>
                         </Form>
                         }
-                        <Tabs>
-                            <TabPane tab="形状特征" key="shape">
-                                <div style={{wordBreak:'break-all',padding:'0 1rem'}}>
-                                    {this.state.feature.shape}</div>
-                            </TabPane>
-                            <TabPane tab="颜色特征" key="color">
-                                <div style={{wordBreak:'break-all',padding:'0 1rem'}}>
-                                    {this.state.feature.color}</div>
-                            </TabPane>
-                            <TabPane tab="纹理特征" key="lbp">
-                                <div style={{wordBreak:'break-all',padding:'0 1rem'}}>
-                                    {this.state.feature.lbp}</div>
-                            </TabPane>
-                            <TabPane tab="综合特征" key="deep">
-                                <div style={{wordBreak:'break-all',padding:'0 1rem'}}>
-                                    {this.state.feature.deep}</div>
-                            </TabPane>
-                        </Tabs>
-
-
                     </Content>
                 </Layout>
 

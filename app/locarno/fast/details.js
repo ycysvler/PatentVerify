@@ -8,6 +8,7 @@ import PatentCards from '../common/patentcard.js';
 import GroupCards from '../common/groupcard.js';
 import DetailModal from '../../attached/fast/detailModal.js';
 import JobBar from '../common/jobbar';
+import Config from 'config';
 
 import '../../attached/common/css.css';
 import '../common/css.less';

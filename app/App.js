@@ -22,6 +22,8 @@ import LocarnoZoneDetails from './locarno/zone/details.js';
 
 import ImageInfo from './tools/imageinfo/index.js';
 
+import TypeList from './data/type/index.js';
+
 import './styles/app.less';
 class App extends React.Component {
     constructor(props) {
@@ -44,6 +46,7 @@ class App extends React.Component {
         if(url.indexOf("locarno")>-1){return "02";}
         if(url.indexOf("system")>-1){return "07";}
         if(url.indexOf("tools")>-1){return "03";}
+        if(url.indexOf("data")>-1){return "06";}
     }
     getTopMenuChildren=(data, url)=>{
         var self = this;
@@ -80,7 +83,7 @@ class App extends React.Component {
         let index_list = this.state.indexList;
         return (
             <Layout className="app-root">
-                <Header style={{background: '#fff'}}>
+                <Header style={{background: '#fff',height:65}} className="header">
                     <div className="logo" >专利图形搜索系统</div>
                     <div style={{float: 'right'}}>
                         <Layout style={{"background": "white"}}>
@@ -110,8 +113,8 @@ class App extends React.Component {
                 </Header>
 
                 <Layout>
-                    <Sider width={250} >
-                        <Menu theme="dark"
+                    <Sider width={250} style={{background: '#fff'}} className="ant-layout-sider">
+                        <Menu
                             mode="inline"
                               defaultSelectedKeys={[this.state.leftMenuKey]}
                         >
@@ -132,7 +135,7 @@ class App extends React.Component {
                             }
                         </Menu>
                     </Sider>
-                    <Layout>
+                    <Layout className="patent-layout-content">
                         <Router>
                             <Switch>
                                 {/*外观.快速检索.历史查询*/}
@@ -158,6 +161,9 @@ class App extends React.Component {
 
                                 {/*快速局部结果*/}
                                 <Route path="/main/tools/imageinfo" component={ImageInfo}/>
+
+                                {/*快速局部结果*/}
+                                <Route path="/main/data/typelist" component={TypeList}/>
 
                                 <Route component={NotFound}/>
                             </Switch>
