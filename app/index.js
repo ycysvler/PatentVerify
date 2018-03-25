@@ -7,6 +7,7 @@ import NotFound from './notfound';
 
 import Login from './login.js';
 import App from './App.js';
+import Main from './main';
 
 
 
@@ -15,7 +16,7 @@ ReactDOM.render((
         <Switch>
             <Redirect exact from='/' to='/signin'/>
             <Route path="/signin" component={Login}/>
-            <Route path="/main" component={App}/>
+            <Route path="/main" component={Main}/>
             <Route component={NotFound}/>
         </Switch>
     </Router>

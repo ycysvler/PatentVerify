@@ -1,0 +1,43 @@
+.locarno {
+
+  .locarno_result_toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .contrast {
+      display: flex;
+      align-items: center;
+      .contrast_image {
+        position: relative;
+        margin-right: 4px;
+        width: 40px;
+        height: 40px;
+        border: solid 1px #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          max-height: 90%;
+          max-width: 90%;
+        }
+      }
+      .contrast_image:hover:before {
+        cursor: pointer;
+        content: "✖"; /*:before和:after必带技能，重要性为满5颗星*/
+        display: flex;
+        background: rgba(0, 0, 0, 0.4);
+        justify-content: center;
+        align-items: center;
+        color: red;
+        position: absolute; /*日常绝对定位*/
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+  }
+}
