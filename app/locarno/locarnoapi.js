@@ -168,6 +168,7 @@ const LocarnoStore = Reflux.createStore({
             }
         });
     },
+
     onGetResult: function(jobid,patent_type,feature_type,page) {
         let url = Config.url + "/locarno/result.ashx?";
         let self = this;
@@ -195,6 +196,33 @@ const LocarnoStore = Reflux.createStore({
             }
         });
     },
+    onGetResult:function(param){
+        param = {"jobid":"5ab7544b2840d21e24d1084a","pager":{"pagesize":100, "current":1},"weight":{"color":3, "shape":3, "lbp":2, "deep":1}};
+
+        let url = Config.base + "/api/locarno/results";
+        let self = this;
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(param),
+            cache: false,
+            contentType: 'application/json',        //不可缺参数
+            processData: false,                     //不可缺参数
+            dataType:"json",
+            beforeSend: function (xhr) {
+                //xhr.setRequestHeader("Authorization",token);
+            },
+            success: function (data,status) {
+                self.trigger("getResult",data.data)
+            },
+            error: function (reason) {
+                console.log(reason);
+            }
+        });
+
+    },
+
     onGetZoneResult: function(jobid,patent_type,feature_type,page) {
         let url = Config.url + "/locarno/zoneresult.ashx?";
         let self = this;
