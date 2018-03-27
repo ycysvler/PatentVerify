@@ -197,7 +197,6 @@ const LocarnoStore = Reflux.createStore({
         });
     },
     onGetResult:function(param){
-        param = {"jobid":"5ab7544b2840d21e24d1084a","pager":{"pagesize":100, "current":1},"weight":{"color":3, "shape":3, "lbp":2, "deep":1}};
 
         let url = Config.base + "/api/locarno/results";
         let self = this;
@@ -214,7 +213,7 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data,status) {
-                self.trigger("getResult",data.data)
+                self.trigger("getResult",data)
             },
             error: function (reason) {
                 console.log(reason);

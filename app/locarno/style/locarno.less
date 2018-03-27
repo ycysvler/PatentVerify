@@ -4,6 +4,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink:0;
+    height: 60px;
 
     .contrast {
       display: flex;
@@ -39,5 +41,41 @@
       }
     }
 
+  }
+
+  .img-layout{
+    overflow-y:auto ;
+    flex-grow: 1;
+    display: flex;
+    flex-wrap:wrap;
+    background: #fff;
+  }
+
+
+
+  .img-box{
+    background:#fff;
+    height: 120px;
+    margin:4px;
+    padding:6px;
+    border: solid 1px #ddd;
+    position: relative;
+
+    img{
+      max-height: 100%;
+      max-width:100%;
+    }
+
+    .img-check{
+      position: absolute;
+      right:4px;
+      top:4px;
+      padding:4px;
+      background: #b4b4b4;
+    }
+  }
+
+  .selected{
+    box-shadow: 0 0 10px 1px #332f2f;
   }
 }

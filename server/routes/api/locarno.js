@@ -16,7 +16,7 @@ module.exports = function (router) {
         let dal = new LocarnoDAL();
 
         dal.getResult( req.body,function (results) {
-            res.send({code:200, results});
+            res.send({code:200, data:results});
         });
     });
 }

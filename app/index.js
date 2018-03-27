@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import {HashRouter as Router,Redirect, Switch, Route} from 'react-router-dom';
-import 'antd/dist/antd.less';
+
 import {IndexStore} from './api.js';
 import NotFound from './notfound';
 
