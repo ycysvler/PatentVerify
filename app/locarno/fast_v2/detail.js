@@ -3,6 +3,7 @@ import {Layout, Breadcrumb, Radio, Card, Menu, Icon, Button, Divider, Slider, Ch
 import {HashRouter as Router, Redirect, Link, Switch, Route} from 'react-router-dom';
 import Contrast from '../contrast';
 import Config from 'config';
+import ImageGrid from '../common/imagegrid.js';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 import {ContrastActions, ContrastStore} from '../contrast/stone.js';
 const {Content, Sider, Header} = Layout;
@@ -178,12 +179,11 @@ export default class LocarnoFastDetails extends React.Component {
                         {/*对比*/}
                         <Contrast />
                     </div>
-                    <div className="img-layout">
 
-                        {this.drawItems()}
+                        <ImageGrid />
 
 
-                    </div>
+
                 </div>
 
 

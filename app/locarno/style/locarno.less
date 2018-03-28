@@ -8,9 +8,11 @@
     height: 60px;
 
     .contrast {
+
       display: flex;
       align-items: center;
       .contrast_image {
+        background: #a8511e;
         position: relative;
         margin-right: 4px;
         width: 40px;
@@ -68,6 +70,7 @@
     padding:6px;
     border: solid 1px #ddd;
     position: relative;
+    border-radius: 4px;
 
     img{
       max-height: 100%;
@@ -76,14 +79,16 @@
 
     .img-check{
       position: absolute;
+      background: #b4b4b4;
       right:4px;
       top:4px;
       padding:4px;
-      background: #b4b4b4;
+
     }
   }
 
   .selected{
     box-shadow: 0 0 10px 1px #332f2f;
+    background: #a8511e;
   }
 }
