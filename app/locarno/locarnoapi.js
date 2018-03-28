@@ -213,6 +213,7 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data,status) {
+                console.log(data);
                 self.trigger("getResult",data)
             },
             error: function (reason) {

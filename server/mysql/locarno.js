@@ -14,9 +14,13 @@ module.exports = class LocarnoDAL {
         let deep = body.weight.deep;
         let jobid = body.jobid;
 
-        var sql = `select r.image,r.code, sum(r.score) as score from ( 
-        select image,code, (case arithmetic when 0 then score*? when 1 then score*? when 2 then score*? when 3 then score*? else 0 end) as score from locarno_job_result  where jobid=? ) as r
-        group by r.image
+        var sql = ` select t.image, (t.shape * ? + t.color * ? + t.lbp * ? + t.deep * ?) as score from
+        (SELECT image, 
+        min(case arithmetic when 0 then score else 100 end) color,
+        min(case arithmetic when 1 then score else 100 end) shape,
+        min(case arithmetic when 2 then score else 100 end) lbp,
+        min(case arithmetic when 3 then score else 100 end) deep 
+        FROM locarno_job_result where jobid=? group by image) as t       
         order by score limit ?, ?`;
         pool.query(sql, [shape,color,lbp,deep,jobid, skip, pagesize], function (error, results, fields) {
             if (error) {

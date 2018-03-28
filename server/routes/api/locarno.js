@@ -11,10 +11,7 @@ module.exports = function (router) {
 
     // PaaS -> 图片上传
     router.post('/locarno/results', (req, res, next) => {
-
-        console.log('body >', req.body);
         let dal = new LocarnoDAL();
-
         dal.getResult( req.body,function (results) {
             res.send({code:200, data:results});
         });
