@@ -9,6 +9,7 @@ const {Content, Sider, Header} = Layout;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
+import './contrast.less';
 
 export default class ContrastBar extends React.Component {
     constructor(props) {
@@ -71,6 +72,7 @@ export default class ContrastBar extends React.Component {
             }
 
             <Modal
+                style={{padding:2}}
                 width={this.state.items.length * 200 + 120}
                 title="对比" footer={null}
                 visible={this.state.visible}

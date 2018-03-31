@@ -76,10 +76,11 @@ export default class Contrast extends React.Component {
     renderImage(){
         let self = this;
         let dom = (<div className="tab-div">
-            <table className="table">
+            <table className="table2">
                 <tbody>
+
                 <tr>
-                    <th ><div style={{width:100}}>图像</div></th>
+                    <th ><div >图像</div></th>
                     {this.state.items.map((item, index) => {
                         return <td key={index}>
                             <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image} />
@@ -87,18 +88,77 @@ export default class Contrast extends React.Component {
                     })}
                 </tr>
                 <tr>
-                    <th>主视图</th>
+                    <th>专利名</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}><b>{item.patent?item.patent.ap_name:''}</b></td>
+                    })}
+                </tr>
+                <tr>
+                    <th>公开号</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{item.patent?item.patent.pub_num:''}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>1</th>
                     {this.state.items.map((item, index) => {
                         return <td key={index}>{self.getImage(item, 0)}</td>
                     })}
                 </tr>
                 <tr>
-                    <th>仰视图</th>
+                    <th>2</th>
                     {this.state.items.map((item, index) => {
                         return <td key={index}>{self.getImage(item, 1)}</td>
                     })}
                 </tr>
-
+                <tr>
+                    <th>3</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 2)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>4</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 3)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>5</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 4)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>6</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 5)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>7</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 6)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>8</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 7)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>9</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 8)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>10</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 9)}</td>
+                    })}
+                </tr>
                 </tbody>
             </table></div>);
         return dom;
@@ -111,7 +171,7 @@ export default class Contrast extends React.Component {
             <tr>
                 <th ><div style={{width:100}}>图像</div></th>
                 {this.state.items.map((item, index) => {
-                    return <td key={index}>
+                    return <td style={{textAlign:'center'}} key={index}>
                         <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image} />
                         </td>
                 })}
@@ -134,12 +194,7 @@ export default class Contrast extends React.Component {
                     return <td key={index}>{item.patent?item.patent.ap_num:''}</td>
                 })}
             </tr>
-            <tr>
-                <th>公开号</th>
-                {this.state.items.map((item, index) => {
-                    return <td key={index}>{item.patent?item.patent.pub_num:''}</td>
-                })}
-            </tr>
+
             <tr>
                 <th>申请日</th>
                 {this.state.items.map((item, index) => {
@@ -182,7 +237,7 @@ export default class Contrast extends React.Component {
     }
 
     render() {
-        return (<div className="contrast">
+        return (<div className="contrast" >
             <Tabs defaultActiveKey="1">
                 <Tabs.TabPane tab="图像对比" key="1">
                     {this.renderImage()}

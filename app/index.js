@@ -9,7 +9,7 @@ import Login from './login.js';
 import App from './App.js';
 import Main from './main';
 
-
+import "./styles/index.less";
 
 ReactDOM.render((
     <Router>
