@@ -14,7 +14,7 @@ module.exports = class LocarnoDAL {
         let deep = body.weight.deep;
         let jobid = body.jobid;
 
-        var sql = ` select t.image, (t.shape * ? + t.color * ? + t.lbp * ? + t.deep * ?) as score from
+        let sql = ` select t.image, (t.shape * ? + t.color * ? + t.lbp * ? + t.deep * ?) as score from
         (SELECT image, 
         min(case arithmetic when 0 then score else 100 end) color,
         min(case arithmetic when 1 then score else 100 end) shape,
@@ -28,6 +28,19 @@ module.exports = class LocarnoDAL {
                 callback(500);
             } else {
                 callback(results);
+            }
+        }.bind(this));
+    }
+
+    getPatent(table, ap_num, callback){
+        let sql = `select * from `+ table +` where ap_num = ?`;
+        pool.query(sql, [ap_num], function (error, results, fields) {
+            if (error) {
+                console.error('error query: ' + error.stack);
+                callback(500);
+            } else {
+                if(results.length > 0)
+                    callback(results[0]);
             }
         }.bind(this));
     }
