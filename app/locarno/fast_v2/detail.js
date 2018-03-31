@@ -15,11 +15,14 @@ import '../style/locarno.less';
 export default class LocarnoFastDetails extends React.Component {
     constructor(props) {
         super(props);
-
         this.unsubscribe_locarno = LocarnoStore.listen(this.onStatusChange.bind(this));
         this.unsubscribe_contrast = ContrastStore.listen(this.onStatusChange.bind(this));
 
+        ContrastActions.clear();
+
         this.state = {
+            jobid:props.location.jobinfo.jobid,
+            typeid:props.location.jobinfo.typeids[0],
             contrast: [],
             showIndex: -1,
             collapsed: false,
@@ -80,7 +83,7 @@ export default class LocarnoFastDetails extends React.Component {
         let weight_deep = 5 - this.state.weight.deep;
 
         let param = {
-            "jobid": "5ab7544b2840d21e24d1084a",
+            "jobid":this.state.jobid,
             "pager": {"pagesize": 100, "current": 1},
             "weight": {"color": weight_color, "shape": weight_shape, "lbp": weight_lbp, "deep": weight_deep}
         };
@@ -127,7 +130,7 @@ export default class LocarnoFastDetails extends React.Component {
                                     className="margin"/>
                         </div>
                         {/*对比*/}
-                        <ContrastBar />
+                        <ContrastBar typeid={this.state.typeid} />
                     </div>
                     {/*图片列表控件*/}
                     <ImageGrid />

@@ -18,6 +18,7 @@ export default class Contrast extends React.Component {
         this.unsubscribe_locarno = LocarnoStore.listen(this.onStatusChange.bind(this));
 
         this.state = {
+            typeid:this.props.typeid,
             'items': ContrastStore.items
         }
 
@@ -34,7 +35,7 @@ export default class Contrast extends React.Component {
             let item = this.state.items[index];
 
             if (!item.hasOwnProperty("patent")) {
-                LocarnoActions.getPatent(item.code, "d_ap_0701");
+                LocarnoActions.getPatent(item.code, this.state.typeid);
             }
         }
     }

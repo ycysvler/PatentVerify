@@ -78,7 +78,7 @@ export default class ContrastBar extends React.Component {
                 visible={this.state.visible}
                 onCancel={this.handleCancel}
             >
-                <Contrast />
+                <Contrast typeid={this.props.typeid} />
             </Modal>
         </div>);
     }

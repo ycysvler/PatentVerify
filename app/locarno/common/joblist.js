@@ -126,7 +126,7 @@ class LocarnoJobList extends React.Component {
 
         //this.context.router.push({pathname:_pathname, state: {searchData: record}});
 
-        this.props.history.push({pathname:_pathname, state: {searchData: record}});
+        this.props.history.push({pathname:_pathname, jobinfo: record});
     }
 
     keywordChange(event) {

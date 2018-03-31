@@ -24,7 +24,9 @@ module.exports = function (router) {
         let code = req.params.code;
         let type = req.params.type;
 
-        dal.getPatent(type, code, function (results) {
+        let table = 'd_ap_' + type.replace("-","");
+
+        dal.getPatent(table, code, function (results) {
             let result = {code: 200, data: results};
             LocarnoImage.find({'ap_num': code}, "name", function (err, items) {
                 if (!err) {

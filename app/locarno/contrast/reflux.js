@@ -19,7 +19,9 @@ const ContrastStore = Reflux.createStore({
         this.items.push(image);
         this.trigger("contrast", this.items);
     },
-    onClear:function(){},
+    onClear:function(){
+        this.items = [];
+    },
     onRemove:function(image){
         let i = -1;
         for (let index in  this.items) {
