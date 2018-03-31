@@ -1,9 +1,9 @@
 import React from 'react';
-import {Layout, Checkbox} from 'antd';
-const {Content, Sider, Header} = Layout;
+import {Layout, Checkbox,Modal} from 'antd';
 import Config from 'config';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
+import Patent from '../patent/index';
 
 import '../style/locarno.less';
 
@@ -14,11 +14,11 @@ export default class ImageGrid extends React.Component {
         this.unsubscribe_contrast = ContrastStore.listen(this.onStatusChange.bind(this));
 
         this.state = {
+            visible:false,
             contrast: [],
             showIndex: -1,
             data: []
         };
-
     }
     componentWillUnmount() {
         this.unsubscribe_locarno();
@@ -56,6 +56,10 @@ export default class ImageGrid extends React.Component {
         }
     }
 
+    showPatent=(ap_num)=>{
+        this.setState({ap_num:ap_num, typeid:this.props.typeid,visible:true});
+    }
+
     drawItems = () => {
         let doms = [];
 
@@ -67,7 +71,7 @@ export default class ImageGrid extends React.Component {
             let dy = this.state.showIndex == index ? 'block' : 'none';
 
             doms.push(<div className={border} key={item.image + '_' + index} onMouseEnter={self.onMouseEnter(index)}>
-                <img src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image}/>
+                <img onClick={self.showPatent.bind(self, item.code)} src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image}/>
 
                 <div className="img-check" style={{display: dy}}>
                     <Checkbox
@@ -81,11 +85,24 @@ export default class ImageGrid extends React.Component {
 
         return doms;
     }
-
+    handleCancel = (e) => {
+        this.setState({
+            visible: false,
+        });
+    }
 
     render() {
         return (<div className="img-layout">
             {this.drawItems()}
+
+            <Modal
+                width={710}
+                title="专利详情" footer={null}
+                visible={this.state.visible}
+                onCancel={this.handleCancel}
+            >
+                <Patent ap_num={this.state.ap_num} typeid={this.props.typeid} />
+            </Modal>
         </div>);
     }
 }

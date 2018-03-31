@@ -1,11 +1,11 @@
 import React from 'react';
-import {Layout, Breadcrumb, Radio, Card, Menu, Icon, Button, Divider, Slider, Checkbox} from 'antd';
+import {Layout, Breadcrumb, Radio, Modal, Divider, Slider} from 'antd';
 import {HashRouter as Router, Redirect, Link, Switch, Route} from 'react-router-dom';
 import ContrastBar from '../contrast/contrastbar';
-import Config from 'config';
 import ImageGrid from '../common/imagegrid.js';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
+
 const {Content, Sider, Header} = Layout;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -27,6 +27,7 @@ export default class LocarnoFastDetails extends React.Component {
             showIndex: -1,
             collapsed: false,
             data: [],
+            visible:false,
             weight: {"color": 2, "shape": 3, "lbp": 3, "deep": 5}
         };
 
@@ -133,10 +134,8 @@ export default class LocarnoFastDetails extends React.Component {
                         <ContrastBar typeid={this.state.typeid} />
                     </div>
                     {/*图片列表控件*/}
-                    <ImageGrid />
+                    <ImageGrid typeid={this.state.typeid} />
                 </div>
-
-
             </Layout>
         </Layout>);
     }

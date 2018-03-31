@@ -195,19 +195,19 @@ export default class Contrast extends React.Component {
                     return <td key={index}>{item.patent?item.patent.ap_num:''}</td>
                 })}
             </tr>
-
-            <tr>
-                <th>申请日</th>
-                {this.state.items.map((item, index) => {
-                    return <td key={index}>{item.patent?item.patent.ap_date:''}</td>
-                })}
-            </tr>
             <tr>
                 <th>公开日</th>
                 {this.state.items.map((item, index) => {
                     return <td key={index}>{item.patent?item.patent.pub_date:''}</td>
                 })}
             </tr>
+            <tr>
+                <th>申请日</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.ap_date:''}</td>
+                })}
+            </tr>
+
             <tr>
                 <th>设计人</th>
                 {this.state.items.map((item, index) => {
@@ -220,12 +220,7 @@ export default class Contrast extends React.Component {
                     return <td key={index}>{item.patent?item.patent.pa_name:''}</td>
                 })}
             </tr>
-            <tr>
-                <th>公开日</th>
-                {this.state.items.map((item, index) => {
-                    return <td key={index}>{item.patent?item.patent.pub_date:''}</td>
-                })}
-            </tr>
+
             <tr>
                 <th>说明</th>
                 {this.state.items.map((item, index) => {
