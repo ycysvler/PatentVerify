@@ -7,25 +7,16 @@ module.exports = class Schemas{
         let conn = mongoose.createConnection(uri, mongodbconfig.options);
 
         conn.then(function(patent) {
-            console.log("ha mongodb connected!");
+            console.log("patent mongodb connected!");
         });
-
-        this.configSchema = new mongoose.Schema({
-            package: {type: String,index: {unique: true, dropDups: true}},   // 包名
-            version: {type: String},                // 版本
-            content:{type: String},                 // 配置内容
-            createtime:Date                         // 创建时间
+        this.LocarnoImageSchema = new mongoose.Schema({
+            name: {type: String,index: {unique: true, dropDups: true}},       // 图片名称
+            ap_num: {type: String,index:true},                     // 专利号
+            patent_type: {type: String,index:true},                // 版本
+            colour:{type: Number,index: true},                     // 业务类型
+            source:Buffer                                           //  原始图像
         });
-
-        this.Config =  conn.model('Config', this.configSchema,'config');
-
-        this.serviceSchema = new mongoose.Schema({
-            package: {type: String,index: {unique: true, dropDups: true}},   // 包名
-            name: {type: String},                   // 服务名称
-            directory:{type: String}                // 配置内容
-        });
-
-        this.Service =  conn.model('Service', this.configSchema,'service');
+        this.LocarnoImage = conn.model('Image', this.LocarnoImageSchema, 'locarno_image');
     }
 }
 

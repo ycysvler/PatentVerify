@@ -1,26 +1,12 @@
-let baseSchemas = require('./baseschemas');
-let entSchemas = require('./entschemas');
-let haSchemas = require('./haschemas');
+let patentSchemas = require('./patentschemas');
 const pool = new Map();
 
-let getMongoPool = (entid)=>{
-    entid = entid === undefined ? "patent":entid;
-
-    if(!pool.has(entid)){
-        if(entid === 'ha'){
-            let schemas = new haSchemas();
-            pool.set(entid, schemas);
-        }
-       else if(entid === 'cabase'){
-           let schemas = new baseSchemas();
-           pool.set(entid, schemas);
-       }else{
-           let schemas = new entSchemas(entid);
-           pool.set(entid, schemas);
-       }
+let getMongoPool = () => {
+    if (!pool.has("patent")) {
+        let schemas = new patentSchemas();
+        pool.set("patent", schemas);
     }
-    let db = pool.get(entid);
-
+    let db = pool.get("patent");
     return db;
 }
 
