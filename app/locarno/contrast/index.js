@@ -1,26 +1,42 @@
 import React from 'react';
-import {Layout, Menu, Button, Radio} from 'antd';
-import {HashRouter as Router, Redirect, Link, Switch, Route} from 'react-router-dom';
+import {Layout, Tabs, Modal, Radio} from 'antd';
 import Config from 'config';
-import {ContrastActions, ContrastStore} from './stone.js';
+import {ContrastActions, ContrastStore} from './reflux.js';
+import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 
 const {Content, Sider, Header} = Layout;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
+import './contrast.less';
 
 export default class Contrast extends React.Component {
     constructor(props) {
         super(props);
 
-        this.unsubscribe = ContrastStore.listen(this.onStatusChange.bind(this));
+        this.unsubscribe_contrast = ContrastStore.listen(this.onStatusChange.bind(this));
+        this.unsubscribe_locarno = LocarnoStore.listen(this.onStatusChange.bind(this));
 
         this.state = {
             'items': ContrastStore.items
         }
+
+        this.getPatent();
     }
+
     componentWillUnmount() {
-        this.unsubscribe();
+        this.unsubscribe_contrast();
+        this.unsubscribe_locarno();
+    }
+
+    getPatent() {
+        for (let index in this.state.items) {
+            let item = this.state.items[index];
+
+            if (!item.hasOwnProperty("patent")) {
+                LocarnoActions.getPatent(item.code, "d_ap_0701");
+            }
+        }
     }
 
     /*
@@ -28,39 +44,153 @@ export default class Contrast extends React.Component {
      * */
     onStatusChange(action, items) {
         if (action === "contrast") {
-            this.setState({'items': items});
+            this.state.items = items;
+            this.getPatent();
+        }
+        if (action === "getPatent") {
+            let datas = this.state.items;
+            for (let index in datas) {
+                let item = datas[index];
+                if (items.ap_num === item.code) {
+                    item.patent = items;
+                }
+            }
+            this.setState({items: datas});
+
+            console.log(datas);
         }
     }
 
-    removeItem=(index)=>{
-        // 删除指定的图片
-        ContrastActions.removeByIndex(index);
+    getImage(item, index){
+        if(item.patent){
+            if(item.patent.images.length > index){
+                return <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.patent.images[index].name} />
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
     }
 
-    onContrast=()=>{
-        console.log('对比');
-    }
-
-
-    getImageItems() {
-        let result = [];
+    renderImage(){
         let self = this;
-        for (let key in this.state.items) {
-            let url = Config.api + '/api/images/data/' + Config.appid + '/' + this.state.items[key].image;
-            result.push(<div  className="contrast_image" key={key} onClick={self.removeItem.bind(self, key)}>
-                <img  className="image" src={url}/></div>);
-        }
-        return result;
+        let dom = (<div className="tab-div">
+            <table className="table">
+                <tbody>
+                <tr>
+                    <th ><div style={{width:100}}>图像</div></th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>
+                            <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image} />
+                        </td>
+                    })}
+                </tr>
+                <tr>
+                    <th>主视图</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 0)}</td>
+                    })}
+                </tr>
+                <tr>
+                    <th>仰视图</th>
+                    {this.state.items.map((item, index) => {
+                        return <td key={index}>{self.getImage(item, 1)}</td>
+                    })}
+                </tr>
+
+                </tbody>
+            </table></div>);
+        return dom;
+    }
+
+    renderPatent() {
+        let dom = (<div className="tab-div">
+            <table className="table">
+            <tbody>
+            <tr>
+                <th ><div style={{width:100}}>图像</div></th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>
+                        <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image} />
+                        </td>
+                })}
+            </tr>
+            <tr>
+                <th>专利名</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.ap_name:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>公开号</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.pub_num:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>申请号</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.ap_num:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>公开号</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.pub_num:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>申请日</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.ap_date:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>公开日</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.pub_date:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>设计人</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.designer:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>申请人</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.pa_name:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>公开日</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index}>{item.patent?item.patent.pub_date:''}</td>
+                })}
+            </tr>
+            <tr>
+                <th>说明</th>
+                {this.state.items.map((item, index) => {
+                    return <td key={index} style={{verticalAlign:'top'}}>{item.patent?item.patent.abstract:''}</td>
+                })}
+            </tr>
+            </tbody>
+        </table></div>);
+        return dom;
     }
 
     render() {
         return (<div className="contrast">
-            {
-                this.getImageItems()
-            }
-            {
-                this.state.items.length>0?<Button type="primary" style={{marginLeft: '12px'}}>对比</Button>:null
-            }
+            <Tabs defaultActiveKey="1">
+                <Tabs.TabPane tab="图像对比" key="1">
+                    {this.renderImage()}
+                </Tabs.TabPane>
+                <Tabs.TabPane tab="专利对比" key="2">
+                    {this.renderPatent()}
+                </Tabs.TabPane>
+            </Tabs>
         </div>);
     }
 }

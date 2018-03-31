@@ -14,8 +14,8 @@ module.exports = class LocarnoDAL {
         let deep = body.weight.deep;
         let jobid = body.jobid;
 
-        let sql = ` select t.image, (t.shape * ? + t.color * ? + t.lbp * ? + t.deep * ?) as score from
-        (SELECT image, 
+        let sql = ` select t.image,t.code, (t.shape * ? + t.color * ? + t.lbp * ? + t.deep * ?) as score from
+        (SELECT image, code,
         min(case arithmetic when 0 then score else 100 end) color,
         min(case arithmetic when 1 then score else 100 end) shape,
         min(case arithmetic when 2 then score else 100 end) lbp,

@@ -3,7 +3,7 @@ import {Layout, Checkbox} from 'antd';
 const {Content, Sider, Header} = Layout;
 import Config from 'config';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
-import {ContrastActions, ContrastStore} from '../contrast/stone.js';
+import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
 
 import '../style/locarno.less';
 

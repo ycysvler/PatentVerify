@@ -1,11 +1,11 @@
 import React from 'react';
 import {Layout, Breadcrumb, Radio, Card, Menu, Icon, Button, Divider, Slider, Checkbox} from 'antd';
 import {HashRouter as Router, Redirect, Link, Switch, Route} from 'react-router-dom';
-import Contrast from '../contrast';
+import ContrastBar from '../contrast/contrastbar';
 import Config from 'config';
 import ImageGrid from '../common/imagegrid.js';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
-import {ContrastActions, ContrastStore} from '../contrast/stone.js';
+import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
 const {Content, Sider, Header} = Layout;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -39,9 +39,6 @@ export default class LocarnoFastDetails extends React.Component {
      * store 触发的事件
      * */
     onStatusChange(action, data) {
-        if (action === "getResult") {
-            this.setState({data: data});
-        }
         if (action === "contrast") {
             this.setState({contrast: data});
         }
@@ -49,28 +46,6 @@ export default class LocarnoFastDetails extends React.Component {
 
     onCollapse = (collapsed) => {
         this.setState({collapsed});
-    }
-
-
-    onMouseEnter = (key) => (e) => {
-        this.setState({showIndex: key});
-    }
-    onCheck = (item) => (e) => {
-        if (e.target.checked) {
-            ContrastActions.add(item);
-        } else {
-            ContrastActions.remove(item.image);
-        }
-    }
-
-    isSelected = (image) => {
-        let result = false;
-        for (let index in  this.state.contrast) {
-            let item = this.state.contrast[index];
-            if (item.image === image)
-                result = true;
-        }
-        return result;
     }
 
     onWeightColorChange = (value) => {
@@ -98,7 +73,7 @@ export default class LocarnoFastDetails extends React.Component {
         this.search();
     }
 
-    search=()=>{
+    search = () => {
         let weight_color = 5 - this.state.weight.color;
         let weight_shape = 5 - this.state.weight.shape;
         let weight_lbp = 5 - this.state.weight.lbp;
@@ -107,36 +82,9 @@ export default class LocarnoFastDetails extends React.Component {
         let param = {
             "jobid": "5ab7544b2840d21e24d1084a",
             "pager": {"pagesize": 100, "current": 1},
-            "weight": {"color":weight_color, "shape": weight_shape, "lbp": weight_lbp, "deep": weight_deep}
+            "weight": {"color": weight_color, "shape": weight_shape, "lbp": weight_lbp, "deep": weight_deep}
         };
-
         LocarnoActions.getResult(param);
-    }
-
-    drawItems = () => {
-        let doms = [];
-
-        let self = this;
-        for (let index in this.state.data.data) {
-            let item = this.state.data.data[index];
-            let checked = self.isSelected(item.image);
-            let border = checked ? "img-box selected" : "img-box";
-            let dy = this.state.showIndex == index ? 'block' : 'none';
-
-            doms.push(<div className={border} key={item.image + '_' + index} onMouseEnter={self.onMouseEnter(index)}>
-                <img src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image}/>
-
-                <div className="img-check" style={{display: dy}}>
-                    <Checkbox
-                        checked={checked}
-                        onChange={self.onCheck(item)}
-                        style={{color: '#fff'}}>
-                        对比 </Checkbox></div>
-
-            </div>);
-        }
-
-        return doms;
     }
 
     render() {
@@ -150,9 +98,7 @@ export default class LocarnoFastDetails extends React.Component {
                     <Breadcrumb.Item>查询结果</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
-
             <Layout>
-
                 <div style={{flexDirection: 'column', flexGrow: 1, display: 'flex'}}>
                     <div className="breadcrumb locarno_result_toolbar">
                         <div className="bg_white querybar">
@@ -164,26 +110,27 @@ export default class LocarnoFastDetails extends React.Component {
                             <Divider className="margin" type="vertical" style={{height: 30}}/>
                             <b className="margin">检索权重</b>
                             颜色
-                            <Slider min={1} max={5} value={this.state.weight.color} onChange={this.onWeightColorChange} style={{width: 100}}
+                            <Slider min={1} max={5} value={this.state.weight.color} onChange={this.onWeightColorChange}
+                                    style={{width: 100}}
                                     className="margin"/>
                             形状
-                            <Slider min={1} max={5} value={this.state.weight.shape} onChange={this.onWeightShapeChange} style={{width: 100}}
+                            <Slider min={1} max={5} value={this.state.weight.shape} onChange={this.onWeightShapeChange}
+                                    style={{width: 100}}
                                     className="margin"/>
                             纹理
-                            <Slider min={1} max={5} value={this.state.weight.lbp} onChange={this.onWeightLbpChange} style={{width: 100}}
+                            <Slider min={1} max={5} value={this.state.weight.lbp} onChange={this.onWeightLbpChange}
+                                    style={{width: 100}}
                                     className="margin"/>
                             综合
-                            <Slider min={1} max={5} value={this.state.weight.deep} onChange={this.onWeightDeepChange} style={{width: 100}}
+                            <Slider min={1} max={5} value={this.state.weight.deep} onChange={this.onWeightDeepChange}
+                                    style={{width: 100}}
                                     className="margin"/>
                         </div>
                         {/*对比*/}
-                        <Contrast />
+                        <ContrastBar />
                     </div>
-
-                        <ImageGrid />
-
-
-
+                    {/*图片列表控件*/}
+                    <ImageGrid />
                 </div>
 
 

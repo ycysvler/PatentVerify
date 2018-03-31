@@ -14,18 +14,37 @@ const LocarnoActions = Reflux.createActions([
     'getResult',
     'getZoneResult',
     'getDetail',
-    'remove'
+    'remove',
+    'getPatent'
 ]);
 
 const LocarnoStore = Reflux.createStore({
     listenables:[LocarnoActions],
 
+    onGetPatent:function(ap_num, patent_type){
+        let url = Config.base + "/api/locarno/patent/" + ap_num + "/type/" + patent_type;
+        let self = this;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: "json",
+            beforeSend: function (xhr) {
+                //xhr.setRequestHeader("Authorization",token);
+            },
+            success: function (data, status) {
+                if(data.code === 200) {
+                    self.trigger('getPatent', data.data);
+                }
+            },
+            error: function (reason) {
+                console.log(reason);
+            }
+        });
+    },
+
     onUploadImage:function(data) {
         let self = this;
         let url = Config.url + "/uploadimages.ashx?username=" + IndexStore.currentUser.username;
-        //let url = Config.base + "/api/search/images";
-
-        console.log(url);
 
         $.ajax({
             url: url,
@@ -146,9 +165,6 @@ const LocarnoStore = Reflux.createStore({
             images:images
         };
 
-        console.log('url > ', url);
-        console.log('param > ', JSON.stringify(param));
-
         $.ajax({
             url: url,
             type: 'POST',
@@ -213,7 +229,6 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data,status) {
-                console.log(data);
                 self.trigger("getResult",data)
             },
             error: function (reason) {
