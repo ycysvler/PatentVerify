@@ -11,7 +11,8 @@ const LocarnoActions = Reflux.createActions([
     'getJobs',
     'getAllType',
     'create',
-    'getResult',
+    'getResultImages',
+    'getResultPatents',
     'getZoneResult',
     'getDetail',
     'remove',
@@ -212,9 +213,8 @@ const LocarnoStore = Reflux.createStore({
             }
         });
     },
-    onGetResult:function(param){
-
-        let url = Config.base + "/api/locarno/results";
+    onGetResultImages:function(param){
+        let url = Config.base + "/api/locarno/result/images";
         let self = this;
 
         $.ajax({
@@ -225,17 +225,31 @@ const LocarnoStore = Reflux.createStore({
             contentType: 'application/json',        //不可缺参数
             processData: false,                     //不可缺参数
             dataType:"json",
-            beforeSend: function (xhr) {
-                //xhr.setRequestHeader("Authorization",token);
-            },
+            beforeSend: function (xhr) {},
             success: function (data,status) {
-                self.trigger("getResult",data)
+                self.trigger("getResultImages",data)
             },
-            error: function (reason) {
-                console.log(reason);
-            }
+            error: function (reason) {console.log(reason);}
         });
+    },
+    onGetResultPatents:function(param){
+        let url = Config.base + "/api/locarno/result/patents";
+        let self = this;
 
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify(param),
+            cache: false,
+            contentType: 'application/json',        //不可缺参数
+            processData: false,                     //不可缺参数
+            dataType:"json",
+            beforeSend: function (xhr) {},
+            success: function (data,status) {
+                self.trigger("getResultPatents",data.data)
+            },
+            error: function (reason) {console.log(reason);}
+        });
     },
 
     onGetZoneResult: function(jobid,patent_type,feature_type,page) {

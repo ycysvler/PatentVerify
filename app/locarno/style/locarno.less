@@ -60,9 +60,38 @@
     flex-wrap:wrap;
     background: #fff;
   }
+  .img-layout-patent{
+    overflow-y:auto ;
+    flex-direction:column;
+    flex-grow: 1;
+    display: flex;
+    background: #fff;
+  }
 
+  .patent-imgs{
+    display:flex;
+    flex-wrap:wrap;
+    overflow-x:auto;
+  }
 
+  .img-box-small{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:#fff;
+    height: 50px;
+    width:70px;
+    margin:2px;
+    padding:3px;
+    border: solid 1px #ddd;
+    position: relative;
+    border-radius: 4px;
 
+    img{
+      max-height: 100%;
+      max-width:100%;
+    }
+  }
   .img-box{
     display: flex;
     justify-content: center;

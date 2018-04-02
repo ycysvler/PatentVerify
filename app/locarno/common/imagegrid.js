@@ -26,7 +26,7 @@ export default class ImageGrid extends React.Component {
     }
 
     onStatusChange(action, data) {
-        if (action === "getResult") {
+        if (action === "getResultImages") {
             this.setState({data: data});
         }
         if (action === "contrast") {
@@ -96,7 +96,7 @@ export default class ImageGrid extends React.Component {
             {this.drawItems()}
 
             <Modal
-                width={710}
+                width={840}
                 title="专利详情" footer={null}
                 visible={this.state.visible}
                 onCancel={this.handleCancel}

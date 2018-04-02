@@ -3,6 +3,7 @@ import {Layout, Breadcrumb, Radio, Modal, Divider, Slider} from 'antd';
 import {HashRouter as Router, Redirect, Link, Switch, Route} from 'react-router-dom';
 import ContrastBar from '../contrast/contrastbar';
 import ImageGrid from '../common/imagegrid.js';
+import PatentGrid from '../common/patentgrid.js';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
 
@@ -28,6 +29,7 @@ export default class LocarnoFastDetails extends React.Component {
             collapsed: false,
             data: [],
             visible:false,
+            showtype:'image',
             weight: {"color": 2, "shape": 3, "lbp": 3, "deep": 5}
         };
 
@@ -78,17 +80,28 @@ export default class LocarnoFastDetails extends React.Component {
     }
 
     search = () => {
-        let weight_color = 5 - this.state.weight.color;
-        let weight_shape = 5 - this.state.weight.shape;
-        let weight_lbp = 5 - this.state.weight.lbp;
-        let weight_deep = 5 - this.state.weight.deep;
+        let weight_color = this.state.weight.color;
+        let weight_shape = this.state.weight.shape;
+        let weight_lbp = this.state.weight.lbp;
+        let weight_deep = this.state.weight.deep;
 
-        let param = {
-            "jobid":this.state.jobid,
-            "pager": {"pagesize": 100, "current": 1},
+        let pagetsize = this.state.showtype == 'image' ? 100:10;
+
+            let param = {
+            "jobid":this.state.jobid,"type":this.state.typeid,
+            "pager": {"pagesize":pagetsize, "current": 1},
             "weight": {"color": weight_color, "shape": weight_shape, "lbp": weight_lbp, "deep": weight_deep}
         };
-        LocarnoActions.getResult(param);
+        if(this.state.showtype === 'image')
+            LocarnoActions.getResultImages(param);
+        else
+            LocarnoActions.getResultPatents(param);
+    }
+
+    onChange=(e)=> {
+        this.state.showtype = e.target.value;
+        this.setState({showtype:e.target.value});
+        this.search();
     }
 
     render() {
@@ -109,7 +122,7 @@ export default class LocarnoFastDetails extends React.Component {
                             <b > 视图</b>
                             <RadioGroup size="small" onChange={this.onChange} defaultValue="image" className="margin">
                                 <RadioButton value="image">图像视图</RadioButton>
-                                <RadioButton value="patent">专利试图</RadioButton>
+                                <RadioButton value="patent">专利视图</RadioButton>
                             </RadioGroup>
                             <Divider className="margin" type="vertical" style={{height: 30}}/>
                             <b className="margin">检索权重</b>
@@ -134,7 +147,10 @@ export default class LocarnoFastDetails extends React.Component {
                         <ContrastBar typeid={this.state.typeid} />
                     </div>
                     {/*图片列表控件*/}
-                    <ImageGrid typeid={this.state.typeid} />
+                    {
+                        this.state.showtype == 'image' ? <ImageGrid  typeid={this.state.typeid}/>:<PatentGrid typeid={this.state.typeid} />
+                    }
+
                 </div>
             </Layout>
         </Layout>);
