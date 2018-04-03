@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Checkbox,Table, Modal} from 'antd';
+import {Layout, Popover,Table, Modal} from 'antd';
 import Config from 'config';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
@@ -17,7 +17,9 @@ export default class PatentGrid extends React.Component {
             visible: false,
             contrast: [],
             showIndex: -1,
-            data: []
+            data: [],
+            total:0,
+            expandedRowKeys:[]
         };
     }
 
@@ -28,30 +30,45 @@ export default class PatentGrid extends React.Component {
 
     onStatusChange(action, data) {
         if (action === "getResultPatents") {
-            this.setState({data: data});
+            let expandedRowKeys = [];
+            for(let index in data.datas){
+                let item = data.datas[index];
+                expandedRowKeys.push(item.image);
+            }
+            this.setState({expandedRowKeys:expandedRowKeys,total:data.total,data: data.datas});
         }
         if (action === "contrast") {
             this.setState({contrast: data});
         }
     }
 
+
+
     columns = [{
         title: '产品名称',
         dataIndex: 'ap_name',
         key: 'ap_name',
-        render: text => <a href="#">{text}</a>,
+        render: (text,record) => <a onClick={this.showPatent.bind(this,record.code)} >{text}</a>,
     }, {
         title: '公开号',
         dataIndex: 'pub_num',
         key: 'pub_num'
     }, {
-        title: '分类',
-        dataIndex: 'main_class',
-        key: 'main_class'
+        title: '公开日',
+        dataIndex: 'pub_date',
+        key: 'pub_date'
+    }, {
+        title: '申请号',
+        dataIndex: 'ap_num',
+        key: 'ap_num'
     }, {
         title: '申请日',
         dataIndex: 'ap_date',
         key: 'ap_date'
+    }, {
+        title: '分类',
+        dataIndex: 'main_class',
+        key: 'main_class'
     }, {
         title: '设计人',
         dataIndex: 'designer',
@@ -59,18 +76,26 @@ export default class PatentGrid extends React.Component {
     }];
     expandedRowRender = record => {
         let doms = [];
+        let self = this;
         record.images.map((item,index)=>{
-          doms.push( <div className="img-box-small" key={index} >
+            doms.push(<Popover key={index} content={self.renderOneImage(item.name)}> <div className="img-box-small" key={index} >
               <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.name}/>
-          </div>);
+          </div></Popover>);
         });
         return <div className="patent-imgs">
-            <div className="img-box-small" style={{border:0}} >
+            <Popover  content={self.renderOneImage(record.image)}>
+            <div className="img-box-small" style={{border:0, background:'#1890ff'}} >
                 <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + record.image}/>
-            </div>
+            </div></Popover>
             {doms}
             </div>;
     };
+
+    renderOneImage(name) {
+        return <div>
+            <img alt="" style={{maxWidth:500, maxHeight:500}} src={Config.api + '/api/images/data/' + Config.appid + '/' + name}/>
+        </div>
+    }
 
     onMouseEnter = (key) => (e) => {
         this.setState({showIndex: key});
@@ -94,11 +119,23 @@ export default class PatentGrid extends React.Component {
         });
     }
 
+    onPageChange = (page) => {
+        this.state.current = page;
+        this.props.onPageChange(page);
+    }
+
+    onRowSelection = {
+        onChange: (selectedRowKeys, selectedRows) => {
+            ContrastActions.over(selectedRows);
+        }
+    };
+
     render() {
         return (<div className="img-layout-patent" >
-            <Table rowKey="id" expandedRowRender={this.expandedRowRender}
-                   rowSelection={{}}
-                   Pagination={{ position: 'both' }}
+            <Table rowKey="image" expandedRowRender={this.expandedRowRender}
+                   rowSelection={this.onRowSelection}
+                   expandedRowKeys={this.state.expandedRowKeys}
+                   pagination={{ position:'top',total:this.state.total,pageSize:10,onChange:this.onPageChange}}
                    columns={this.columns} dataSource={this.state.data} />
 
             <Modal

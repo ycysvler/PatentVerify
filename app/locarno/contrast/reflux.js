@@ -5,6 +5,7 @@ import Reflux from 'reflux';
 import Config from 'config';
 const ContrastActions = Reflux.createActions([
     'add',
+    'over',
     'remove',
     'removeByIndex',
     'clear'
@@ -16,7 +17,12 @@ const ContrastStore = Reflux.createStore({
     items: [],
 
     onAdd:function(image) {
+        console.log(image);
         this.items.push(image);
+        this.trigger("contrast", this.items);
+    },
+    onOver:function (images) {
+        this.items = images;
         this.trigger("contrast", this.items);
     },
     onClear:function(){

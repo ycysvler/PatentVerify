@@ -16,30 +16,35 @@ module.exports = function (router) {
     // PaaS -> 查询结果
     router.post('/locarno/result/images', (req, res, next) => {
         let dal = new LocarnoDAL();
-        dal.getResultImage(req.body, function (results) {
-            res.send({code: 200, data: results});
+        dal.getResultCount(req.body.jobid, function (count) {
+            dal.getResultImage(req.body, function (results) {
+                res.send({code: 200,data:{total:count, datas: results}});
+            });
         });
+
     });
     router.post('/locarno/result/patents', (req, res, next) => {
         let dal = new LocarnoDAL();
-        dal.getResultPatent(req.body, function (results) {
+        dal.getResultCount(req.body.jobid, function (count) {
+            dal.getResultPatent(req.body, function (results) {
 
-            async.map(results,
-                (item,callback)=>{
+                async.map(results,
+                    (item,callback)=>{
 
-                    LocarnoImage.find({'ap_num': item.code}, {_id:0,name:1}, function (err, images) {
-                        if (!err) {
-                            item.images = images;
-                            callback(null, item);
-                        } else {
-                            callback(err.toString(),null );
-                        }
-                    })
+                        LocarnoImage.find({'ap_num': item.code}, {_id:0,name:1}, function (err, images) {
+                            if (!err) {
+                                item.images = images;
+                                callback(null, item);
+                            } else {
+                                callback(err.toString(),null );
+                            }
+                        })
 
-                },
-                (err,datas)=>{
-                    res.send({code: 200, data: datas});
-                });
+                    },
+                    (err,datas)=>{
+                        res.send({code: 200, data:{total:count, datas: datas}});
+                    });
+            });
         });
     });
 

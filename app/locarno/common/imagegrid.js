@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Checkbox,Modal} from 'antd';
+import {Pagination, Checkbox, Modal} from 'antd';
 import Config from 'config';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
@@ -14,12 +14,13 @@ export default class ImageGrid extends React.Component {
         this.unsubscribe_contrast = ContrastStore.listen(this.onStatusChange.bind(this));
 
         this.state = {
-            visible:false,
+            visible: false,
             contrast: [],
             showIndex: -1,
             data: []
         };
     }
+
     componentWillUnmount() {
         this.unsubscribe_locarno();
         this.unsubscribe_contrast();
@@ -27,7 +28,7 @@ export default class ImageGrid extends React.Component {
 
     onStatusChange(action, data) {
         if (action === "getResultImages") {
-            this.setState({data: data});
+            this.setState({data: data.datas, total: data.total});
         }
         if (action === "contrast") {
             this.setState({contrast: data});
@@ -56,22 +57,23 @@ export default class ImageGrid extends React.Component {
         }
     }
 
-    showPatent=(ap_num)=>{
-        this.setState({ap_num:ap_num, typeid:this.props.typeid,visible:true});
+    showPatent = (ap_num) => {
+        this.setState({ap_num: ap_num, typeid: this.props.typeid, visible: true});
     }
 
     drawItems = () => {
         let doms = [];
 
         let self = this;
-        for (let index in this.state.data.data) {
-            let item = this.state.data.data[index];
+        for (let index in this.state.data) {
+            let item = this.state.data[index];
             let checked = self.isSelected(item.image);
             let border = checked ? "img-box selected" : "img-box";
             let dy = this.state.showIndex == index ? 'block' : 'none';
 
             doms.push(<div className={border} key={item.image + '_' + index} onMouseEnter={self.onMouseEnter(index)}>
-                <img onClick={self.showPatent.bind(self, item.code)} src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image}/>
+                <img onClick={self.showPatent.bind(self, item.code)}
+                     src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image}/>
 
                 <div className="img-check" style={{display: dy}}>
                     <Checkbox
@@ -91,18 +93,24 @@ export default class ImageGrid extends React.Component {
         });
     }
 
-    render() {
-        return (<div className="img-layout">
-            {this.drawItems()}
+    onPageChange = (page) => {
+        this.state.current = page;
+        this.props.onPageChange(page);
+    }
 
-            <Modal
-                width={840}
-                title="专利详情" footer={null}
-                visible={this.state.visible}
-                onCancel={this.handleCancel}
-            >
-                <Patent ap_num={this.state.ap_num} typeid={this.props.typeid} />
-            </Modal>
-        </div>);
+    render() {
+        return (
+            <div className="img-root">
+                <div className="img-layout">
+                    {this.drawItems()}
+
+                    <Modal width={840} title="专利详情" footer={null}
+                           visible={this.state.visible} onCancel={this.handleCancel}
+                    >
+                        <Patent ap_num={this.state.ap_num} typeid={this.props.typeid}/>
+                    </Modal>
+                </div>
+                <div className="pager"><Pagination total={this.state.total} onChange={this.onPageChange}/></div>
+            </div>);
     }
 }
