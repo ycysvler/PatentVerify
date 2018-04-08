@@ -99,6 +99,7 @@ export default class ImageGrid extends React.Component {
     }
 
     render() {
+        console.log('this.state.total',this.state.total);
         return (
             <div className="img-root">
                 <div className="img-layout">
@@ -110,7 +111,7 @@ export default class ImageGrid extends React.Component {
                         <Patent ap_num={this.state.ap_num} typeid={this.props.typeid}/>
                     </Modal>
                 </div>
-                <div className="pager"><Pagination total={this.state.total} onChange={this.onPageChange}/></div>
+                <div className="pager"><Pagination total={this.state.total} pageSize={60} onChange={this.onPageChange}/></div>
             </div>);
     }
 }

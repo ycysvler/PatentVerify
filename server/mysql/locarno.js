@@ -13,6 +13,7 @@ module.exports = class LocarnoDAL {
         let lbp = body.weight.lbp;
         let deep = body.weight.deep;
         let table = 'd_ap_' + body.type.replace("-","");
+        table = 'd_ap_0701';
         let jobid = body.jobid;
 
         let sql = `select t.image,t.code, (t.shape * ? + t.color * ? + t.lbp * ? + t.deep * ?) as score from
@@ -53,6 +54,7 @@ module.exports = class LocarnoDAL {
         let lbp = body.weight.lbp;
         let deep = body.weight.deep;
         let table = 'd_ap_' + body.type.replace("-","");
+        table = 'd_ap_0701';
         let jobid = body.jobid;
 
         let sql = `select img.image, img.code, img.score,p.ap_num,p.pub_date, p.ap_name,p.ap_date,p.db_type, p.main_class, p.sub_class,p.pub_num,p.pa_name,p.designer,p.agent_name from `

@@ -228,7 +228,6 @@ const LocarnoStore = Reflux.createStore({
             beforeSend: function (xhr) {},
             success: function (data,status) {
                 self.trigger("getResultImages",data.data);
-
             },
             error: function (reason) {console.log(reason);}
         });

@@ -14,7 +14,7 @@ import LocarnoFastDetails from './fast_v2/detail.js';
 
 import LocarnoSeniorList from '../locarno/senior/list.js';
 import LocarnoSeniorCreate from '../locarno/senior/create.js';
-import LocarnoSeniorDetails from '../locarno/senior/details.js';
+import LocarnoSeniorDetails from '../locarno/senior_v2/detail.js';
 
 import LocarnoZoneList from '../locarno/zone/list.js';
 import LocarnoZoneCreate from '../locarno/zone/create.js';
