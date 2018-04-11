@@ -12,8 +12,10 @@ module.exports = class LocarnoDAL {
         let color = body.weight.color;
         let lbp = body.weight.lbp;
         let deep = body.weight.deep;
-        let table = 'd_ap_' + body.type.replace("-","");
-        table = 'd_ap_0701';
+
+        let type = body.type === '07-01(10)' ? '07-01' : body.type;
+        let table = 'd_ap_' + type.replace("-","");
+
         let jobid = body.jobid;
 
         let sql = `select t.image,t.code, (t.shape * ? + t.color * ? + t.lbp * ? + t.deep * ?) as score from
@@ -53,8 +55,9 @@ module.exports = class LocarnoDAL {
         let color = body.weight.color;
         let lbp = body.weight.lbp;
         let deep = body.weight.deep;
-        let table = 'd_ap_' + body.type.replace("-","");
-        table = 'd_ap_0701';
+        let type = body.type === '07-01(10)' ? '07-01' : body.type;
+        let table = 'd_ap_' + type.replace("-","");
+
         let jobid = body.jobid;
 
         let sql = `select img.image, img.code, img.score,p.ap_num,p.pub_date, p.ap_name,p.ap_date,p.db_type, p.main_class, p.sub_class,p.pub_num,p.pa_name,p.designer,p.agent_name from `
@@ -99,4 +102,24 @@ module.exports = class LocarnoDAL {
             }
         }.bind(this));
     }
+
+    getJob(userid,jobtype, pagesize, current, callback){
+        let sql = `SELECT * FROM locarno_job WHERE userid=? and jobtype=? limit ?,?`;
+        pool.query(sql, [userid,jobtype,(current-1)*pagesize,pagesize], function (error, results, fields) {
+            if (error) {
+                console.error('error query: ' + error.stack);
+                callback(500);
+            } else {
+                if(results.length > 0)
+                    for(let i in results){
+                    let item = results[i];
+                        item.typeids = JSON.parse(item.typeids);
+                        item.typenames = JSON.parse(item.typenames);
+                        item.images = JSON.parse(item.images);
+                }
+                    callback(results);
+            }
+        }.bind(this));
+    }
+
 }

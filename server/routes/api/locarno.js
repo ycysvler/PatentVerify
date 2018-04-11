@@ -18,7 +18,7 @@ module.exports = function (router) {
         let dal = new LocarnoDAL();
         dal.getResultCount(req.body.jobid, function (count) {
             dal.getResultImage(req.body, function (results) {
-                res.send({code: 200,data:{total:count, datas: results}});
+                res.send({code: 200, data: {total: count, datas: results}});
             });
         });
 
@@ -29,40 +29,39 @@ module.exports = function (router) {
             dal.getResultPatent(req.body, function (results) {
 
                 async.map(results,
-                    (item,callback)=>{
+                    (item, callback) => {
 
-                        LocarnoImage.find({'ap_num': item.code}, {_id:0,name:1}, function (err, images) {
+                        LocarnoImage.find({'ap_num': item.code}, {_id: 0, name: 1}, function (err, images) {
                             if (!err) {
                                 item.images = images;
                                 callback(null, item);
                             } else {
-                                callback(err.toString(),null );
+                                callback(err.toString(), null);
                             }
                         })
 
                     },
-                    (err,datas)=>{
-                        res.send({code: 200, data:{total:count, datas: datas}});
+                    (err, datas) => {
+                        res.send({code: 200, data: {total: count, datas: datas}});
                     });
             });
         });
     });
-
     router.get('/locarno/patent/:code/type/:type', (req, res, next) => {
         let dal = new LocarnoDAL();
         let code = req.params.code;
         let type = req.params.type;
 
-        let table = 'd_ap_' + type.replace("-","");
+        type = type === '07-01(10)' ? '07-01' : type;
 
-        table = 'd_ap_0701';
+        let table = 'd_ap_' + type.replace("-", "");
 
         dal.getPatent(table, code, function (results) {
             let result = {code: 200, data: results};
             LocarnoImage.find({'ap_num': code}, "name", function (err, items) {
                 if (!err) {
                     let images = [];
-                    for(let index in items){
+                    for (let index in items) {
                         let item = items[index];
                         images.push(item);
                     }
@@ -74,4 +73,19 @@ module.exports = function (router) {
             })
         });
     });
+
+    // 获取任务列表
+    router.get('/locarno/job', (req, res, next) => {
+        let dal = new LocarnoDAL();
+        let userid = req.query.userid;
+        let jobtype = req.query.jobtype;
+        let pagesize = req.query.pagesize ? req.query.pagesize:999;
+        let current = req.query.current ? req.query.current:1 ;
+
+        dal.getJob(userid,jobtype,pagesize, current, function (results) {
+            let result = {code: 200, data: results};
+            res.send(result);
+        });
+    });
+
 }
