@@ -122,4 +122,20 @@ module.exports = class LocarnoDAL {
         }.bind(this));
     }
 
+    createJob(body, callback){
+        body.typeids = JSON.stringify(body.typeids);
+        body.typenames = JSON.stringify(body.typenames);
+        body.images = JSON.stringify(body.images);
+        let sql = `INSERT into locarno_job SET ?`;
+
+        pool.query(sql,body, function (error, results, fields) {
+            if (error) {
+                console.error('error query: ' + error.stack);
+                callback(500,error);
+            } else {
+                callback(200,results);
+            }
+        }.bind(this));
+    }
+
 }

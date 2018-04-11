@@ -3,10 +3,11 @@ let fs = require('fs');
 let mysql = require('mysql');
 let async = require('async');
 let request = require('request');
+let moment = require('moment');
 let getMongoPool = require('../../mongo/pool');
 let rediscfg = require('../../config/redis');
 let LocarnoDAL = require('../../mysql/locarno');
-
+let CloudAs = require('../../cloud/cloudas');
 let pub = new Redis(rediscfg);
 
 let LocarnoImage = getMongoPool().LocarnoImage;
@@ -85,6 +86,24 @@ module.exports = function (router) {
         dal.getJob(userid,jobtype,pagesize, current, function (results) {
             let result = {code: 200, data: results};
             res.send(result);
+        });
+    });
+
+    router.post('/locarno/create', (req, res, next)=>{
+        let as = new CloudAs();
+        let dal = new LocarnoDAL();
+
+        as.locarnoSearch(req.body, function(code, data){
+            if(code === 200){
+                let id = data.id;
+                let body = req.body;
+                body.jobid = id;
+                body.create_time = new moment().format('YYYY-mm-DD HH:mm:ss');
+                dal.createJob(body, (code, results)=>{
+                    res.send(200);
+                });
+
+            }
         });
     });
 

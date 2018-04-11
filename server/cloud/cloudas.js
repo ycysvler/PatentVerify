@@ -7,28 +7,32 @@ let service = require('../config/service');
 module.exports  = class CloudAs{
     constructor(){}
 
-    search(){
-        console.log(service.url);
+    locarnoSearch(params, callback){
+        let body = {"name":params.jobname,
+            "jobtype":params.jobtype,
+            "imagetypes":params.typeids,
+            "images":params.images,
+            "featuretypes":["shape","deep","lbp","color"]
+        };
 
         let options = {
             method: 'post',
             url: service.url + '/api/search',
             json: true,
             headers: {
+                "appid":service.appid,
                 "content-type": "application/json",
             },
-            body: JSON.stringify({})
+            body:body
         };
 
         request(options, function (err, res, body) {
             if (err) {
-                console.log(err)
+                callback(500, err);
             }else {
-                console.log(body);
+                callback(200, body);
             }
         })
     }
-
-
 }
 
