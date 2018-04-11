@@ -128,6 +128,8 @@ module.exports = class LocarnoDAL {
         body.images = JSON.stringify(body.images);
         let sql = `INSERT into locarno_job SET ?`;
 
+        console.log('createJob', sql, body);
+
         pool.query(sql,body, function (error, results, fields) {
             if (error) {
                 console.error('error query: ' + error.stack);
@@ -138,4 +140,19 @@ module.exports = class LocarnoDAL {
         }.bind(this));
     }
 
+    removeJobs(ids, callback){
+        ids ="'" + ids.join("','") + "'";
+        let sql = `delete from locarno_job where jobid in( `+ ids +` )`;
+
+        console.log('removeJobs', sql);
+
+        pool.query(sql,null, function (error, results, fields) {
+            if (error) {
+                console.error('error query: ' + error.stack);
+                callback(500,error);
+            } else {
+                callback(200,results);
+            }
+        }.bind(this));
+    }
 }

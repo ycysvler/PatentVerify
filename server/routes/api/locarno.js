@@ -89,21 +89,29 @@ module.exports = function (router) {
         });
     });
 
+    // 创建查询任务
     router.post('/locarno/create', (req, res, next)=>{
         let as = new CloudAs();
         let dal = new LocarnoDAL();
+        let body = req.body;
 
         as.locarnoSearch(req.body, function(code, data){
             if(code === 200){
                 let id = data.id;
-                let body = req.body;
+
                 body.jobid = id;
                 body.create_time = new moment().format('YYYY-mm-DD HH:mm:ss');
                 dal.createJob(body, (code, results)=>{
-                    res.send(200);
+                    res.send({code: 200});
                 });
-
             }
+        });
+    });
+
+    router.delete('/locarno/job',(req,res,next)=>{
+        let dal = new LocarnoDAL();
+        dal.removeJobs(req.body, (code, data)=>{
+            res.send({code: 200});
         });
     });
 
