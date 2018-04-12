@@ -99,14 +99,15 @@ class LocarnoCreate extends React.Component {
         let images = [];
         for(let i =0;i<this.state.uploadImageList.length;i++){
             let item = this.state.uploadImageList[i];
-            images.push(item.image);
+            images.push(item);
         }
         LocarnoActions.create(this.state.description, this.state.typeIds, this.state.typeNames, images,this.state.jobType);
     }
 
-    renderOneImage(url) {
+    renderOneImage(image) {
         return <div>
-            <img alt="" style={{maxWidth: 500, maxHeight: 500}} src={Config.url + "/image.ashx?name=" + url}/>
+            <img alt="" style={{maxWidth: 500, maxHeight: 500}}
+                 src={Config.api + '/api/images/data/' + Config.appid + '/' + image} />
         </div>
     }
 
@@ -140,8 +141,7 @@ class LocarnoCreate extends React.Component {
                                 <span>选择分类：</span>
                             </Col>
                             <Col span="8">
-                                <TreeSelect multiple
-                                            treeCheckable
+                                <TreeSelect treeCheckable
                                             value={this.state.typeIds}
                                             treeData={this.state.typeList}
                                             showCheckedStrategy={this.show_parent}
@@ -160,14 +160,14 @@ class LocarnoCreate extends React.Component {
                             <Col span="18">
                                 {
                                     self.state.uploadImageList.map(function (item) {
-                                        let image = item.image;
+                                        let image = item;
                                         return <div key={image}
                                                     style={{height: 50, width: 50, marginRight: 8, float: 'left'}}>
                                             <Popover content={self.renderOneImage(image)}>
                                                 <div style={{position:'relative'}}>
 
                                                 <img alt="" onClick={self.remove.bind(self, item)} style={{maxWidth: "50px", maxHeight: "50px",cursor:"pointer"}}
-                                                     src={Config.url + "/image.ashx?name=" + image}/>
+                                                     src={Config.api + '/api/images/data/' + Config.appid + '/' + image} />
                                                     <Icon type="close-circle" style={{position:'absolute',right:'0px',top:'0px'}} />
 
                                                 </div></Popover></div>

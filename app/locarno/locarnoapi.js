@@ -25,6 +25,7 @@ const LocarnoStore = Reflux.createStore({
     onUploadImage:function(data) {
         let self = this;
         let url = Config.url + "/uploadimages.ashx?username=" + IndexStore.currentUser.username;
+        url = Config.api + "/api/search/images";
 
         $.ajax({
             url: url,
@@ -34,10 +35,11 @@ const LocarnoStore = Reflux.createStore({
             contentType: false,        //不可缺参数
             processData: false,        //不可缺参数
             beforeSend: function (xhr) {
-                //xhr.setRequestHeader("Authorization",token);
+                xhr.setRequestHeader("appid",Config.appid);
             },
             success: function (result) {
-                self.trigger("uploadImage", result.data);
+                console.log(result);
+                self.trigger("uploadImage", result.name);
             },
             error: function (msg) {
                 console.log("上传失败！");
@@ -66,6 +68,29 @@ const LocarnoStore = Reflux.createStore({
         });
     },
 
+    // v2.1, 获取类型树
+    onGetAllType: function() {
+        let url = Config.base + "/api/locarno/nodes";
+        let self = this;
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: "json",
+            beforeSend: function (xhr) {
+                //xhr.setRequestHeader("Authorization",token);
+            },
+            success: function (data, status) {
+                if(data.code === 200) {
+                    self.trigger('getAllType', data.data);
+                }
+            },
+            error: function (reason) {
+                console.log(reason);
+            }
+        });
+    },
+
+    // v2.1, 删除任务
     onRemove:function(data,token) {
         let url = Config.base + "/api/locarno/job";
 
@@ -88,28 +113,6 @@ const LocarnoStore = Reflux.createStore({
             },
             error: function (msg) {
                 console.log("删除失败！");
-            }
-        });
-    },
-
-
-    onGetAllType: function() {
-        let url = Config.url + "/locarno/type/nodes.ashx?parentid=0";
-        let self = this;
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: "json",
-            beforeSend: function (xhr) {
-                //xhr.setRequestHeader("Authorization",token);
-            },
-            success: function (data, status) {
-                if(data.code === 200) {
-                    self.trigger('getAllType', data.data);
-                }
-            },
-            error: function (reason) {
-                console.log(reason);
             }
         });
     },
