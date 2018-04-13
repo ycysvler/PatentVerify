@@ -73,7 +73,6 @@ class LocarnoJobList extends React.Component {
     }
 
     goToCreateNewSearch=()=> {
-        console.log(this.props.history);
         this.props.history.push("/main/locarno/"+this.state.jobTypeText+"/create");
     }
 

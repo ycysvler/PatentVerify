@@ -50,8 +50,15 @@ export default class Main extends React.Component {
     onStatusChange=(action, result)=> {
         // 判断一下action,当同一个Store多个不同的方法发出trigger时好区分是谁发的
         if (action === 'getIndexes') {
-            this.setState({indexList: result.data});
-            this.setState({leftIndex: this.getTopMenuChildren(result.data, this.getUrl())});
+            this.setState({indexList: result.data,leftIndex: this.getTopMenuChildren(result.data, this.getUrl())});
+        }
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        if (!_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -64,6 +71,7 @@ export default class Main extends React.Component {
         }
     }
     render=()=> {
+        console.log('main');
         let index_list = this.state.indexList;
         return (
             <Layout className="main-root">

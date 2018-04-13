@@ -2,7 +2,7 @@ import React from 'react';
 import {Layout, Menu, Button} from 'antd';
 import {IndexActions, IndexStore} from './api.js';
 import {HashRouter as Router,Redirect,Link, Switch, Route} from 'react-router-dom';
-
+import 'lodash';
 
 import NotFound from './notfound';
 const {SubMenu} = Menu;

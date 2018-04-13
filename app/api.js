@@ -15,8 +15,7 @@ const IndexStore = Reflux.createStore({
     currentUser:{"userid":"4dd3562851d641b09f78e074d672a221","username":"admin","password":"","cname":"管理员","icon":"/upload/admin/4dd3562851d641b09f78e074d672a221.png","token":"6414fcda6e9f40479fc1b16c2c45ddac"},
 
     onGetIndexes: function() {
-        let url = Config.url + "/systems/menus.ashx?";
-        url = Config.base + '/api/system/menu'
+        let url = Config.base + '/api/system/menu'
         let param = {};
         let self = this;
 

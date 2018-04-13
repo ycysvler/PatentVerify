@@ -61,7 +61,7 @@ const LocarnoStore = Reflux.createStore({
             },
             success: function (result) {
                 console.log(result);
-                self.trigger("uploadImage", result.name);
+                self.trigger("uploadImage", result);
             },
             error: function (msg) {
                 console.log("上传失败！");
@@ -164,6 +164,8 @@ const LocarnoStore = Reflux.createStore({
             "typenames":type_names,
             "images":images
         };
+
+        console.log("locarno > create ", param, url);
 
         $.ajax({
             url: url,

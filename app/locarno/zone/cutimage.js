@@ -12,7 +12,7 @@ export default class CutImage extends React.Component {
         // 注册上传图片的回调方法
         this.unsubscribe = LocarnoStore.listen(this.onStatusChange.bind(this));
 
-        this.state = {visible: false, uploading: false, uploadImageList: [], imageState: false};
+        this.state = {visible: false, uploading: false, uploadImage:{}, imageState: false};
 
         window.onmousemove = this.onMouseMove;
         window.onmouseup = this.onMouseUp;
@@ -27,11 +27,10 @@ export default class CutImage extends React.Component {
 
     onStatusChange = (type, data) => {
         if (type === "uploadImage") {
-            this.setState({uploadImageList: data, imageState: true, uploading: false});
+            this.setState({uploadImage: data.name, colour:data.colour, imageState: true, uploading: false});
         }else if(type === "cutImage"){
             this.setState({visible: false,uploading:false});
-
-            this.props.addImage(this.state.uploadImageList[0]);
+            this.props.addImage(this.state.uploadImage);
         }
     }
 
@@ -112,15 +111,14 @@ export default class CutImage extends React.Component {
         this.setState({visible: true,});
     }
     handleOk = (e) => {
-        let name = this.state.uploadImageList[0].image;
-        let colour = this.state.uploadImageList[0].colour;
+        let name = this.state.uploadImage;
+        let colour = this.state.colour;
         let rect = [
             parseInt(this.refs.drag.style.left),
             parseInt(this.refs.drag.style.top),
             parseInt(this.refs.drag.style.width),
             parseInt(this.refs.drag.style.height)
         ];
-        console.log('rect', rect);
         LocarnoActions.cutImage(name, colour, rect);
         this.setState({visible: false,});
     }
@@ -149,12 +147,9 @@ export default class CutImage extends React.Component {
     getBackgroundImage = () => {
         let result = "";
         if (this.state.imageState) {
-            let imageInfo = this.state.uploadImageList[0];
-            if (imageInfo.colour == 0) {
-                result = Config.url + "/image.ashx?type=color&name=" + imageInfo.image;
-            } else {
-                result = Config.url + "/image.ashx?type=shape&name=" + imageInfo.image;
-            }
+            let imageInfo = this.state.uploadImage;
+            let type = this.state.colour === 0 ? '?type=color':'?type=shape';
+            result = Config.api + "/api/images/data/" + Config.appid + "/"+ imageInfo +type;
         }
         return result;
     }
@@ -170,7 +165,7 @@ export default class CutImage extends React.Component {
                 }}></Button>
                 <input ref="inputfile" type="file" accept="" onChange={this.inputChange}
                        style={{display: "none"}}/>
-                <Modal width="350" title="编辑图片" visible={this.state.visible}
+                <Modal width={350} title="编辑图片" visible={this.state.visible}
                        onCancel={this.handleCancel}
                        footer={[
                            this.state.uploading ? <Spin key="spin" style={{float: 'left', margin: 5}}/> : null,

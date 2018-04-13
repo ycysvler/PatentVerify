@@ -25,13 +25,17 @@ export default class Locarno extends React.Component {
         super(props);
         this.unsubscribe = IndexStore.listen(this.onStatusChange.bind(this));
         this.state ={"indexList": [], "leftIndex": [],topMenuKey:"02","leftMenuKey":this.getMenuKey()};
-
-        IndexActions.getIndexes();
     }
     componentWillUnmount() {
         this.unsubscribe();
     }
-
+    shouldComponentUpdate(nextProps, nextState){
+        if (!_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     getTopMenuChildren=(data)=>{
         var self = this;
@@ -59,6 +63,7 @@ export default class Locarno extends React.Component {
     }
 
     render=()=> {
+        console.log('locarno main');
         let lIndexs = this.state.leftIndex;
         return (
             <Layout >

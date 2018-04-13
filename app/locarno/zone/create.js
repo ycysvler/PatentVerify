@@ -7,6 +7,7 @@ import {Layout, Breadcrumb, Popover, Button, Row, Col, Input, TreeSelect, Icon, 
 import {LocarnoActions, LocarnoStore} from '../locarnoapi';
 import CutImage from './cutimage';
 import $ from 'jquery';
+import Config from 'config';
 const {Content} = Layout;
 const Step = Steps.Step;
 
@@ -45,8 +46,18 @@ class LocarnoZoneCreate extends React.Component {
             this.treeData = data;
             this.setState({typeList: data});
         } else if (type === "create") {
-            console.log(this.props);
             this.goToHistorySearch();
+        }
+    }
+
+    componentWillReceiveProps=(newProps) =>{
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        if (!_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState)) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -57,7 +68,6 @@ class LocarnoZoneCreate extends React.Component {
     inputChange() {
         let self = this;
         let data = new FormData();
-
 
         var filenames = [];
         $.each(self.refs.inputfile.files, function (i, file) {
@@ -78,6 +88,7 @@ class LocarnoZoneCreate extends React.Component {
     }
 
     setDescribeState(e) {
+
         if (e.target.value === "") {
             this.setState({describeState: false});
         } else {
@@ -86,6 +97,7 @@ class LocarnoZoneCreate extends React.Component {
     }
 
     setTypeState(value, label) {
+
         window.localStorage["typeIds"] = value;
         if (label.length > 0) {
             this.setState({typeState: true, typeIds: value, typeNames: value});
@@ -98,7 +110,7 @@ class LocarnoZoneCreate extends React.Component {
         let images = [];
         for(let i =0;i<this.state.uploadImageList.length;i++){
             let item = this.state.uploadImageList[i];
-            images.push(item.image);
+            images.push(item);
         }
         LocarnoActions.create(this.state.description, this.state.typeIds, this.state.typeNames, images, 2);
     }
@@ -106,7 +118,8 @@ class LocarnoZoneCreate extends React.Component {
     renderOneImage(url) {
         return <div>
             <img alt="" style={{maxWidth: 500, maxHeight: 500}}
-                 src={Config.url + "/image.ashx?name=" + url + "&radom=" + Math.random()}/>
+                 src={Config.api + '/api/images/data/' + Config.appid + '/' +url+"?radom=" + Math.random()}
+                  />
         </div>
     }
 
@@ -130,7 +143,7 @@ class LocarnoZoneCreate extends React.Component {
     render() {
         let self = this;
         let canSearch = self.state.describeState && self.state.typeState && self.state.imageState;
-
+        console.log('zone create');
         return (
 
             <Layout >
@@ -181,8 +194,9 @@ class LocarnoZoneCreate extends React.Component {
                                 <Col span="18">
                                     {
 
+
                                         self.state.uploadImageList.map(function (item) {
-                                            let image = item.image;
+                                            let image = item;
                                             return <div key={image}
                                                         style={{height: 50, width: 50, marginRight: 8, float: 'left'}}>
                                                 <Popover content={self.renderOneImage(image)}>
@@ -193,7 +207,7 @@ class LocarnoZoneCreate extends React.Component {
                                                             maxHeight: "50px",
                                                             cursor: "pointer"
                                                         }}
-                                                             src={Config.url + "/image.ashx?name=" + image + "&radom=" + Math.random()}/>
+                                                             src={Config.api + '/api/images/data/' + Config.appid + '/' +image+"?radom=" + Math.random()}/>
                                                         <Icon type="close-circle"
                                                               style={{position: 'absolute', right: '0px', top: '0px'}}/>
 

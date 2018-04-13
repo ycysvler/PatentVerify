@@ -39,7 +39,7 @@ class AttachedCreate extends React.Component {
     onStatusChange(type, data) {
         if (type === "uploadImage") {
             var uploadImageList = this.state.uploadImageList;
-            this.setState({uploadImageList: uploadImageList.concat(data.data), imageState: true});
+            this.setState({uploadImageList: uploadImageList.concat(data.name), imageState: true});
         } else if (type === "getAllType") {
             this.treeData = data;
             this.setState({typeList: data});
