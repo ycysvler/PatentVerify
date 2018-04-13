@@ -16,6 +16,7 @@ const IndexStore = Reflux.createStore({
 
     onGetIndexes: function() {
         let url = Config.url + "/systems/menus.ashx?";
+        url = Config.base + '/api/system/menu'
         let param = {};
         let self = this;
 
