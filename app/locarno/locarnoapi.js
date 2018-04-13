@@ -22,30 +22,6 @@ const LocarnoActions = Reflux.createActions([
 const LocarnoStore = Reflux.createStore({
     listenables:[LocarnoActions],
 
-    onUploadImage:function(data) {
-        let self = this;
-        let url = Config.url + "/uploadimages.ashx?username=" + IndexStore.currentUser.username;
-        url = Config.api + "/api/search/images";
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: data,dataType: "json",
-            cache: false,
-            contentType: false,        //不可缺参数
-            processData: false,        //不可缺参数
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader("appid",Config.appid);
-            },
-            success: function (result) {
-                console.log(result);
-                self.trigger("uploadImage", result.name);
-            },
-            error: function (msg) {
-                console.log("上传失败！");
-            }
-        });
-    },
     onCutImage:function(name, colour, rect){
         let self = this;
         let url = Config.url + "/cutimage.ashx?";
@@ -61,6 +37,31 @@ const LocarnoStore = Reflux.createStore({
             },
             success: function (result) {
                 self.trigger("cutImage", result.data);
+            },
+            error: function (msg) {
+                console.log("上传失败！");
+            }
+        });
+    },
+
+    // v2.1, 切换，直接上传图片到cloud as
+    onUploadImage:function(data) {
+        let self = this;
+        let url = Config.api + "/api/search/images";
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,dataType: "json",
+            cache: false,
+            contentType: false,        //不可缺参数
+            processData: false,        //不可缺参数
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("appid",Config.appid);
+            },
+            success: function (result) {
+                console.log(result);
+                self.trigger("uploadImage", result.name);
             },
             error: function (msg) {
                 console.log("上传失败！");
@@ -141,7 +142,8 @@ const LocarnoStore = Reflux.createStore({
                 }
             },
             error: function (reason) {
-                console.log(reason);
+                console.log('reason status',reason.status);
+
             }
         });
     },

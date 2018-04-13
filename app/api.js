@@ -18,6 +18,9 @@ const IndexStore = Reflux.createStore({
         let url = Config.url + "/systems/menus.ashx?";
         let param = {};
         let self = this;
+
+        console.log('userid', this.currentUser.userid);
+
         param.userid = this.currentUser.userid;
         $.ajax({
             url: url,
@@ -40,6 +43,7 @@ const IndexStore = Reflux.createStore({
     onLogin: function(username,password) {
         let self = this;
         let url = Config.url  + "/systems/login.ashx";
+        url = Config.base + "/api/system/login";
         let param = {
             username: username,
             password: password
@@ -49,10 +53,10 @@ const IndexStore = Reflux.createStore({
             type: 'POST',
             data: param,
             success: function (data, status) {
-                if(JSON.parse(data).code === 200) {
-                    self.currentUser = JSON.parse(data).data;
+                if(data.code === 200) {
+                    self.currentUser = data.data;
                     console.log(data);
-                    self.trigger('signin',JSON.parse(data).data);
+                    self.trigger('signin',data.data);
                 }
             },
             error: function (reson) {

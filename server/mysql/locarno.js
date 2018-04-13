@@ -155,4 +155,16 @@ module.exports = class LocarnoDAL {
             }
         }.bind(this));
     }
+
+    getTypes( callback){
+        let sql = `SELECT * FROM locarno_type`;
+        pool.query(sql,null, function (error, results, fields) {
+            if (error) {
+                console.error('error query: ' + error.stack);
+                callback(500,error);
+            } else {
+                callback(200,results);
+            }
+        }.bind(this));
+    }
 }

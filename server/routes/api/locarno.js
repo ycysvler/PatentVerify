@@ -14,7 +14,35 @@ let LocarnoImage = getMongoPool().LocarnoImage;
 
 module.exports = function (router) {
 
-    // PaaS -> 查询结果
+    // v2.1 , 获取类型树
+    router.get('/locarno/nodes', (req,res,next)=>{
+        let dal = new LocarnoDAL();
+        dal.getTypes( (code, data)=>{
+            // 该写递归了
+            let root = {"value":"0"};
+
+            nodeAdapter(data, root);
+            res.send({code:200, data:root.children});
+        });
+    });
+    nodeAdapter=function(list, node){
+        node.children = [];
+        for(let i in list){
+            let item = list[i];
+            if(item.parentid===node.value){
+                let n = {
+                    "label": item.typeid + ' (' + item.description + ')',
+                    "value":  item.typeid,
+                    "key":  item.typeid,
+                    "rebuilding": false
+                };
+                node.children.push(n);
+                nodeAdapter(list, n);
+            }
+        }
+    }
+
+    // v2.1 , 获取查询结果（图片分组）
     router.post('/locarno/result/images', (req, res, next) => {
         let dal = new LocarnoDAL();
         dal.getResultCount(req.body.jobid, function (count) {
@@ -22,8 +50,9 @@ module.exports = function (router) {
                 res.send({code: 200, data: {total: count, datas: results}});
             });
         });
-
     });
+
+    // v2.1 , 获取查询结果（专利分组）
     router.post('/locarno/result/patents', (req, res, next) => {
         let dal = new LocarnoDAL();
         dal.getResultCount(req.body.jobid, function (count) {
@@ -48,6 +77,8 @@ module.exports = function (router) {
             });
         });
     });
+
+    // v2.1 , 获取专利详情
     router.get('/locarno/patent/:code/type/:type', (req, res, next) => {
         let dal = new LocarnoDAL();
         let code = req.params.code;
@@ -75,7 +106,7 @@ module.exports = function (router) {
         });
     });
 
-    // 获取任务列表
+    // v2.1, 获取任务列表
     router.get('/locarno/job', (req, res, next) => {
         let dal = new LocarnoDAL();
         let userid = req.query.userid;
@@ -89,7 +120,7 @@ module.exports = function (router) {
         });
     });
 
-    // 创建查询任务
+    // v2.1, 创建查询任务
     router.post('/locarno/create', (req, res, next)=>{
         let as = new CloudAs();
         let dal = new LocarnoDAL();
@@ -108,11 +139,11 @@ module.exports = function (router) {
         });
     });
 
+    // v2.1, 删除任务
     router.delete('/locarno/job',(req,res,next)=>{
         let dal = new LocarnoDAL();
         dal.removeJobs(req.body, (code, data)=>{
             res.send({code: 200});
         });
     });
-
 }

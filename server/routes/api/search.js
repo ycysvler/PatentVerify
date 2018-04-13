@@ -17,11 +17,8 @@ module.exports = function (router) {
     // PaaS -> 图片上传
     router.post('/search/images', (req, res, next) => {
         let entid = "";
-
         let Image = getMongoPool(entid).Image;
-
         var form = new multiparty.Form({uploadDir: './public/upload/'});
-
         form.parse(req, function (err, fields, files) {
             var resolvepath;
             var originalFilename;
@@ -31,19 +28,21 @@ module.exports = function (router) {
 
             var  options = {
                 method: 'post',
-                url: u,
+
                 form: content,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             };
 
-            // for (var name in files) {
-            //     let item = files[name][0];
-            //
-            //     resolvepath = path.resolve(item.path);
-            //     originalFilename = item.originalFilename;
-            // }
+            for (var name in files) {
+                 let item = files[name][0];
+
+                 resolvepath = path.resolve(item.path);
+                 originalFilename = item.originalFilename;
+
+                 console.log(name, resolvepath, originalFilename);
+             }
             //
             // let file = path.resolve(resolvepath);
             // fs.readFile(file, function (err, chunk) {
@@ -82,29 +81,5 @@ module.exports = function (router) {
         });
     });
 
-    // PaaS -> 新建查询
-    router.post('/search', (req, res, next) => {
-        var cloud = new CloudAs();
 
-        cloud.search();
-
-
-    });
-    // PaaS -> 查询任务列表
-    router.get('/search', (req, res, next) => {
-
-    });
-    // PaaS -> 查询任务详情
-    router.get('/search/:id', (req, res, next) => {
-
-    });
-    // PaaS -> 查询进度
-    router.get('/search/:id/progress', (req, res, next) => {
-
-    });
-
-    // PaaS -> 查询结果
-    router.get('/search/:id/images', (req, res, next) => {
-
-    });
 }

@@ -7,7 +7,9 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var cors = require('cors');
+var cookieParser = require('cookie-parser');
 var loader = require('./server/loader');
+let authentication = require('./server/connect/authentication');
 
 var app = express();
 app.set('view engine', 'ejs');
@@ -35,7 +37,8 @@ var corsOptionsDelegate = function(req, callback){
 app.use(cors(corsOptionsDelegate));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
-
+app.use(cookieParser());
+app.use(authentication);
 app.use('/api', loader(path.join(__dirname, './server/routes/api'), true));
 
 app.use(express.static(path.join(__dirname, 'public')));
