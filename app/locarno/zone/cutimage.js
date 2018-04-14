@@ -139,8 +139,13 @@ export default class CutImage extends React.Component {
             data.append('upload_file', file);
             filenames.push(file.name);
         }
-        LocarnoActions.uploadImage(data);
-        this.setState({uploading: true});
+
+        console.log('create > cut upload > filenames ', filenames);
+        // 如果选图片取消了，就不上传了
+        if(filenames.length > 0) {
+            LocarnoActions.uploadImage(data);
+            this.setState({uploading: true});
+        }
     }
 
 

@@ -7,7 +7,6 @@ import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
 import {IndexStore} from '../../api.js';
 import ImageList from '../../attached/common/imagelist.js';
 
-
 const {Content} = Layout;
 
 class LocarnoJobList extends React.Component {

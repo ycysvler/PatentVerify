@@ -74,8 +74,10 @@ class LocarnoZoneCreate extends React.Component {
             data.append('upload_file' + i, file);
             filenames.push(file.name);
         });
-
-        LocarnoActions.uploadImage( data);
+        console.log('create > upload > filenames ', filenames);
+        // 如果选图片取消了，就不上传了
+        if(filenames.length > 0)
+            LocarnoActions.uploadImage(data);
     }
 
     checkImage() {
@@ -132,7 +134,6 @@ class LocarnoZoneCreate extends React.Component {
     }
 
     addImage=(item)=>{
-        console.log(item);
         let images = [];
         images.push(item);
         this.setState({uploadImageList:images, imageState:true});
@@ -173,8 +174,8 @@ class LocarnoZoneCreate extends React.Component {
                                     <span>选择分类：</span>
                                 </Col>
                                 <Col span="8">
-                                    <TreeSelect multiple
-                                                treeCheckable
+                                    <TreeSelect
+
                                                 value={this.state.typeIds}
                                                 treeData={this.state.typeList}
                                                 showCheckedStrategy={this.show_parent}
@@ -193,8 +194,6 @@ class LocarnoZoneCreate extends React.Component {
                                 </Col>
                                 <Col span="18">
                                     {
-
-
                                         self.state.uploadImageList.map(function (item) {
                                             let image = item;
                                             return <div key={image}
@@ -215,7 +214,7 @@ class LocarnoZoneCreate extends React.Component {
                                                 </Popover></div>
                                         })
                                     }
-                                    <CutImage addImage={this.addImage} />
+                                    {self.state.uploadImageList.length > 0 ? null:  <CutImage addImage={this.addImage} />}
                                 </Col>
                             </Row>
 

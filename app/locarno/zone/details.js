@@ -1,184 +1,171 @@
-
 import React from 'react';
-import {Layout, Breadcrumb, Radio,Card} from 'antd';
-import {LocarnoActions, LocarnoStore} from '../locarnoapi';
-import ZoneCards from '../common/zonecard.js';
-import GroupCards from '../common/groupcard.js';
-import JobBar from '../common/jobbar';
-import DetailModal from '../../attached/fast/detailModal.js';
+import {Layout, Breadcrumb, Radio, Modal, Divider, Slider} from 'antd';
+import {HashRouter as Router, Redirect, Link, Switch, Route} from 'react-router-dom';
+import ContrastBar from '../contrast/contrastbar';
+import ImageGrid from '../common/imagegrid.js';
+import PatentGrid from '../common/patentgrid.js';
+import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
+import {ContrastActions, ContrastStore} from '../contrast/reflux.js';
 
-import '../../attached/common/css.css';
-
+const {Content, Sider, Header} = Layout;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
-const {Content, Sider, Header} = Layout;
+import '../style/locarno.less';
 
-class LocarnoZoneDetails extends React.Component {
+export default class LocarnoZoneDetails extends React.Component {
     constructor(props) {
         super(props);
-        this.unsubscribe = LocarnoStore.listen(this.onStatusChange.bind(this));
-        this.state = {
-            data: [],
-            searchData: this.props.location.state.searchData,
-            showDetailDialog: false,
-            detailData: {},
-            patent_type: this.props.location.state.searchData.typeids[0],
-            feature_type: 'shape',
-            page: 0
-        };
-        this.getResult(this.props.location.state.searchData.typeids[0], 'shape');
+        this.unsubscribe_locarno = LocarnoStore.listen(this.onStatusChange.bind(this));
+        this.unsubscribe_contrast = ContrastStore.listen(this.onStatusChange.bind(this));
 
+        ContrastActions.clear();
+
+        this.state = {
+            jobid:props.location.jobinfo.jobid,
+            typeid:props.location.jobinfo.typeids[0],
+            contrast: [],
+            showIndex: -1,
+            collapsed: false,
+            data: [],
+            visible:false,
+            showtype:'image',
+            weight: {"color": 2, "shape": 3, "lbp": 3, "deep": 5}
+        };
+
+        this.search(1);
     }
 
     componentWillUnmount() {
-        this.unsubscribe();
+        this.unsubscribe_locarno();
+        this.unsubscribe_contrast();
     }
 
-    onStatusChange(type, data, patent_type, feature_type) {
-        if (type === "getDetail") {
-            this.setState({showDetailDialog: true, detailData: data});
-        }
-        if (type === "getZoneResult") {
-            let temp = this.state.data;
-            let page = this.state.page;
-
-            if (this.state.feature_type === feature_type) {
-                temp = temp.concat(data);
-            } else {
-                temp = data;
-                page = 0;
-            }
-
-            this.setState({data: temp, feature_type: feature_type, page: page});
+    /*
+     * store 触发的事件
+     * */
+    onStatusChange(action, data) {
+        if (action === "contrast") {
+            this.setState({contrast: data});
         }
     }
 
-    hideDetailDialog() {
-        this.setState({showDetailDialog: false});
+    onCollapse = (collapsed) => {
+        this.setState({collapsed});
     }
 
-    getDetail(code,main_class) {
-        LocarnoActions.getDetail(code,main_class);
+    onWeightColorChange = (value) => {
+        let weight = this.state.weight;
+        weight.color = value;
+        this.setState({weight: weight});
+        this.search(1);
+    }
+    onWeightShapeChange = (value) => {
+        let weight = this.state.weight;
+        weight.shape = value;
+        this.setState({weight: weight});
+        this.search(1);
+    }
+    onWeightLbpChange = (value) => {
+        let weight = this.state.weight;
+        weight.lbp = value;
+        this.setState({weight: weight});
+        this.search(1);
+    }
+    onWeightDeepChange = (value) => {
+        let weight = this.state.weight;
+        weight.deep = value;
+        this.setState({weight: weight});
+        this.search(1);
     }
 
+    search = (page) => {
+        let weight_color = this.state.weight.color;
+        let weight_shape = this.state.weight.shape;
+        let weight_lbp = this.state.weight.lbp;
+        let weight_deep = this.state.weight.deep;
 
-    goToHistorySearch() {
-        this.props.router.push("/locarno/zone/list");
+        let pagetsize = this.state.showtype == 'image' ? 60:10;
+
+        let param = {
+            "jobid":this.state.jobid,"type":this.state.typeid,
+            "pager": {"pagesize":pagetsize, "current": page},
+            "weight": {"color": weight_color, "shape": weight_shape, "lbp": weight_lbp, "deep": weight_deep}
+        };
+        if(this.state.showtype === 'image')
+            LocarnoActions.getResultImages(param);
+        else
+            LocarnoActions.getResultPatents(param);
     }
 
-
-    data = [];
-
-    renderDetailModal() {
-        if (this.state.showDetailDialog) {
-            return <DetailModal visible={this.state.showDetailDialog}
-                                detailData={this.state.detailData}
-                                hide={this.hideDetailDialog.bind(this)}
-            ></DetailModal>
-        }
+    /*
+     * 切换视图（图像视图，专利视图）
+     * */
+    onViewChange=(e)=> {
+        this.state.showtype = e.target.value;
+        this.setState({showtype:e.target.value});
+        this.search(1);
     }
-
-    onPatentChange(e) {
-        this.getResult(e.target.value, this.state.feature_type, this.state.page);
-    }
-
-    onFeatureChange(e) {
-        this.getResult(this.state.patent_type, e.target.value, this.state.page);
-    }
-
-    getResult(patent_type, feature_type, page) {
-        LocarnoActions.getZoneResult(
-            this.props.location.state.searchData.jobid,
-            patent_type,
-            feature_type,
-            page
-        );
-    }
-
-    onMore() {
-        let page = this.state.page + 1;
-        this.getResult(this.state.patent_type, this.state.feature_type, page);
-        this.setState({'page': page});
+    /*
+     * 翻页
+     * */
+    onPageChange = (page) => {
+        this.state.current = page;
+        this.search(page);
     }
 
     render() {
         let self = this;
-        self.data = [];
-        self.data.push(self.state.searchData);
-        return (
+
+        return (<Layout className="locarno">
+            <div className="breadcrumb">
+                <Breadcrumb className="bg_white" style={{margin: '11px 0'}}>
+                    <Breadcrumb.Item><Link to='/main/locarno/senior/list'>高级检索</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to='/main/locarno/senior/list'>历史查询</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item>查询结果</Breadcrumb.Item>
+                </Breadcrumb>
+            </div>
             <Layout >
-                {
-                    self.renderDetailModal()
-                }
-                <div className="breadcrumb">
-                    <Breadcrumb style={{margin: '11px 0'}}>
-                        <Breadcrumb.Item>高级查询</Breadcrumb.Item>
-                        <Breadcrumb.Item style={{cursor: "pointer"}}
-                                         onClick={self.goToHistorySearch.bind(self)}>历史查询</Breadcrumb.Item>
-                        <Breadcrumb.Item>查询结果</Breadcrumb.Item>
-                    </Breadcrumb>
+                <div style={{flexDirection: 'column',background:'#fff', flexGrow: 1, display: 'flex'}}>
+                    <div className="breadcrumb locarno_result_toolbar">
+                        <div className="bg_white querybar">
+                            <b > 视图</b>
+                            <RadioGroup size="small" onChange={this.onViewChange} defaultValue="image" className="margin">
+                                <RadioButton value="image">图像视图</RadioButton>
+                                <RadioButton value="patent">专利视图</RadioButton>
+                            </RadioGroup>
+                            {/*<Divider className="margin" type="vertical" style={{height: 30}}/>*/}
+                            {/*<b className="margin">检索权重</b>*/}
+                            {/*颜色*/}
+                            {/*<Slider min={1} max={5} value={this.state.weight.color} onChange={this.onWeightColorChange}*/}
+                            {/*style={{width: 100}}*/}
+                            {/*className="margin"/>*/}
+                            {/*形状*/}
+                            {/*<Slider min={1} max={5} value={this.state.weight.shape} onChange={this.onWeightShapeChange}*/}
+                            {/*style={{width: 100}}*/}
+                            {/*className="margin"/>*/}
+                            {/*纹理*/}
+                            {/*<Slider min={1} max={5} value={this.state.weight.lbp} onChange={this.onWeightLbpChange}*/}
+                            {/*style={{width: 100}}*/}
+                            {/*className="margin"/>*/}
+                            {/*综合*/}
+                            {/*<Slider min={1} max={5} value={this.state.weight.deep} onChange={this.onWeightDeepChange}*/}
+                            {/*style={{width: 100}}*/}
+                            {/*className="margin"/>*/}
+                        </div>
+                        {/*对比*/}
+                        <ContrastBar typeid={this.state.typeid} />
+                    </div>
+                    {/*图片列表控件*/}
+                    {
+                        this.state.showtype == 'image' ? <ImageGrid onPageChange={this.onPageChange} typeid={this.state.typeid}/>:<PatentGrid onPageChange={this.onPageChange} typeid={this.state.typeid} />
+                    }
+
                 </div>
-
-                <Layout>
-                    <Content>
-                        <Layout>
-                            <Header className="bg_white bottom_line"
-                                    style={{position: 'fixed', zIndex: 5, width: '100%'}}>
-                                类别：
-                                <RadioGroup onChange={self.onPatentChange.bind(this)}
-                                            defaultValue={self.state.searchData.typeids[0]}
-                                            style={{marginRight: 24}}>
-                                    {
-                                        self.state.searchData.typeids.map(function (item) {
-                                            return <RadioButton key={item} value={item}>{item}</RadioButton>
-                                        })
-                                    }
-                                </RadioGroup>
-                                特征：
-                                <RadioGroup onChange={self.onFeatureChange.bind(this)} defaultValue="shape">
-                                    <RadioButton className="patent_type_radio" value="shape">形状</RadioButton>
-                                </RadioGroup>
-                            </Header>
-                            <Content className="bg_white" style={{paddingTop: 80}}>
-                                {self.state.data.map(function (item, index) {
-                                    return (self.state.feature_type === 'group' ?
-                                            <GroupCards getdetail={self.getDetail.bind(self)} key={index} index={index}
-                                                        item={item}/> :
-                                            <ZoneCards getdetail={self.getDetail.bind(self)} key={index} index={index}
-                                                         item={item}/>
-                                    )
-                                })}
-                                <Card
-                                    title="more"
-                                    style={{
-                                        cursor: 'pointer',
-                                        width: 390,
-                                        height: 228,
-                                        marginBottom: 20,
-                                        marginLeft: 6,
-                                        overflow: "left",
-                                        float: 'left'
-                                    }}>
-                                    <div className="more_card" onClick={this.onMore.bind(this)}>
-                                        <h1 style={{marginTop: '40px'}}>加载更多......</h1>
-                                    </div>
-
-                                </Card>
-                            </Content>
-                        </Layout>
-                    </Content>
-                    <Sider style={{background: '#404040', zIndex: 6}} width="250">
-                        <JobBar job={this.props.location.state.searchData}></JobBar>
-                    </Sider>
-                </Layout>
-
-
             </Layout>
-        );
+        </Layout>);
     }
 }
 
-export default LocarnoZoneDetails;
 
 

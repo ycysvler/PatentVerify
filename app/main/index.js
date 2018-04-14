@@ -3,6 +3,7 @@ import {Layout, Menu, Button} from 'antd';
 import {IndexActions, IndexStore} from '../api.js';
 import {HashRouter as Router,Link, Switch, Route} from 'react-router-dom';
 import Locarno from '../locarno';
+import Tools from '../tools';
 import NotFound from '../notfound';
 
 import './main.less';
@@ -71,7 +72,6 @@ export default class Main extends React.Component {
         }
     }
     render=()=> {
-        console.log('main');
         let index_list = this.state.indexList;
         return (
             <Layout className="main-root">
@@ -87,7 +87,7 @@ export default class Main extends React.Component {
                                 >
                                     {
                                         index_list.map(function (index) {
-                                            return <Menu.Item key={index.rid}>{index.rname}</Menu.Item>
+                                            return <Menu.Item key={index.rid}><Link to={index.url}/>{index.rname}</Menu.Item>
                                         })
                                     }
                                 </Menu>
@@ -108,6 +108,7 @@ export default class Main extends React.Component {
                         <Switch>
                             {/*外观.快速检索.历史查询*/}
                             <Route path="/main/locarno" component={Locarno}/>
+                            <Route path="/main/tools" component={Tools}/>
 
 
                             <Route component={NotFound}/>

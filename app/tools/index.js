@@ -8,23 +8,13 @@ import NotFound from '../notfound';
 const {SubMenu} = Menu;
 const {Header, Content, Sider} = Layout;
 
-import LocarnoFastList from '../locarno/fast/list.js';
-import LocarnoFastCreate from '../locarno/fast/create.js';
-import LocarnoFastDetails from './fast_v2/detail.js';
+import ImageInfo from './imageinfo/index';
 
-import LocarnoSeniorList from '../locarno/senior/list.js';
-import LocarnoSeniorCreate from '../locarno/senior/create.js';
-import LocarnoSeniorDetails from '../locarno/senior_v2/detail.js';
-
-import LocarnoZoneList from '../locarno/zone/list.js';
-import LocarnoZoneCreate from '../locarno/zone/create.js';
-import LocarnoZoneDetails from '../locarno/zone/details.js';
-
-export default class Locarno extends React.Component {
+export default class Tools extends React.Component {
     constructor(props) {
         super(props);
         this.unsubscribe = IndexStore.listen(this.onStatusChange.bind(this));
-        this.state ={"indexList": [], "leftIndex": [],topMenuKey:"02","leftMenuKey":this.getMenuKey()};
+        this.state ={"indexList": [], "leftIndex": [],topMenuKey:"03","leftMenuKey":this.getMenuKey()};
 
         if(IndexStore.currentUser == null){
             props.history.push("/signin");
@@ -47,7 +37,7 @@ export default class Locarno extends React.Component {
         var self = this;
         for(var i=0;i<data.length;i++){
             var item = data[i];
-            if(item.rid === "02"){
+            if(item.rid === "03"){
                 return item.children;
             }
         }
@@ -55,9 +45,7 @@ export default class Locarno extends React.Component {
     getMenuKey=()=>{
         var url =  window.location.hash;
 
-        if(url.indexOf("locarno/fast")>-1){return "0201";}
-        if(url.indexOf("locarno/senior")>-1){return "0202";}
-        if(url.indexOf("locarno/zone")>-1){return "0203";}
+        if(url.indexOf("tools/imageinfo")>-1){return "0301";}
     }
 
     onStatusChange=(action, result)=> {
@@ -98,26 +86,7 @@ export default class Locarno extends React.Component {
                     <Router>
                         <Switch>
                             {/*外观.快速检索.历史查询*/}
-                            <Route path="/main/locarno/fast/list" component={LocarnoFastList}/>
-                            {/*新建快速查询*/}
-                            <Route path="/main/locarno/fast/create" component={LocarnoFastCreate}/>
-                            {/*快速检索结果*/}
-                            <Route path="/main/locarno/fast/details" component={LocarnoFastDetails}/>
-
-                            {/*外观.快速检索.历史查询*/}
-                            <Route path="/main/locarno/senior/list" component={LocarnoSeniorList}/>
-                            {/*新建快速查询*/}
-                            <Route path="/main/locarno/senior/create" component={LocarnoSeniorCreate}/>
-                            {/*快速检索结果*/}
-                            <Route path="/main/locarno/senior/details" component={LocarnoSeniorDetails}/>
-
-                            {/*外观.快速检索.历史查询*/}
-                            <Route path="/main/locarno/zone/list" component={LocarnoZoneList}/>
-                            {/*新建快速查询*/}
-                            <Route path="/main/locarno/zone/create" component={LocarnoZoneCreate}/>
-                            {/*快速检索结果*/}
-                            <Route path="/main/locarno/zone/details" component={LocarnoZoneDetails}/>
-
+                            <Route path="/main/tools/imageinfo" component={ImageInfo}/>
 
                             <Route component={NotFound}/>
                         </Switch>
