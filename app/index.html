@@ -6,7 +6,20 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <title><%= htmlWebpackPlugin.options.title %></title><% for (var css in htmlWebpackPlugin.files.css) { %>
     <link href="/dist/<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"><% } %>
-
+    <script>
+        Array.prototype.remove=function(dx)
+        {
+            for(var i=0,n=0;n<this.length;i++,n++)
+            {
+                if(this[i]===dx)
+                {
+                    n++;
+                    this[i]=this[n]
+                }
+            }
+            this.length-=1
+        };
+    </script>
 </head>
 <body>
     <div id="root" style="display:flex; position: absolute;left:0;top:0;right:0;bottom:0;">

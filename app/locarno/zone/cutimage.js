@@ -164,7 +164,7 @@ export default class CutImage extends React.Component {
         return (
             <div>
 
-                <Button icon="plus" type="primary" onClick={this.showModal} style={{
+                <Button icon="plus"  onClick={this.showModal} style={{
                     height: 50, width: 50, fontSize: 18,
                     cursor: "pointer"
                 }}></Button>

@@ -53,13 +53,7 @@ class LocarnoZoneCreate extends React.Component {
     componentWillReceiveProps=(newProps) =>{
     }
 
-    shouldComponentUpdate(nextProps, nextState){
-        if (!_.isEqual(this.props, nextProps) || !_.isEqual(this.state, nextState)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     goToHistorySearch() {
         this.props.history.push("/main/locarno/zone/list");
@@ -127,9 +121,8 @@ class LocarnoZoneCreate extends React.Component {
 
     remove=(image)=> {
         var imageList = this.state.uploadImageList;
-
         imageList.remove(image);
-
+        console.log('create > remove > imageList ', imageList);
         this.setState({'uploadImageList': imageList});
     }
 
@@ -174,9 +167,7 @@ class LocarnoZoneCreate extends React.Component {
                                     <span>选择分类：</span>
                                 </Col>
                                 <Col span="8">
-                                    <TreeSelect
-
-                                                value={this.state.typeIds}
+                                    <TreeSelect value={this.state.typeIds}
                                                 treeData={this.state.typeList}
                                                 showCheckedStrategy={this.show_parent}
                                                 onChange={this.setTypeState.bind(this)}
