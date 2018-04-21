@@ -50,9 +50,8 @@ class LocarnoZoneCreate extends React.Component {
         }
     }
 
-    componentWillReceiveProps=(newProps) =>{
+    componentWillReceiveProps = (newProps) => {
     }
-
 
 
     goToHistorySearch() {
@@ -70,7 +69,7 @@ class LocarnoZoneCreate extends React.Component {
         });
         console.log('create > upload > filenames ', filenames);
         // 如果选图片取消了，就不上传了
-        if(filenames.length > 0)
+        if (filenames.length > 0)
             LocarnoActions.uploadImage(data);
     }
 
@@ -92,9 +91,13 @@ class LocarnoZoneCreate extends React.Component {
         }
     }
 
-    setTypeState(value, label) {
 
+
+    setTypeState(value, label) {
+        value = [value];
         window.localStorage["typeIds"] = value;
+        console.log('create > setTypeState > typeids', value);
+
         if (label.length > 0) {
             this.setState({typeState: true, typeIds: value, typeNames: value});
         } else {
@@ -104,7 +107,7 @@ class LocarnoZoneCreate extends React.Component {
 
     createNewJob() {
         let images = [];
-        for(let i =0;i<this.state.uploadImageList.length;i++){
+        for (let i = 0; i < this.state.uploadImageList.length; i++) {
             let item = this.state.uploadImageList[i];
             images.push(item);
         }
@@ -114,22 +117,32 @@ class LocarnoZoneCreate extends React.Component {
     renderOneImage(url) {
         return <div>
             <img alt="" style={{maxWidth: 500, maxHeight: 500}}
-                 src={Config.api + '/api/images/data/' + Config.appid + '/' +url+"?radom=" + Math.random()}
-                  />
+                 src={Config.api + '/api/images/data/' + Config.appid + '/' + url + "?radom=" + Math.random()}
+            />
         </div>
     }
 
-    remove=(image)=> {
+    remove = (image) => {
         var imageList = this.state.uploadImageList;
-        imageList.remove(image);
+        this.removeItem(imageList, image);
         console.log('create > remove > imageList ', imageList);
         this.setState({'uploadImageList': imageList});
     }
 
-    addImage=(item)=>{
+    removeItem(array, dx) {
+        for (var i = 0, n = 0; n < array.length; i++, n++) {
+            if (array[i] === dx) {
+                n++;
+                array[i] = array[n]
+            }
+        }
+        array.length -= 1
+    };
+
+    addImage = (item) => {
         let images = [];
         images.push(item);
-        this.setState({uploadImageList:images, imageState:true});
+        this.setState({uploadImageList: images, imageState: true});
     }
 
     show_parent = TreeSelect.SHOW_PARENT;
@@ -197,7 +210,7 @@ class LocarnoZoneCreate extends React.Component {
                                                             maxHeight: "50px",
                                                             cursor: "pointer"
                                                         }}
-                                                             src={Config.api + '/api/images/data/' + Config.appid + '/' +image+"?radom=" + Math.random()}/>
+                                                             src={Config.api + '/api/images/data/' + Config.appid + '/' + image + "?radom=" + Math.random()}/>
                                                         <Icon type="close-circle"
                                                               style={{position: 'absolute', right: '0px', top: '0px'}}/>
 
@@ -205,7 +218,8 @@ class LocarnoZoneCreate extends React.Component {
                                                 </Popover></div>
                                         })
                                     }
-                                    {self.state.uploadImageList.length > 0 ? null:  <CutImage addImage={this.addImage} />}
+                                    {self.state.uploadImageList.length > 0 ? null :
+                                        <CutImage addImage={this.addImage}/>}
                                 </Col>
                             </Row>
 

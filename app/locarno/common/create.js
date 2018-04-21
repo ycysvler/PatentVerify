@@ -87,9 +87,11 @@ class LocarnoCreate extends React.Component {
     }
 
     setTypeState(value, label) {
-
-
+        value = [value];
         window.localStorage["typeIds"] = value;
+
+        console.log('create > setTypeState > typeids', value);
+
         if (label.length > 0) {
             this.setState({typeState: true, typeIds: value, typeNames: value});
         } else {
@@ -117,10 +119,20 @@ class LocarnoCreate extends React.Component {
 
         var imageList = this.state.uploadImageList;
 
-        imageList.remove(image);
+        this.removeItem(imageList, image);
 
         this.setState({'uploadImageList': imageList});
     }
+
+    removeItem(array, dx) {
+        for (var i = 0, n = 0; n < array.length; i++, n++) {
+            if (array[i] === dx) {
+                n++;
+                array[i] = array[n]
+            }
+        }
+        array.length -= 1
+    };
 
     render() {
         let self = this;
