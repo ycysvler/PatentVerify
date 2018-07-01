@@ -15,7 +15,7 @@ class ImageList extends React.Component {
     renderOneImage(image) {
         return <div>
             <img alt="" style={{maxWidth:400, maxHeight:400}}
-                 src={Config.api + '/api/images/data/' + Config.appid + '/' + image} />
+                 src={Config.base + '/api/images/data/'  + image} />
         </div>
     }
 
@@ -29,7 +29,7 @@ class ImageList extends React.Component {
                             <div style={{width: "50px", height: "50px", float:'left', marginRight:8, border:'1px solid #dddddd', padding:3}}>
                                 <img alt=""
                                      style={{width:'95%',height:'95%'}}
-                                     src={Config.api + '/api/images/data/' + Config.appid + '/' + url}/>
+                                     src={Config.base + '/api/images/data/' + url}/>
                             </div>
                         </Popover>
                     })

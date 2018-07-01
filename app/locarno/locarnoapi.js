@@ -32,7 +32,11 @@ const LocarnoStore = Reflux.createStore({
             type: 'GET',
             dataType: "json",
             data: param,
-
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {
             },
             success: function (result) {
@@ -54,6 +58,11 @@ const LocarnoStore = Reflux.createStore({
             type: 'POST',
             data: data,dataType: "json",
             cache: false,
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             contentType: false,        //不可缺参数
             processData: false,        //不可缺参数
             beforeSend: function (xhr) {
@@ -77,6 +86,11 @@ const LocarnoStore = Reflux.createStore({
             url: url,
             type: 'GET',
             dataType: "json",
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {
                 //xhr.setRequestHeader("Authorization",token);
             },
@@ -104,6 +118,11 @@ const LocarnoStore = Reflux.createStore({
             data: JSON.stringify(data),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             cache: false,
             processData: false,        //不可缺参数
             beforeSend: function (xhr) {
@@ -133,6 +152,11 @@ const LocarnoStore = Reflux.createStore({
             type: 'GET',
             dataType: "json",
             data: param,
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {
                 //xhr.setRequestHeader("Authorization",token);
             },
@@ -175,6 +199,11 @@ const LocarnoStore = Reflux.createStore({
             contentType: "application/json; charset=utf-8",
             processData: false,        //不可缺参数
             dataType:"json",
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {
                 //xhr.setRequestHeader("Authorization",token);
             },
@@ -229,6 +258,11 @@ const LocarnoStore = Reflux.createStore({
             contentType: 'application/json',        //不可缺参数
             processData: false,                     //不可缺参数
             dataType:"json",
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {},
             success: function (data,status) {
                 self.trigger("getResultImages",data.data);
@@ -250,6 +284,11 @@ const LocarnoStore = Reflux.createStore({
             contentType: 'application/json',        //不可缺参数
             processData: false,                     //不可缺参数
             dataType:"json",
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {},
             success: function (data,status) {
                 self.trigger("getResultPatents",data.data)
@@ -266,6 +305,11 @@ const LocarnoStore = Reflux.createStore({
             url: url,
             type: 'GET',
             dataType: "json",
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {
                 //xhr.setRequestHeader("Authorization",token);
             },
@@ -295,6 +339,11 @@ const LocarnoStore = Reflux.createStore({
             type: 'GET',
             dataType: "json",
             data: param,
+            xhrFields: {
+                // 这是为了带上cookie，不然用户校验过不去
+                withCredentials: true
+            },
+            crossDomain: true,
             beforeSend: function (xhr) {
                 //xhr.setRequestHeader("Authorization",token);
             },

@@ -4,6 +4,7 @@
 import React from 'react';
 import {Layout, Icon, Button, Input, Table,Progress} from 'antd';
 import {LocarnoActions, LocarnoStore} from '../locarnoapi.js';
+import moment from 'moment';
 import {IndexStore} from '../../api.js';
 import ImageList from '../../attached/common/imagelist.js';
 
@@ -19,7 +20,7 @@ class LocarnoJobList extends React.Component {
             keyword:'',
             jobType:this.props.jobType,
             jobTypeText:this.props.jobTypeText
-        }
+        };
         LocarnoActions.getJobs(this.state.jobType, this.state.keyword);
     }
 
@@ -54,21 +55,25 @@ class LocarnoJobList extends React.Component {
         }
     }
 
-    formatJobData(jobData) {
-        let self = this;
-        self.data = [];
-        for (let i = 0; i < jobData.length; i++) {
-            let item = {};
-            item.jobid = jobData[i].jobid;
-            item.description = jobData[i].description;
-            item.typeids = jobData[i].typeids;
-            item.images = jobData[i].images;
-            item.typenames = jobData[i].typenames;
-            item.schedule = "100%";
-            item.create_time = jobData[i].create_time;
-            item.end_time = jobData[i].end_time;
-            self.data.push(item);
+
+    adapterData(jobData){
+        let data = [];
+        if(jobData){
+            for (let i = 0; i < jobData.length; i++) {
+                let item = {};
+                item.jobid = jobData[i]._id;
+                item.description = jobData[i].description;
+                item.typeids = jobData[i].imagetypes;
+                item.images = jobData[i].images;
+                item.typenames = jobData[i].imagetypes;
+                item.schedule = "100%";
+                item.progress = jobData[i].progress? parseInt(jobData[i].progress * 100):0;
+                item.create_time = moment( jobData[i].createtime).format('YYYY-MM-DD HH:mm:ss');
+                item.end_time = jobData[i].endtime;
+                data.push(item);
+            }
         }
+        return data;
     }
 
     goToCreateNewSearch=()=> {
@@ -131,7 +136,6 @@ class LocarnoJobList extends React.Component {
         this.setState({keyword: event.target.value});
     }
 
-
     /*
      * 删除查询任务
      * */
@@ -146,10 +150,9 @@ class LocarnoJobList extends React.Component {
             rowKey: "jobid",
             bordered: true,
             loading: true,
-            pagination: false,
             rowSelection: this.rowSelection,
             columns: this.columns,
-            dataSource: this.state.jobsData,
+            dataSource: this.adapterData(this.state.jobsData),
             onRowinstead: this.rowClick.bind(this)
         };
         //if(this.state.jobsData.length > 0){ state.loading=false;}

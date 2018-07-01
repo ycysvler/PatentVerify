@@ -120,8 +120,8 @@ export default class LocarnoZoneDetails extends React.Component {
         return (<Layout className="locarno">
             <div className="breadcrumb">
                 <Breadcrumb className="bg_white" style={{margin: '11px 0'}}>
-                    <Breadcrumb.Item><Link to='/main/locarno/senior/list'>高级检索</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to='/main/locarno/senior/list'>历史查询</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to='/main/locarno/zone/list'>局部检索</Link></Breadcrumb.Item>
+                    <Breadcrumb.Item><Link to='/main/locarno/zone/list'>局部查询</Link></Breadcrumb.Item>
                     <Breadcrumb.Item>查询结果</Breadcrumb.Item>
                 </Breadcrumb>
             </div>
