@@ -73,7 +73,7 @@ export default class ImageGrid extends React.Component {
 
             doms.push(<div className={border} key={item.image + '_' + index} onMouseEnter={self.onMouseEnter(index)}>
                 <img onClick={self.showPatent.bind(self, item.code)}
-                     src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image}/>
+                     src={Config.base + '/api/images/data/' + item.image}/>
 
                 <div className="img-check" style={{display: dy}}>
                     <Checkbox

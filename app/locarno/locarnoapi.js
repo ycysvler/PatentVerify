@@ -20,12 +20,12 @@ const LocarnoActions = Reflux.createActions([
 ]);
 
 const LocarnoStore = Reflux.createStore({
-    listenables:[LocarnoActions],
+    listenables: [LocarnoActions],
 
-    onCutImage:function(name, colour, rect){
+    onCutImage: function (name, colour, rect) {
         let self = this;
         let url = Config.url + "/cutimage.ashx?";
-        let param = {'name':name,'colour':colour,'rect':JSON.stringify(rect)};
+        let param = {'name': name, 'colour': colour, 'rect': JSON.stringify(rect)};
 
         $.ajax({
             url: url,
@@ -49,14 +49,14 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v2.1, 切换，直接上传图片到cloud as
-    onUploadImage:function(data) {
+    onUploadImage: function (data) {
         let self = this;
-        let url = Config.api + "/api/search/images";
+        let url = Config.base + "/api/search/images";
 
         $.ajax({
             url: url,
             type: 'POST',
-            data: data,dataType: "json",
+            data: data, dataType: "json",
             cache: false,
             xhrFields: {
                 // 这是为了带上cookie，不然用户校验过不去
@@ -66,7 +66,7 @@ const LocarnoStore = Reflux.createStore({
             contentType: false,        //不可缺参数
             processData: false,        //不可缺参数
             beforeSend: function (xhr) {
-                xhr.setRequestHeader("appid",Config.appid);
+                xhr.setRequestHeader("appid", Config.appid);
             },
             success: function (result) {
                 console.log(result);
@@ -79,7 +79,7 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v2.1, 获取类型树
-    onGetAllType: function() {
+    onGetAllType: function () {
         let url = Config.base + "/api/locarno/nodes";
         let self = this;
         $.ajax({
@@ -95,7 +95,7 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data, status) {
-                if(data.code === 200) {
+                if (data.code === 200) {
                     self.trigger('getAllType', data.data);
                 }
             },
@@ -106,7 +106,7 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v2.1, 删除任务
-    onRemove:function(data,token) {
+    onRemove: function (data, token) {
         let url = Config.base + "/api/locarno/job";
 
         console.log(data);
@@ -138,14 +138,14 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v2.1, 获取任务列表
-    onGetJobs: function(jobtype,keyword) {
+    onGetJobs: function (jobtype, keyword) {
         let user_id = IndexStore.currentUser.userid;
         // v1.0 , .net 版本
         // let url = Config.url + "/locarno/jobs.ashx?";
 
         // v2.1, nodejs 版本
         let url = Config.base + "/api/locarno/job";
-        let param = {'userid':user_id,'jobtype':jobtype,'keyword':keyword};
+        let param = {'userid': user_id, 'jobtype': jobtype, 'keyword': keyword};
         let self = this;
         $.ajax({
             url: url,
@@ -161,19 +161,19 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data, status) {
-                if(data.code === 200) {
+                if (data.code === 200) {
                     self.trigger("getJobs", jobtype, data.data);
                 }
             },
             error: function (reason) {
-                console.log('reason status',reason.status);
+                console.log('reason status', reason.status);
 
             }
         });
     },
 
     // v2.1, 创建查询
-    onCreate: function(job_name,type_ids,type_names,images,jobtype) {
+    onCreate: function (job_name, type_ids, type_names, images, jobtype) {
         // v1.0 , .net 版本
         //let url = Config.url + "/locarno/create.ashx?jobtype=" + jobtype;
 
@@ -181,24 +181,26 @@ const LocarnoStore = Reflux.createStore({
         let url = Config.base + "/api/locarno/create";
         let self = this;
         let param = {
-            "jobtype":jobtype,
-            "userid":IndexStore.currentUser.userid,
-            "jobname":job_name,
-            "typeids":type_ids,
-            "typenames":type_names,
-            "images":images
+            "jobtype": parseInt(jobtype),
+            "userid": IndexStore.currentUser.userid,
+            "name": job_name,
+            "featuretypes": ["shape","lbp","color","deep"],
+            "imagetypes": type_ids,
+            "resultcount": 100,
+            "images": images
         };
+
 
         console.log("locarno > create ", param, url);
 
         $.ajax({
             url: url,
             type: 'POST',
-            data: JSON.stringify( param),
+            data: JSON.stringify(param),
             cache: false,
             contentType: "application/json; charset=utf-8",
             processData: false,        //不可缺参数
-            dataType:"json",
+            dataType: "json",
             xhrFields: {
                 // 这是为了带上cookie，不然用户校验过不去
                 withCredentials: true
@@ -207,8 +209,8 @@ const LocarnoStore = Reflux.createStore({
             beforeSend: function (xhr) {
                 //xhr.setRequestHeader("Authorization",token);
             },
-            success: function (data,status) {
-                self.trigger("create",data.data)
+            success: function (data, status) {
+                self.trigger("create", data.data)
             },
             error: function (reason) {
                 console.log(reason);
@@ -217,14 +219,14 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v1.0 , 已废弃
-    onGetResult: function(jobid,patent_type,feature_type,page) {
+    onGetResult: function (jobid, patent_type, feature_type, page) {
         let url = Config.url + "/locarno/result.ashx?";
         let self = this;
         let param = {
-            jobid:jobid,
-            patent_type:patent_type,
-            feature_type:feature_type,
-            page:page
+            jobid: jobid,
+            patent_type: patent_type,
+            feature_type: feature_type,
+            page: page
         };
         $.ajax({
             url: url,
@@ -235,8 +237,8 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data, status) {
-                if(data.code === 200) {
-                    self.trigger('getResult', data.data, patent_type,feature_type);
+                if (data.code === 200) {
+                    self.trigger('getResult', data.data, patent_type, feature_type);
                 }
             },
             error: function (reason) {
@@ -246,7 +248,7 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v2.1 , 获取查询结果（图片分组）
-    onGetResultImages:function(param){
+    onGetResultImages: function (param) {
         let url = Config.base + "/api/locarno/result/images";
         let self = this;
 
@@ -257,22 +259,25 @@ const LocarnoStore = Reflux.createStore({
             cache: false,
             contentType: 'application/json',        //不可缺参数
             processData: false,                     //不可缺参数
-            dataType:"json",
+            dataType: "json",
             xhrFields: {
                 // 这是为了带上cookie，不然用户校验过不去
                 withCredentials: true
             },
             crossDomain: true,
-            beforeSend: function (xhr) {},
-            success: function (data,status) {
-                self.trigger("getResultImages",data.data);
+            beforeSend: function (xhr) {
             },
-            error: function (reason) {console.log(reason);}
+            success: function (data, status) {
+                self.trigger("getResultImages", data.data);
+            },
+            error: function (reason) {
+                console.log(reason);
+            }
         });
     },
 
     // v2.1 , 获取查询结果（专利分组）
-    onGetResultPatents:function(param){
+    onGetResultPatents: function (param) {
         let url = Config.base + "/api/locarno/result/patents";
         let self = this;
 
@@ -283,22 +288,25 @@ const LocarnoStore = Reflux.createStore({
             cache: false,
             contentType: 'application/json',        //不可缺参数
             processData: false,                     //不可缺参数
-            dataType:"json",
+            dataType: "json",
             xhrFields: {
                 // 这是为了带上cookie，不然用户校验过不去
                 withCredentials: true
             },
             crossDomain: true,
-            beforeSend: function (xhr) {},
-            success: function (data,status) {
-                self.trigger("getResultPatents",data.data)
+            beforeSend: function (xhr) {
             },
-            error: function (reason) {console.log(reason);}
+            success: function (data, status) {
+                self.trigger("getResultPatents", data.data)
+            },
+            error: function (reason) {
+                console.log(reason);
+            }
         });
     },
 
     // v2.1 , 获取专利详情
-    onGetPatent:function(ap_num, patent_type){
+    onGetPatent: function (ap_num, patent_type) {
         let url = Config.base + "/api/locarno/patent/" + ap_num + "/type/" + patent_type;
         let self = this;
         $.ajax({
@@ -314,7 +322,7 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data, status) {
-                if(data.code === 200) {
+                if (data.code === 200) {
                     self.trigger('getPatent', data.data);
                 }
             },
@@ -325,14 +333,14 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v1.0 等待重写
-    onGetZoneResult: function(jobid,patent_type,feature_type,page) {
+    onGetZoneResult: function (jobid, patent_type, feature_type, page) {
         let url = Config.url + "/locarno/zoneresult.ashx?";
         let self = this;
         let param = {
-            jobid:jobid,
-            patent_type:patent_type,
-            feature_type:feature_type,
-            page:page
+            jobid: jobid,
+            patent_type: patent_type,
+            feature_type: feature_type,
+            page: page
         };
         $.ajax({
             url: url,
@@ -348,8 +356,8 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data, status) {
-                if(data.code === 200) {
-                    self.trigger('getZoneResult', data.data, patent_type,feature_type);
+                if (data.code === 200) {
+                    self.trigger('getZoneResult', data.data, patent_type, feature_type);
                 }
             },
             error: function (reason) {
@@ -359,12 +367,12 @@ const LocarnoStore = Reflux.createStore({
     },
 
     // v1.0， 已废弃
-    onGetDetail: function(code,main_class, token) {
+    onGetDetail: function (code, main_class, token) {
         let url = Config.url + "/locarno/patent.ashx";
         let self = this;
         let param = {
-            'main_class':main_class,
-            'code':code
+            'main_class': main_class,
+            'code': code
         };
         $.ajax({
             url: url,
@@ -375,7 +383,7 @@ const LocarnoStore = Reflux.createStore({
                 //xhr.setRequestHeader("Authorization",token);
             },
             success: function (data, status) {
-                if(data.code === 200) {
+                if (data.code === 200) {
                     self.trigger('getDetail', data.data);
                 }
             },

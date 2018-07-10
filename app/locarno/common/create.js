@@ -39,7 +39,8 @@ class LocarnoCreate extends React.Component {
     onStatusChange=(type, data)=> {
         if (type === "uploadImage") {
             var uploadImageList = this.state.uploadImageList;
-            this.setState({uploadImageList: uploadImageList.concat(data.name), imageState: true});
+            console.log('upload', data);
+            this.setState({uploadImageList: uploadImageList.concat(data.data), imageState: true});
         } else if (type === "getAllType") {
             this.treeData = data;
             this.setState({typeList: data});
@@ -111,7 +112,7 @@ class LocarnoCreate extends React.Component {
     renderOneImage(image) {
         return <div>
             <img alt="" style={{maxWidth: 500, maxHeight: 500}}
-                 src={Config.api + '/api/images/data/' + Config.appid + '/' + image} />
+                 src={Config.base + '/api/images/data/'  + image} />
         </div>
     }
 
@@ -181,7 +182,7 @@ class LocarnoCreate extends React.Component {
                                                 <div style={{position:'relative'}}>
 
                                                 <img alt="" onClick={self.remove.bind(self, item)} style={{maxWidth: "50px", maxHeight: "50px",cursor:"pointer"}}
-                                                     src={Config.api + '/api/images/data/' + Config.appid + '/' + image} />
+                                                     src={Config.base + '/api/images/data/'  + image} />
                                                     <Icon type="close-circle" style={{position:'absolute',right:'0px',top:'0px'}} />
 
                                                 </div></Popover></div>
