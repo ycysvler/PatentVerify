@@ -307,7 +307,8 @@ const LocarnoStore = Reflux.createStore({
 
     // v2.1 , 获取专利详情
     onGetPatent: function (ap_num, patent_type) {
-        let url = Config.base + "/api/locarno/patent/" + ap_num + "/type/" + patent_type;
+
+        let url = Config.base + "/api/patent/" + ap_num;
         let self = this;
         $.ajax({
             url: url,

@@ -53,7 +53,7 @@ export default class ContrastBar extends React.Component {
         let self = this;
 
         for (let key in this.state.items) {
-            let url = Config.api + '/api/images/data/' + Config.appid + '/' + this.state.items[key].image;
+            let url = Config.base + '/api/images/data/' + this.state.items[key].image;
             result.push(<div className="contrast_image" key={key} onClick={self.removeItem.bind(self, key)}>
                 <img className="image" src={url}/></div>);
         }

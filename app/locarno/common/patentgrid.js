@@ -91,6 +91,7 @@ export default class PatentGrid extends React.Component {
             </div>;
     };
 
+
     renderOneImage(name) {
         return <div>
             <img alt="" style={{maxWidth:500, maxHeight:500}} src={Config.api + '/api/images/data/' + Config.appid + '/' + name}/>

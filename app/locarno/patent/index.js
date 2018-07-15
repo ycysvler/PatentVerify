@@ -15,7 +15,9 @@ export default class Patent extends React.Component {
             typeid: this.props.typeid,
             ap_num: this.props.ap_num,
             patent: null
-        }
+        };
+        console.log('??', this.state.ap_num);
+
         LocarnoActions.getPatent(this.state.ap_num, this.state.typeid);
     }
 
@@ -35,7 +37,7 @@ export default class Patent extends React.Component {
 
     renderOneImage(name) {
         return <div>
-            <img alt="" style={{maxWidth:500, maxHeight:500}} src={Config.api + '/api/images/data/' + Config.appid + '/' + name}/>
+            <img alt="" style={{maxWidth:500, maxHeight:500}} src={Config.base + '/api/images/data/' + name}/>
         </div>
     }
 
@@ -48,7 +50,7 @@ export default class Patent extends React.Component {
                 doms.push( <Popover  key={index} content={self.renderOneImage(image.name)}>
                     <div className="img">
 
-                <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + image.name}/>
+                <img  src={Config.base + '/api/images/data/' + image.name}/>
                     </div> </Popover>
                 );
             }

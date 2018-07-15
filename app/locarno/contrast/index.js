@@ -65,7 +65,7 @@ export default class Contrast extends React.Component {
     getImage(item, index){
         if(item.patent){
             if(item.patent.images.length > index){
-                return <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.patent.images[index].name} />
+                return <img  src={Config.base + '/api/images/data/'  + item.patent.images[index].name} />
             }else{
                 return null;
             }
@@ -84,7 +84,7 @@ export default class Contrast extends React.Component {
                     <th ><div >图像</div></th>
                     {this.state.items.map((item, index) => {
                         return <td key={index}>
-                            <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image} />
+                            <img  src={Config.base + '/api/images/data/'  + item.image} />
                         </td>
                     })}
                 </tr>
