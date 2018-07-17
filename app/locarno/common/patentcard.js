@@ -52,6 +52,7 @@ class PatentCards extends React.Component {
                           float: 'left'
                       }}>
             <div>
+
                 <Row>
                     <Col span="10" style={{
                         display: 'flex',
@@ -63,7 +64,7 @@ class PatentCards extends React.Component {
                             content={self.renderOneImage(item.image)}>
                             <img alt=""
                                  style={{maxWidth: "100%", maxHeight: 90}}
-                                 src={ Config.api + '/api/images/data/' + Config.appid + "/" + item.image}/>
+                                 src={ Config.base + '/api/images/data/' + item.image}/>
                         </Popover>
                     </Col>
                     <Col span="5" style={{textAlign: "right"}}>

@@ -19,8 +19,6 @@ const IndexStore = Reflux.createStore({
         let param = {};
         let self = this;
 
-        console.log('userid', this.currentUser.userid);
-
         param.userid = this.currentUser.userid;
         $.ajax({
             url: url,

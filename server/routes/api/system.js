@@ -22,13 +22,12 @@ module.exports = function (router) {
     router.get('/system/menu', (req, res, next) => {
         let dal = new SystemDAL();
         let userid = req.query.userid;
-        console.log('userid', userid);
+
         dal.getResourcesByUserid(userid,(code, data)=>{
            if(code === 200){
                // 该写递归了
                let root = {"rid":"0"};
                menuAdapter(data, root);
-
                res.send({code:code, data:root.children});
            }
         });

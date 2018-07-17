@@ -43,11 +43,11 @@ export default class ImageGrid extends React.Component {
                 result = true;
         }
         return result;
-    }
+    };
 
     onMouseEnter = (key) => (e) => {
         this.setState({showIndex: key});
-    }
+    };
 
     onCheck = (item) => (e) => {
         if (e.target.checked) {
@@ -55,11 +55,11 @@ export default class ImageGrid extends React.Component {
         } else {
             ContrastActions.remove(item.image);
         }
-    }
+    };
 
     showPatent = (ap_num) => {
         this.setState({ap_num: ap_num, typeid: this.props.typeid, visible: true});
-    }
+    };
 
     drawItems = () => {
         let doms = [];
@@ -86,20 +86,20 @@ export default class ImageGrid extends React.Component {
         }
 
         return doms;
-    }
+    };
+
     handleCancel = (e) => {
         this.setState({
             visible: false,
         });
-    }
+    };
 
     onPageChange = (page) => {
         this.state.current = page;
         this.props.onPageChange(page);
-    }
+    };
 
     render() {
-        console.log('this.state.total',this.state.total);
         return (
             <div className="img-root">
                 <div className="img-layout">

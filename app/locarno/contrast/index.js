@@ -173,7 +173,7 @@ export default class Contrast extends React.Component {
                 <th ><div style={{width:100}}>图像</div></th>
                 {this.state.items.map((item, index) => {
                     return <td style={{textAlign:'center'}} key={index}>
-                        <img  src={Config.api + '/api/images/data/' + Config.appid + '/' + item.image} />
+                        <img  src={Config.base + '/api/images/data/' + item.image} />
                         </td>
                 })}
             </tr>
