@@ -27,12 +27,13 @@ export default class CutImage extends React.Component {
 
     onStatusChange = (type, data) => {
         if (type === "uploadImage") {
-            this.setState({uploadImage: data.name, colour:data.colour, imageState: true, uploading: false});
+            this.setState({uploadImage: data.data.name, colour:data.data.colour, imageState: true, uploading: false});
         }else if(type === "cutImage"){
             this.setState({visible: false,uploading:false});
             this.props.addImage(this.state.uploadImage);
         }
-    }
+    };
+
 
     dragdiv = {mouseDown: false, begin: {x: 0, y: 0}, position: {x: 0, y: 0}}
     dragbar = {mouseDown: false, begin: {x: 0, y: 0}, size: {width: 100, height: 100}}
@@ -153,9 +154,10 @@ export default class CutImage extends React.Component {
         let result = "";
         if (this.state.imageState) {
             let imageInfo = this.state.uploadImage;
-            let type = this.state.colour === 0 ? '?type=color':'?type=shape';
-            result = Config.api + "/api/images/data/" + Config.appid + "/"+ imageInfo +type;
+            let type = this.state.colour === 0 ? '?type=color_cut':'?type=shape_cut';
+            result = Config.base + "/api/images/data/" + imageInfo +type;
         }
+
         return result;
     }
 

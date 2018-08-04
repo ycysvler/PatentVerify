@@ -90,13 +90,9 @@ class LocarnoZoneCreate extends React.Component {
             this.setState({describeState: true, description: e.target.value});
         }
     }
-
-
-
     setTypeState(value, label) {
         value = [value];
         window.localStorage["typeIds"] = value;
-        console.log('create > setTypeState > typeids', value);
 
         if (label.length > 0) {
             this.setState({typeState: true, typeIds: value, typeNames: value});

@@ -48,7 +48,7 @@ export default class PatentGrid extends React.Component {
         title: '产品名称',
         dataIndex: 'ap_name',
         key: 'ap_name',
-        render: (text,record) => <a onClick={this.showPatent.bind(this,record.code)} >{text}</a>,
+        render: (text,record) => <a onClick={this.showPatent.bind(this,record.ap_num)} >{text}</a>,
     }, {
         title: '公开号',
         dataIndex: 'pub_num',

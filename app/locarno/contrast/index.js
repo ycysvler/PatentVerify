@@ -57,8 +57,6 @@ export default class Contrast extends React.Component {
                 }
             }
             this.setState({items: datas});
-
-            console.log(datas);
         }
     }
 

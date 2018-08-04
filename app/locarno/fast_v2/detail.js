@@ -134,6 +134,8 @@ export default class LocarnoFastDetails extends React.Component {
                                 <RadioButton value="image">图像视图</RadioButton>
                                 <RadioButton value="patent">专利视图</RadioButton>
                             </RadioGroup>
+
+                            {this.state.showtype === 'image'?<div style={{flexDirection: 'row',alignItems: 'center', flexGrow: 1, display: 'flex'}}>
                             <Divider className="margin" type="vertical" style={{height: 30}}/>
                             <b className="margin">检索权重</b>
                             颜色
@@ -152,6 +154,7 @@ export default class LocarnoFastDetails extends React.Component {
                             <Slider min={1} max={5} value={this.state.weight.deep} onChange={this.onWeightDeepChange}
                                     style={{width: 100}}
                                     className="margin"/>
+                            </div>:null}
                         </div>
                         {/*对比*/}
                         <ContrastBar typeid={this.state.typeid} />

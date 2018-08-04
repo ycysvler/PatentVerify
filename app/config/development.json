@@ -1,8 +1,8 @@
 {
   "name": "patent",
   "titleSuffix": " - 专利",
-  "url": "http://192.168.31.200:1655",
-  "base": "http://192.168.31.200:3000/patent",
+  "url": "http://localhost:1655",
+  "base": "http://192.168.31.235:3000/patent",
   "api": "http://192.168.31.200:8100",
   "sign": "IPhz8ZkNo5a2YClSDJmVVCtEElk=",
   "appid": "ca52bf40-8a65-11e7-a0b9-1d87294b8940",

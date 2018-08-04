@@ -40,7 +40,7 @@ class LocarnoCreate extends React.Component {
         if (type === "uploadImage") {
             var uploadImageList = this.state.uploadImageList;
             console.log('upload', data);
-            this.setState({uploadImageList: uploadImageList.concat(data.data), imageState: true});
+            this.setState({uploadImageList: uploadImageList.concat(data.data.name), imageState: true});
         } else if (type === "getAllType") {
             this.treeData = data;
             this.setState({typeList: data});
@@ -90,8 +90,6 @@ class LocarnoCreate extends React.Component {
     setTypeState(value, label) {
         value = [value];
         window.localStorage["typeIds"] = value;
-
-        console.log('create > setTypeState > typeids', value);
 
         if (label.length > 0) {
             this.setState({typeState: true, typeIds: value, typeNames: value});

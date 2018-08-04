@@ -40,6 +40,7 @@ const LocarnoStore = Reflux.createStore({
             beforeSend: function (xhr) {
             },
             success: function (result) {
+                console.log(result);
                 self.trigger("cutImage", result.data);
             },
             error: function (msg) {

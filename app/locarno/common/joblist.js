@@ -44,10 +44,15 @@ class LocarnoJobList extends React.Component {
     }
 
     refush(data) {
+        console.log('refush');
         var self = this;
         for (var i = 0; i < data.length; i++) {
             var item = data[i];
-            if (item.progress < 1) {
+            console.log(item.name, item.progress);
+
+
+
+            if (item.progress < 1 || item.progress === undefined) {
                 setTimeout(function () {
                     LocarnoActions.getJobs(self.state.jobType, self.state.keyword);
                 }, 1000);
@@ -70,6 +75,7 @@ class LocarnoJobList extends React.Component {
                 item.name = jobData[i].name;
                 item.schedule = "100%";
                 item.progress = jobData[i].progress ? parseInt(jobData[i].progress * 100) : 0;
+                item.progress = item.progress > 0 ? item.progress : -1 * item.progress;
                 item.create_time = moment(jobData[i].createtime).format('YYYY-MM-DD HH:mm:ss');
                 item.end_time = moment(jobData[i].endtime).format('YYYY-MM-DD HH:mm:ss');
                 data.push(item);
