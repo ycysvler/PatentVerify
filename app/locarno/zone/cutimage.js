@@ -114,13 +114,12 @@ export default class CutImage extends React.Component {
     handleOk = (e) => {
         let name = this.state.uploadImage;
         let colour = this.state.colour;
-        let rect = [
-            parseInt(this.refs.drag.style.left),
-            parseInt(this.refs.drag.style.top),
+console.log('top', this.refs.drag.style.top);
+        LocarnoActions.cutImage(name, colour,
             parseInt(this.refs.drag.style.width),
-            parseInt(this.refs.drag.style.height)
-        ];
-        LocarnoActions.cutImage(name, colour, rect);
+            parseInt(this.refs.drag.style.height),
+            parseInt(this.refs.drag.style.left),
+            parseInt(this.refs.drag.style.top));
         this.setState({visible: false,});
     }
     handleCancel = (e) => {

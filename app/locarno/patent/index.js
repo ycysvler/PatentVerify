@@ -16,8 +16,6 @@ export default class Patent extends React.Component {
             ap_num: this.props.ap_num,
             patent: null
         };
-        console.log('??', this.state.ap_num);
-
         LocarnoActions.getPatent(this.state.ap_num, this.state.typeid);
     }
 

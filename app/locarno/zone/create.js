@@ -146,7 +146,7 @@ class LocarnoZoneCreate extends React.Component {
     render() {
         let self = this;
         let canSearch = self.state.describeState && self.state.typeState && self.state.imageState;
-        console.log('zone create');
+
         return (
 
             <Layout >

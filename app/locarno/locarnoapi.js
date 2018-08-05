@@ -22,10 +22,12 @@ const LocarnoActions = Reflux.createActions([
 const LocarnoStore = Reflux.createStore({
     listenables: [LocarnoActions],
 
-    onCutImage: function (name, colour, rect) {
+    onCutImage: function (name, colour, width, height, x, y) {
         let self = this;
-        let url = Config.url + "/cutimage.ashx?";
-        let param = {'name': name, 'colour': colour, 'rect': JSON.stringify(rect)};
+        //images/crop/b5dfe030-8e86-11e8-acfa-3125b2b6c097.jpg?width=100&height=100&x=10&y=10
+
+        let url = Config.base + `/api/images/crop/${name}?width=${width}&height=${height}&x=${x}&y=${y}`;
+        let param = {};
 
         $.ajax({
             url: url,

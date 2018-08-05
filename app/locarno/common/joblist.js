@@ -44,14 +44,9 @@ class LocarnoJobList extends React.Component {
     }
 
     refush(data) {
-        console.log('refush');
         var self = this;
         for (var i = 0; i < data.length; i++) {
             var item = data[i];
-            console.log(item.name, item.progress);
-
-
-
             if (item.progress < 1 || item.progress === undefined) {
                 setTimeout(function () {
                     LocarnoActions.getJobs(self.state.jobType, self.state.keyword);
