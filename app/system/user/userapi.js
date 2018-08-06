@@ -6,6 +6,7 @@
  */
 import Reflux from 'reflux';
 import $ from 'jquery'
+import Config from 'config';
 
 const UserActions = Reflux.createActions([
     'create',
@@ -73,7 +74,7 @@ const UserStore = Reflux.createStore({
     },
 
     onList: function() {
-        let url = window.server_address + "/systems/users.ashx";
+        let url = Config.base + "/api/system/users";
 
         let self = this;
         $.ajax({
