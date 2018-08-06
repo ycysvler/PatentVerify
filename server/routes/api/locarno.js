@@ -8,7 +8,7 @@ let getMongoPool = require('../../mongo/pool');
 let rediscfg = require('../../config/redis');
 let LocarnoDAL = require('../../mysql/locarno');
 let CloudAs = require('../../cloud/cloudas');
-let pub = new Redis(rediscfg);
+//let pub = new Redis(rediscfg);
 
 let LocarnoImage = getMongoPool().LocarnoImage;
 

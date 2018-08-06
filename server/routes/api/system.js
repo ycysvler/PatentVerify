@@ -2,7 +2,7 @@ let Redis = require('ioredis');
 let uuid = require('uuid');
 let rediscfg = require('../../config/redis');
 let SystemDAL = require('../../mysql/system');
-let pub = new Redis(rediscfg);
+//let pub = new Redis(rediscfg);
 
 module.exports = function (router) {
     router.post('/system/login', (req, res, next) => {

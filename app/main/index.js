@@ -3,6 +3,7 @@ import {Layout, Menu, Button} from 'antd';
 import {IndexActions, IndexStore} from '../api.js';
 import {HashRouter as Router,Link, Switch, Route} from 'react-router-dom';
 import Locarno from '../locarno';
+import System from '../system';
 import Tools from '../tools';
 import NotFound from '../notfound';
 
@@ -109,6 +110,7 @@ export default class Main extends React.Component {
                             {/*外观.快速检索.历史查询*/}
                             <Route path="/main/locarno" component={Locarno}/>
                             <Route path="/main/tools" component={Tools}/>
+                            <Route path="/main/system" component={System}/>
 
 
                             <Route component={NotFound}/>
