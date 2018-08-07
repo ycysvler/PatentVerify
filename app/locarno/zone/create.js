@@ -44,7 +44,6 @@ class LocarnoZoneCreate extends React.Component {
     onStatusChange = (type, data) => {
         if (type === "getAllType") {
             this.treeData = data;
-            console.log(data);
             this.setState({typeList: data});
         } else if (type === "create") {
             this.goToHistorySearch();
