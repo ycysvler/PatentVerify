@@ -3,7 +3,9 @@ import {Layout, Menu, Button} from 'antd';
 import {IndexActions, IndexStore} from '../api.js';
 import {HashRouter as Router,Link, Switch, Route} from 'react-router-dom';
 import UserList from './user/list';
+import RoleList from './role/list';
 import UserCreate from './user/create';
+import RoleCreate from './role/create';
 import NotFound from '../notfound';
 
 const {SubMenu} = Menu;
@@ -88,7 +90,10 @@ export default class System extends React.Component {
                             {/*外观.快速检索.历史查询*/}
 
                             <Route path="/main/system/users/create" component={UserCreate}/>
+                            <Route path="/main/system/roles/create" component={RoleCreate}/>
                             <Route path="/main/system/users" component={UserList}/>
+                            <Route path="/main/system/roles" component={RoleList}/>
+
                             <Route component={NotFound}/>
                         </Switch>
                     </Router>

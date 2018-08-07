@@ -25,9 +25,11 @@ class UserList extends React.Component {
      * store 触发的事件
      * */
     onStatusChange(action, data) {
-        console.log(data);
         if (action === "list") {
             this.setState({items: data.data, total : data.data.length});
+        }
+        if(action === 'remove'){
+            UserActions.list();
         }
     }
 
@@ -56,12 +58,8 @@ class UserList extends React.Component {
         }),
     };
 
-    onPageChange = (pageNumber) => {
-        //OrganizationActions.getList(pageNumber, 10);
-    };
     onDelete=()=>{
-        //console.log(this.state.selectedRowKeys);
-        //OrganizationActions.remove(this.state.selectedRowKeys);
+        UserActions.remove(this.state.selectedRowKeys);
     };
 
     render() {

@@ -8,18 +8,18 @@ import Reflux from 'reflux';
 import $ from 'jquery'
 import Config from 'config';
 
-const UserActions = Reflux.createActions([
+const RoleActions = Reflux.createActions([
     'create',
     'list',
     'single',
     'remove'
 ]);
 
-const UserStore = Reflux.createStore({
-    listenables:[UserActions],
+const RoleStore = Reflux.createStore({
+    listenables:[RoleActions],
 
     onCreate: function(info) {
-        let url = Config.base + "/api/system/users";
+        let url = Config.base + "/api/system/roles";
         let self = this;
         let param = info;
 
@@ -43,7 +43,7 @@ const UserStore = Reflux.createStore({
     },
 
     onRemove:function(data) {
-        let url = Config.base + "/api/system/users";
+        let url = Config.base + "/api/system/roles";
         let param = data;
 
         console.log('param', param);
@@ -68,8 +68,9 @@ const UserStore = Reflux.createStore({
         });
     },
 
+
     onList: function() {
-        let url = Config.base + "/api/system/users";
+        let url = Config.base + "/api/system/roles";
 
         let self = this;
         $.ajax({
@@ -90,5 +91,5 @@ const UserStore = Reflux.createStore({
 
 });
 
-exports.UserActions =  UserActions;
-exports.UserStore =  UserStore;
+exports.RoleActions =  RoleActions;
+exports.RoleStore =  RoleStore;
