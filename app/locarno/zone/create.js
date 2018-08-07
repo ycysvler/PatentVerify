@@ -44,6 +44,7 @@ class LocarnoZoneCreate extends React.Component {
     onStatusChange = (type, data) => {
         if (type === "getAllType") {
             this.treeData = data;
+            console.log(data);
             this.setState({typeList: data});
         } else if (type === "create") {
             this.goToHistorySearch();
@@ -113,7 +114,7 @@ class LocarnoZoneCreate extends React.Component {
     renderOneImage(url) {
         return <div>
             <img alt="" style={{maxWidth: 500, maxHeight: 500}}
-                 src={Config.api + '/api/images/data/' + Config.appid + '/' + url + "?radom=" + Math.random()}
+                 src={Config.base + '/api/images/data/' + url + "?radom=" + Math.random()}
             />
         </div>
     }
@@ -206,7 +207,7 @@ class LocarnoZoneCreate extends React.Component {
                                                             maxHeight: "50px",
                                                             cursor: "pointer"
                                                         }}
-                                                             src={Config.api + '/api/images/data/' + Config.appid + '/' + image + "?radom=" + Math.random()}/>
+                                                             src={Config.base + '/api/images/data/' + image + "?radom=" + Math.random()}/>
                                                         <Icon type="close-circle"
                                                               style={{position: 'absolute', right: '0px', top: '0px'}}/>
 
