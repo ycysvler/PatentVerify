@@ -64,17 +64,17 @@ class ImageInfo extends React.Component {
                             <FormItem>
                                 <h3>原图</h3>
                                 <img alt="" style={{maxWidth:"100%", maxHeight: 180}}
-                                     src={ Config.api + '/api/images/data/' + Config.appid + '/' + this.state.name}/>
+                                     src={ Config.base + '/api/images/data/'  + this.state.name}/>
                             </FormItem>
                             <FormItem>
                                 <h3>彩色归一图</h3>
                                 <img alt="" style={{maxWidth:"100%", maxHeight: 180}}
-                                     src={ Config.api + '/api/images/data/' + Config.appid + '/' + this.state.name + '?type=color'}/>
+                                     src={ Config.base + '/api/images/data/'  + this.state.name + '?type=color_cut'}/>
                             </FormItem>
                             <FormItem>
                                 <h3>黑白归一图</h3>
                                 <img alt="" style={{maxWidth:"100%", maxHeight: 180}}
-                                     src={ Config.api + '/api/images/data/' + Config.appid + '/' + this.state.name + '?type=shape'}/>
+                                     src={ Config.base + '/api/images/data/'   + this.state.name + '?type=shape_cut'}/>
                             </FormItem>
                         </Form>
                         }

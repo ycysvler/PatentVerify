@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Layout,  Row,Table,  Col,  Breadcrumb} from 'antd';
+import {Layout,  Row,Table,  Col, Badge, Breadcrumb} from 'antd';
 import {AgentActions,AgentStore} from './agentapi';
 
 const { Content} = Layout;
@@ -26,11 +26,18 @@ export default class AgentList extends React.Component {
      * */
     onStatusChange(action, data) {
         if (action === "list") {
-            this.setState({items: data.data});
+            this.setState({items: data});
         }
     }
 
     columns = [
+        {
+            title:'state',
+            key:'state',
+            render:(text, recoder)=>{
+                return recoder.state ? <div style={{textAlign:'center'}}><Badge status="success" /></div> :<div style={{textAlign:'center'}}><Badge status="error" /></div>
+            }
+        },
         {
             title: 'instanceid',
             dataIndex: 'instanceid',
@@ -74,13 +81,9 @@ export default class AgentList extends React.Component {
                                 </Row>
                             })
                         }
-
-
                     </Content>
                 </Layout>
             </Layout>
-
-
         );
     }
 }
