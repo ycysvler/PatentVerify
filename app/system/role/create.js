@@ -112,9 +112,17 @@ export default class RoleCreate extends React.Component {
         },
         {
             "rid": "06",
-            "rname": "数据管理",
+            "rname": "服务监控",
             "url": " ",
-            "children": [],
+            "children": [
+                {
+                    "rid": "0601",
+                    "rname": "服务监控",
+                    "url": "/main/monitor/agent",
+                    "children": [],
+                    "count": 0
+                }
+            ],
             "count": 0
         },
         {

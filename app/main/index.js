@@ -4,6 +4,7 @@ import {IndexActions, IndexStore} from '../api.js';
 import {HashRouter as Router,Link, Switch, Route} from 'react-router-dom';
 import Locarno from '../locarno';
 import System from '../system';
+import Monitor from '../monitor';
 import Tools from '../tools';
 import NotFound from '../notfound';
 
@@ -33,7 +34,7 @@ export default class Main extends React.Component {
         if(url.indexOf("locarno")>-1){return "02";}
         if(url.indexOf("system")>-1){return "07";}
         if(url.indexOf("tools")>-1){return "03";}
-        if(url.indexOf("data")>-1){return "06";}
+        if(url.indexOf("monitor")>-1){return "06";}
     }
     getTopMenuChildren=(data, url)=>{
         var self = this;
@@ -111,6 +112,7 @@ export default class Main extends React.Component {
                             <Route path="/main/locarno" component={Locarno}/>
                             <Route path="/main/tools" component={Tools}/>
                             <Route path="/main/system" component={System}/>
+                            <Route path="/main/monitor" component={Monitor}/>
 
 
                             <Route component={NotFound}/>

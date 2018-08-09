@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Breadcrumb, Radio, Modal, Divider, Slider} from 'antd';
+import {Layout, Breadcrumb, Radio, Modal, Divider, Spin} from 'antd';
 import {HashRouter as Router, Redirect, Link, Switch, Route} from 'react-router-dom';
 import ContrastBar from '../contrast/contrastbar';
 import ImageGrid from '../common/imagegrid.js';
@@ -29,6 +29,7 @@ export default class LocarnoZoneDetails extends React.Component {
             collapsed: false,
             data: [],
             visible:false,
+            showspin:false,
             showtype:'image',
             weight: {"color": 2, "shape": 3, "lbp": 3, "deep": 5}
         };
@@ -47,6 +48,12 @@ export default class LocarnoZoneDetails extends React.Component {
     onStatusChange(action, data) {
         if (action === "contrast") {
             this.setState({contrast: data});
+        }
+        if (action === "getResultImages") {
+            this.setState({showspin: false});
+        }
+        if (action === "getResultPatents") {
+            this.setState({showspin: false});
         }
     }
 
@@ -80,6 +87,7 @@ export default class LocarnoZoneDetails extends React.Component {
     }
 
     search = (page) => {
+        this.setState({showspin: true});
         let weight_color = this.state.weight.color;
         let weight_shape = this.state.weight.shape;
         let weight_lbp = this.state.weight.lbp;
@@ -134,24 +142,8 @@ export default class LocarnoZoneDetails extends React.Component {
                                 <RadioButton value="image">图像视图</RadioButton>
                                 <RadioButton value="patent">专利视图</RadioButton>
                             </RadioGroup>
-                            {/*<Divider className="margin" type="vertical" style={{height: 30}}/>*/}
-                            {/*<b className="margin">检索权重</b>*/}
-                            {/*颜色*/}
-                            {/*<Slider min={1} max={5} value={this.state.weight.color} onChange={this.onWeightColorChange}*/}
-                            {/*style={{width: 100}}*/}
-                            {/*className="margin"/>*/}
-                            {/*形状*/}
-                            {/*<Slider min={1} max={5} value={this.state.weight.shape} onChange={this.onWeightShapeChange}*/}
-                            {/*style={{width: 100}}*/}
-                            {/*className="margin"/>*/}
-                            {/*纹理*/}
-                            {/*<Slider min={1} max={5} value={this.state.weight.lbp} onChange={this.onWeightLbpChange}*/}
-                            {/*style={{width: 100}}*/}
-                            {/*className="margin"/>*/}
-                            {/*综合*/}
-                            {/*<Slider min={1} max={5} value={this.state.weight.deep} onChange={this.onWeightDeepChange}*/}
-                            {/*style={{width: 100}}*/}
-                            {/*className="margin"/>*/}
+                            {this.state.showspin ? <Spin size="small" /> : null}
+
                         </div>
                         {/*对比*/}
                         <ContrastBar typeid={this.state.typeid} />

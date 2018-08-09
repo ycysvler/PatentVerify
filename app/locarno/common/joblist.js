@@ -50,7 +50,7 @@ class LocarnoJobList extends React.Component {
             if (item.progress < 1 || item.progress === undefined) {
                 setTimeout(function () {
                     LocarnoActions.getJobs(self.state.jobType, self.state.keyword);
-                }, 1000);
+                }, 2000);
                 return;
             }
         }
@@ -92,7 +92,7 @@ class LocarnoJobList extends React.Component {
             }
         },
         {
-            title: '类型', width: 100, dataIndex: 'typenames',
+            title: '类型', width: 140, dataIndex: 'typenames',
             render(text, record) {
                 let type_name = "";
                 for (let i = 0; i < record.typenames.length; i++) {
@@ -111,8 +111,8 @@ class LocarnoJobList extends React.Component {
                 return <div><Progress percent={text} strokeWidth={8}/></div>
             }
         },
-        {title: '创建日期', width: 180, dataIndex: 'create_time'},
-        {title: '完成时间', width: 180, dataIndex: 'end_time'}
+        {title: '创建日期', width: 190, dataIndex: 'create_time'},
+        {title: '完成时间', width: 190, dataIndex: 'end_time'}
     ];
 
     rowSelection = {
